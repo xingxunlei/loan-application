@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.app_mapper.ImageMapper" >
+  <resultMap id="BaseResultMap" type="com.loan_entity.app.Image" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="image_type" property="imageType" jdbcType="VARCHAR" />
+    <result column="image_format" property="imageFormat" jdbcType="VARCHAR" />
+     <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.loan_entity.app.Image" extends="BaseResultMap" >
+    <result column="image" property="image" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, image_type, image_format, image_url
+  </sql>
+  <sql id="Blob_Column_List" >
+    image
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ym_image
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ym_image
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.loan_entity.app.Image" 
+  				useGeneratedKeys="true"	keyProperty="id">
+    insert into ym_image (id, image_type, image_format, image_url,
+      image)
+    values (#{id,jdbcType=INTEGER}, #{imageType,jdbcType=VARCHAR}, #{imageFormat,jdbcType=VARCHAR}, #{imageUrl,jdbcType=VARCHAR},
+      #{image,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.loan_entity.app.Image" >
+    insert into ym_image
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="imageType != null" >
+        image_type,
+      </if>
+      <if test="imageFormat != null" >
+        image_format,
+      </if>
+      <if test="imageFormat != null" >
+        image_url,
+      </if>
+      <if test="image != null" >
+        image,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="imageType != null" >
+        #{imageType,jdbcType=VARCHAR},
+      </if>
+      <if test="imageFormat != null" >
+        #{imageFormat,jdbcType=VARCHAR},
+      </if>
+      <if test="imageUrl != null" >
+        #{imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.loan_entity.app.Image" >
+    update ym_image
+    <set >
+      <if test="imageType != null" >
+        image_type = #{imageType,jdbcType=VARCHAR},
+      </if>
+      <if test="imageFormat != null" >
+        image_format = #{imageFormat,jdbcType=VARCHAR},
+      </if>
+      <if test="imageUrl != null" >
+        image_url = #{imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.loan_entity.app.Image" >
+    update ym_image
+    set image_type = #{imageType,jdbcType=VARCHAR},
+      image_format = #{imageFormat,jdbcType=VARCHAR},
+      image_url = #{imageUrl,jdbcType=VARCHAR},
+      image = #{image,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.loan_entity.app.Image" >
+    update ym_image
+    set image_type = #{imageType,jdbcType=VARCHAR},
+      image_format = #{imageFormat,jdbcType=VARCHAR}
+      image_url = #{imageUrl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

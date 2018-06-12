@@ -1,0 +1,79 @@
+
+
+<!-- BEGIN PAGE HEADER-->
+
+<div class="page-bar" style="margin-bottom: 10px;">
+	<ul class="page-breadcrumb">
+		<li><i class="fa fa-home"></i> <a href="#/dashboard.html">首页</a>
+			<i class="fa fa-angle-right"></i></li>
+		<li><a href="#/perlist.html">用户列表</a></li>
+	</ul>
+</div>
+<!-- END PAGE HEADER-->
+<!-- BEGIN MAIN CONTENT -->
+<div class="row"  style="min-height:200px;background:url('/zloan-manage/assets/admin/layout/img/loading_mylike.gif') no-repeat center center;">
+	<div class="col-md-12 wblCheck">
+		<!-- BEGIN EXAMPLE TABLE PORTLET-->
+		<div class="wblBackground"></div>
+		<div class="wblTool" style="width: 700px;">
+			<div id="tool_find" ></div>
+			<div id="tool_kf" ></div>
+		    <div id="tool_ok" ></div>
+		    <div id="tool_no" ></div>
+
+			<div id="tool_new" style=" position: absolute; z-index: 1;left:480px"></div>
+			<div id="tool_old" style=" position: absolute; z-index: 1;left:630px"></div>
+		
+			<!-- <form id="form" action="your-action"> -->
+			<div id="date_start" style=" position: absolute; z-index: 1;left:360px"></div>
+	        <div id="date_end" style=" position: absolute; z-index: 1;left:492px"></div>
+	        <div id="phone" style=" position: absolute; z-index: 1;left:625px"></div>
+	        <div id="username" style=" position: absolute; z-index: 1;left:793px"></div>
+	        <div id="cid" style=" position: absolute; z-index: 1;left:961px"></div>
+	        <div id="default" style=" position: absolute; z-index: 1;left:1144px"></div>
+	        <!-- </form> -->
+		</div>
+	
+        <div class="wblFillDiv"></div>
+		<div id="userTable" style="border: 0px solid #ccc;"></div>
+	</div>
+</div>
+<!-- END MAIN CONTENT -->
+
+<div id="window_black" class="container"
+	style=" position: absolute; z-index: 99999;overflow:auto;">
+	<div
+		style=" display:none; position: absolute; z-index: 1;width: 100%;height: 100%;"></div>
+	<div class="row" style="margin-top:20px">
+		<div class="col-md-12">
+		
+			<div class="dx-field">
+				<div class="dx-field-label">请说明原因</div>
+				<div class="dx-field-value">
+					<div id="reason"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top: 30px">
+		<div class="col-md-12">
+			<div class="dx-field-label"></div>
+			<div id="submit_no"></div>
+		</div>
+	</div>
+</div>
+
+<!-- BEGIN MAIN JS -->
+<script>
+perlist();
+</script>
+<!-- END MAIN JS -->
+
+
+
+
+
+
+
+
+

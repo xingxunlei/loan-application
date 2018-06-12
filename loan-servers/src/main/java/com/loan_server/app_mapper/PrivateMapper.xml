@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.app_mapper.PrivateMapper" >
+  <resultMap id="BaseResultMap" type="com.loan_entity.app.Private" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="per_id" property="perId" jdbcType="INTEGER" />
+    <result column="qq_num" property="qqNum" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="usuallyaddress" property="usuallyaddress" jdbcType="VARCHAR" />
+    <result column="education" property="education" jdbcType="VARCHAR" />
+    <result column="marry" property="marry" jdbcType="VARCHAR" />
+    <result column="getchild" property="getchild" jdbcType="VARCHAR" />
+    <result column="profession" property="profession" jdbcType="VARCHAR" />
+    <result column="monthlypay" property="monthlypay" jdbcType="VARCHAR" />
+    <result column="business" property="business" jdbcType="VARCHAR" />
+    <result column="busi_province" property="busiProvince" jdbcType="VARCHAR" />
+    <result column="busi_city" property="busiCity" jdbcType="VARCHAR" />
+    <result column="busi_address" property="busiAddress" jdbcType="VARCHAR" />
+    <result column="busi_phone" property="busiPhone" jdbcType="VARCHAR" />
+    <result column="relatives" property="relatives" jdbcType="VARCHAR" />
+    <result column="relatives_name" property="relativesName" jdbcType="VARCHAR" />
+    <result column="rela_phone" property="relaPhone" jdbcType="VARCHAR" />
+    <result column="society" property="society" jdbcType="VARCHAR" />
+    <result column="soci_phone" property="sociPhone" jdbcType="VARCHAR" />
+    <result column="society_name" property="societyName" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="sync" property="sync" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, per_id, qq_num, email, usuallyaddress, education, marry, getchild, profession, 
+    monthlypay, business, busi_province, busi_city, busi_address, busi_phone, relatives, 
+    relatives_name, rela_phone, society, soci_phone, society_name, update_date, sync
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ym_private
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ym_private
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.loan_entity.app.Private" >
+    insert into ym_private (id, per_id, qq_num, 
+      email, usuallyaddress, education, 
+      marry, getchild, profession, 
+      monthlypay, business, busi_province, 
+      busi_city, busi_address, busi_phone, 
+      relatives, relatives_name, rela_phone, 
+      society, soci_phone, society_name, 
+      update_date, sync)
+    values (#{id,jdbcType=INTEGER}, #{perId,jdbcType=INTEGER}, #{qqNum,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{usuallyaddress,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, 
+      #{marry,jdbcType=VARCHAR}, #{getchild,jdbcType=VARCHAR}, #{profession,jdbcType=VARCHAR}, 
+      #{monthlypay,jdbcType=VARCHAR}, #{business,jdbcType=VARCHAR}, #{busiProvince,jdbcType=VARCHAR}, 
+      #{busiCity,jdbcType=VARCHAR}, #{busiAddress,jdbcType=VARCHAR}, #{busiPhone,jdbcType=VARCHAR}, 
+      #{relatives,jdbcType=VARCHAR}, #{relativesName,jdbcType=VARCHAR}, #{relaPhone,jdbcType=VARCHAR}, 
+      #{society,jdbcType=VARCHAR}, #{sociPhone,jdbcType=VARCHAR}, #{societyName,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{sync,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.loan_entity.app.Private" >
+    insert into ym_private
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="perId != null" >
+        per_id,
+      </if>
+      <if test="qqNum != null" >
+        qq_num,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="usuallyaddress != null" >
+        usuallyaddress,
+      </if>
+      <if test="education != null" >
+        education,
+      </if>
+      <if test="marry != null" >
+        marry,
+      </if>
+      <if test="getchild != null" >
+        getchild,
+      </if>
+      <if test="profession != null" >
+        profession,
+      </if>
+      <if test="monthlypay != null" >
+        monthlypay,
+      </if>
+      <if test="business != null" >
+        business,
+      </if>
+      <if test="busiProvince != null" >
+        busi_province,
+      </if>
+      <if test="busiCity != null" >
+        busi_city,
+      </if>
+      <if test="busiAddress != null" >
+        busi_address,
+      </if>
+      <if test="busiPhone != null" >
+        busi_phone,
+      </if>
+      <if test="relatives != null" >
+        relatives,
+      </if>
+      <if test="relativesName != null" >
+        relatives_name,
+      </if>
+      <if test="relaPhone != null" >
+        rela_phone,
+      </if>
+      <if test="society != null" >
+        society,
+      </if>
+      <if test="sociPhone != null" >
+        soci_phone,
+      </if>
+      <if test="societyName != null" >
+        society_name,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="sync != null" >
+        sync,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="perId != null" >
+        #{perId,jdbcType=INTEGER},
+      </if>
+      <if test="qqNum != null" >
+        #{qqNum,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="usuallyaddress != null" >
+        #{usuallyaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="marry != null" >
+        #{marry,jdbcType=VARCHAR},
+      </if>
+      <if test="getchild != null" >
+        #{getchild,jdbcType=VARCHAR},
+      </if>
+      <if test="profession != null" >
+        #{profession,jdbcType=VARCHAR},
+      </if>
+      <if test="monthlypay != null" >
+        #{monthlypay,jdbcType=VARCHAR},
+      </if>
+      <if test="business != null" >
+        #{business,jdbcType=VARCHAR},
+      </if>
+      <if test="busiProvince != null" >
+        #{busiProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="busiCity != null" >
+        #{busiCity,jdbcType=VARCHAR},
+      </if>
+      <if test="busiAddress != null" >
+        #{busiAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="busiPhone != null" >
+        #{busiPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="relatives != null" >
+        #{relatives,jdbcType=VARCHAR},
+      </if>
+      <if test="relativesName != null" >
+        #{relativesName,jdbcType=VARCHAR},
+      </if>
+      <if test="relaPhone != null" >
+        #{relaPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="society != null" >
+        #{society,jdbcType=VARCHAR},
+      </if>
+      <if test="sociPhone != null" >
+        #{sociPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="societyName != null" >
+        #{societyName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sync != null" >
+        #{sync,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.loan_entity.app.Private" >
+    update ym_private
+    <set >
+      <if test="perId != null" >
+        per_id = #{perId,jdbcType=INTEGER},
+      </if>
+      <if test="qqNum != null" >
+        qq_num = #{qqNum,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="usuallyaddress != null" >
+        usuallyaddress = #{usuallyaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        education = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="marry != null" >
+        marry = #{marry,jdbcType=VARCHAR},
+      </if>
+      <if test="getchild != null" >
+        getchild = #{getchild,jdbcType=VARCHAR},
+      </if>
+      <if test="profession != null" >
+        profession = #{profession,jdbcType=VARCHAR},
+      </if>
+      <if test="monthlypay != null" >
+        monthlypay = #{monthlypay,jdbcType=VARCHAR},
+      </if>
+      <if test="business != null" >
+        business = #{business,jdbcType=VARCHAR},
+      </if>
+      <if test="busiProvince != null" >
+        busi_province = #{busiProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="busiCity != null" >
+        busi_city = #{busiCity,jdbcType=VARCHAR},
+      </if>
+      <if test="busiAddress != null" >
+        busi_address = #{busiAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="busiPhone != null" >
+        busi_phone = #{busiPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="relatives != null" >
+        relatives = #{relatives,jdbcType=VARCHAR},
+      </if>
+      <if test="relativesName != null" >
+        relatives_name = #{relativesName,jdbcType=VARCHAR},
+      </if>
+      <if test="relaPhone != null" >
+        rela_phone = #{relaPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="society != null" >
+        society = #{society,jdbcType=VARCHAR},
+      </if>
+      <if test="sociPhone != null" >
+        soci_phone = #{sociPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="societyName != null" >
+        society_name = #{societyName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sync != null" >
+        sync = #{sync,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.loan_entity.app.Private" >
+    update ym_private
+    set per_id = #{perId,jdbcType=INTEGER},
+      qq_num = #{qqNum,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      usuallyaddress = #{usuallyaddress,jdbcType=VARCHAR},
+      education = #{education,jdbcType=VARCHAR},
+      marry = #{marry,jdbcType=VARCHAR},
+      getchild = #{getchild,jdbcType=VARCHAR},
+      profession = #{profession,jdbcType=VARCHAR},
+      monthlypay = #{monthlypay,jdbcType=VARCHAR},
+      business = #{business,jdbcType=VARCHAR},
+      busi_province = #{busiProvince,jdbcType=VARCHAR},
+      busi_city = #{busiCity,jdbcType=VARCHAR},
+      busi_address = #{busiAddress,jdbcType=VARCHAR},
+      busi_phone = #{busiPhone,jdbcType=VARCHAR},
+      relatives = #{relatives,jdbcType=VARCHAR},
+      relatives_name = #{relativesName,jdbcType=VARCHAR},
+      rela_phone = #{relaPhone,jdbcType=VARCHAR},
+      society = #{society,jdbcType=VARCHAR},
+      soci_phone = #{sociPhone,jdbcType=VARCHAR},
+      society_name = #{societyName,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      sync = #{sync,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByPerId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ym_private
+    where id =(select MAX(id)
+    from ym_private
+    where per_id = #{per_id,jdbcType=INTEGER})
+  </select>
+</mapper>

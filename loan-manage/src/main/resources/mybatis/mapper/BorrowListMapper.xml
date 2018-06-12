@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_manage.mapper.BorrowListMapper">
+	<resultMap id="BaseResultMap" type="com.loan_entity.app.BorrowList">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="per_id" property="perId" jdbcType="INTEGER" />
+		<result column="prod_id" property="prodId" jdbcType="INTEGER" />
+		<result column="borr_type" property="borrType" jdbcType="VARCHAR" />
+		<result column="askborr_date" property="askborrDate" jdbcType="TIMESTAMP" />
+		<result column="borr_num" property="borrNum" jdbcType="VARCHAR" />
+		<result column="makeborr_date" property="makeborrDate" jdbcType="TIMESTAMP" />
+		<result column="pay_date" property="payDate" jdbcType="TIMESTAMP" />
+		<result column="planrepay_date" property="planrepayDate" jdbcType="TIMESTAMP" />
+		<result column="act_repay_date" property="actRepayDate" jdbcType="TIMESTAMP" />
+		<result column="borr_status" property="borrStatus" jdbcType="VARCHAR" />
+		<result column="plan_repay" property="planRepay" jdbcType="DECIMAL" />
+		<result column="act_repay_amount" property="actRepayAmount" jdbcType="DECIMAL" />
+		<result column="ispay" property="ispay" jdbcType="INTEGER" />
+		<result column="term_id" property="termId" jdbcType="INTEGER" />
+		<result column="borr_amount" property="borrAmount" jdbcType="DECIMAL" />
+		<result column="per_coupon_id" property="perCouponId" jdbcType="INTEGER" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="update_user" property="updateUser" jdbcType="INTEGER" />
+		<result column="creation_date" property="creationDate" jdbcType="TIMESTAMP" />
+		<result column="creation_user" property="creationUser" jdbcType="INTEGER" />
+		<result column="sync" property="sync" jdbcType="CHAR" />
+	</resultMap>
+
+	<select id="getBorrList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT borrow.* FROM ds_collectors_list collectors, ym_borrow_list borrow
+		WHERE collectors.bedue_user_sysno=#{userId} AND collectors.contract_id = borrow.borr_num
+		<if test="customerId != null">
+			AND borrow.per_id = #{customerId}
+		</if>
+		<if test="productName != null">
+			and borrow.prod_id = #{productName}
+		</if>
+	</select>
+
+	<select id="selectUnBaikelu" resultMap="BaseResultMap">
+		SELECT bl.* FROM ym_borrow_list bl LEFT JOIN ym_order_robot yor ON bl.id = yor.borr_id
+		WHERE bl.`borr_status` = 'BS003' AND yor.id IS  NULL
+	</select>
+
+	<update id="rejectAudit">
+		UPDATE ym_borrow_list bl, ym_borrow_manual bm,ym_review r SET bl.borr_status = 'BS008' ,r.employ_num = '8888',r.reason = '系统拒绝'
+		WHERE bl.id = bm.borr_id AND r.borr_id = bl.id AND r.review_type = 1 AND borr_status = 'BS001'
+	</update>
+
+	<select id="queryBorrListByPerIdAndStauts" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT * FROM ym_borrow_list WHERE per_id = #{perId} AND borr_status IN ('BS006','BS010')
+	</select>
+
+	<sql id="Base_Column_List">
+		id, per_id, prod_id, borr_type, askborr_date, borr_num,
+		makeborr_date,
+		pay_date,
+		planrepay_date, act_repay_date, borr_status,
+		plan_repay, act_repay_amount, ispay,
+		term_id, borr_amount,
+		per_coupon_id, update_date, update_user,
+		creation_date, creation_user,
+		sync,version
+	</sql>
+
+	<!-- 根据per_id查询当前borrow_list -->
+	<select id="selectNow" resultType="java.util.HashMap" parameterType="java.lang.Integer">
+		select
+			t1.borr_status,t2.id
+		from ym_borrow_list t1
+		left JOIN ym_borrow_manual t2 on t1.id = t2.borr_id
+		where t1.id=(select MAX(id)
+		from ym_borrow_list
+		where
+		per_id = #{per_id,jdbcType=INTEGER})
+	</select>
+</mapper>

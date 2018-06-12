@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_manage.mapper.AuditLoanMapper" >
+  <resultMap id="BaseResultMap" type="com.loan_manage.entity.AuditLoanDo" >
+	<id column="id" property="id" jdbcType="INTEGER" />
+    <result column="emplloyee_name" property="emplloyeeName" jdbcType="VARCHAR" />
+    <result column="loanLimit" property="loanLimit" jdbcType="INTEGER" />
+    <result column="borrAmount" property="borrAmount" jdbcType="DECIMAL" />
+    <result column="monthQuota" property="monthQuota" jdbcType="DECIMAL" />
+  </resultMap>
+
+<select id="getAuditLoanAll" parameterType="com.loan_manage.entity.AuditLoanVo" resultMap="BaseResultMap">
+  /*AuditLoanMapper.getAuditLoanAll*/
+SELECT
+	emplloyee_name emplloyeeName,id,
+	sum(borrAmount) borrAmount,
+	sum(mouthQuota) monthQuota,
+	sum(loanLimit) loanLimit
+FROM
+	(
+		SELECT
+			ri.emplloyee_name,ri.id,
+			ifnull(sum(bl.borr_amount), 0) borrAmount,
+			ifnull(sum(rp.month_quota), 0) mouthQuota,
+			ifnull(count(bl.id), 0) loanLimit
+		FROM
+			ym_riewer ri
+		LEFT JOIN ym_review re ON ri.employ_num = re.employ_num
+		LEFT JOIN ym_borrow_list bl ON re.borr_id = bl.id
+		LEFT JOIN ym_repayment_plan rp ON bl.id = rp.contract_id
+		WHERE
+	  re.review_type = '1'
+		AND bl.borr_status IN (
+			'BS004',
+			'BS005',
+			'BS006',
+			'BS010'
+		)
+		<if test="vo.beginDate!=null and vo.beginDate !='' ">
+			AND re.update_date &gt; #{vo.beginDate}
+		</if>
+	    <if test="vo.beginDate == null || vo.beginDate == ''">
+		    AND re.update_date &gt; DATE_SUB(date_format(now(),'%y-%m-%d'), INTERVAL 1 MONTH )
+	    </if>
+		<if test="vo.endDate !=null and vo.endDate !=''">
+			AND re.update_date &lt; #{vo.endDate}
+		</if>
+		GROUP BY
+			ri.emplloyee_name
+		UNION
+			SELECT
+				t.emplloyee_name,
+				t.id,
+				0 ,
+				0,
+				0
+			FROM
+				ym_riewer t
+	) t1
+	WHERE 1=1
+	<if test="vo.employId != null and vo.employId != '' ">
+		AND id = #{vo.employId}
+	</if>
+GROUP BY
+	emplloyee_name
+	<if test="selector == 'loanLimit' and desc != ''">
+		order by loanLimit ${desc}
+	</if>
+	<if test="selector == 'borrAmount' and desc != ''">
+		order by borrAmount ${desc}
+	</if>
+	<if test="selector == 'monthQuota' and desc != ''">
+		order by monthQuota ${desc}
+	</if>
+	<if test="selector == null and desc == null">
+		order by monthQuota desc
+	</if>
+</select>
+
+</mapper>

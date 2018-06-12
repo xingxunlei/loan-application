@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.app_mapper.ProductMapper">
+	<resultMap id="BaseResultMap" type="com.loan_entity.app.Product">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="guid" property="guid" jdbcType="VARCHAR" />
+		<result column="productcode" property="productcode" jdbcType="VARCHAR" />
+		<result column="product_name" property="productName" jdbcType="VARCHAR" />
+		<result column="product_type_id" property="productTypeId"
+			jdbcType="INTEGER" />
+		<result column="repayment_method" property="repaymentMethod"
+			jdbcType="CHAR" />
+		<result column="repayment_sequence" property="repaymentSequence"
+			jdbcType="CHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="user_groupid" property="userGroupid" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="CHAR" />
+		<result column="creation_date" property="creationDate"
+			jdbcType="TIMESTAMP" />
+		<result column="creation_user" property="creationUser"
+			jdbcType="INTEGER" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="update_user" property="updateUser" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, guid, productcode, product_name, product_type_id,
+		repayment_method,
+		repayment_sequence,
+		remark, user_groupid, status,
+		creation_date, creation_user, update_date,
+		update_user
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from ym_product
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		ym_product
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.loan_entity.app.Product">
+		insert into ym_product (id,
+		guid, productcode,
+		product_name, product_type_id, repayment_method,
+		repayment_sequence, remark, user_groupid,
+		status, creation_date,
+		creation_user,
+		update_date, update_user)
+		values (#{id,jdbcType=INTEGER},
+		#{guid,jdbcType=VARCHAR},
+		#{productcode,jdbcType=VARCHAR},
+		#{productName,jdbcType=VARCHAR}, #{productTypeId,jdbcType=INTEGER},
+		#{repaymentMethod,jdbcType=CHAR},
+		#{repaymentSequence,jdbcType=CHAR},
+		#{remark,jdbcType=VARCHAR},
+		#{userGroupid,jdbcType=INTEGER},
+		#{status,jdbcType=CHAR}, #{creationDate,jdbcType=TIMESTAMP},
+		#{creationUser,jdbcType=INTEGER},
+		#{updateDate,jdbcType=TIMESTAMP},
+		#{updateUser,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.loan_entity.app.Product">
+		insert into ym_product
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="guid != null">
+				guid,
+			</if>
+			<if test="productcode != null">
+				productcode,
+			</if>
+			<if test="productName != null">
+				product_name,
+			</if>
+			<if test="productTypeId != null">
+				product_type_id,
+			</if>
+			<if test="repaymentMethod != null">
+				repayment_method,
+			</if>
+			<if test="repaymentSequence != null">
+				repayment_sequence,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+			<if test="userGroupid != null">
+				user_groupid,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="creationDate != null">
+				creation_date,
+			</if>
+			<if test="creationUser != null">
+				creation_user,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="updateUser != null">
+				update_user,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="guid != null">
+				#{guid,jdbcType=VARCHAR},
+			</if>
+			<if test="productcode != null">
+				#{productcode,jdbcType=VARCHAR},
+			</if>
+			<if test="productName != null">
+				#{productName,jdbcType=VARCHAR},
+			</if>
+			<if test="productTypeId != null">
+				#{productTypeId,jdbcType=INTEGER},
+			</if>
+			<if test="repaymentMethod != null">
+				#{repaymentMethod,jdbcType=CHAR},
+			</if>
+			<if test="repaymentSequence != null">
+				#{repaymentSequence,jdbcType=CHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="userGroupid != null">
+				#{userGroupid,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=CHAR},
+			</if>
+			<if test="creationDate != null">
+				#{creationDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creationUser != null">
+				#{creationUser,jdbcType=INTEGER},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+				#{updateUser,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.loan_entity.app.Product">
+		update ym_product
+		<set>
+			<if test="guid != null">
+				guid = #{guid,jdbcType=VARCHAR},
+			</if>
+			<if test="productcode != null">
+				productcode = #{productcode,jdbcType=VARCHAR},
+			</if>
+			<if test="productName != null">
+				product_name = #{productName,jdbcType=VARCHAR},
+			</if>
+			<if test="productTypeId != null">
+				product_type_id = #{productTypeId,jdbcType=INTEGER},
+			</if>
+			<if test="repaymentMethod != null">
+				repayment_method = #{repaymentMethod,jdbcType=CHAR},
+			</if>
+			<if test="repaymentSequence != null">
+				repayment_sequence = #{repaymentSequence,jdbcType=CHAR},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="userGroupid != null">
+				user_groupid = #{userGroupid,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=CHAR},
+			</if>
+			<if test="creationDate != null">
+				creation_date = #{creationDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creationUser != null">
+				creation_user = #{creationUser,jdbcType=INTEGER},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+				update_user = #{updateUser,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.loan_entity.app.Product">
+		update ym_product
+		set guid = #{guid,jdbcType=VARCHAR},
+		productcode =
+		#{productcode,jdbcType=VARCHAR},
+		product_name =
+		#{productName,jdbcType=VARCHAR},
+		product_type_id =
+		#{productTypeId,jdbcType=INTEGER},
+		repayment_method =
+		#{repaymentMethod,jdbcType=CHAR},
+		repayment_sequence =
+		#{repaymentSequence,jdbcType=CHAR},
+		remark =
+		#{remark,jdbcType=VARCHAR},
+		user_groupid =
+		#{userGroupid,jdbcType=INTEGER},
+		status = #{status,jdbcType=CHAR},
+		creation_date = #{creationDate,jdbcType=TIMESTAMP},
+		creation_user =
+		#{creationUser,jdbcType=INTEGER},
+		update_date =
+		#{updateDate,jdbcType=TIMESTAMP},
+		update_user =
+		#{updateUser,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="getAllProduct" resultType="com.loan_entity.app.Product">
+		SELECT
+		p.id,
+		p.productcode,
+		p.product_name AS productName,
+		p.product_type_id AS productTypeId,
+		p.repayment_method AS repaymentMethod,
+		p.repayment_sequence AS repaymentSequence,
+		p.remark,
+		p.user_groupid AS userGroupid,
+		p.`status`,
+		p.creation_date AS creationDate,
+		p.creation_user AS creationUser,
+		p.update_date AS updateDate,
+		p.update_user AS updateUser,
+		p.sync,
+		p.guid
+		FROM
+		ym_product AS p
+		ORDER BY
+		p.id DESC
+
+
+	</select>
+	<select id="getAllProductAvailable" resultType="com.loan_entity.app_vo.ProductApp">
+		SELECT
+		p.id,
+		p.productcode,
+		p.product_name AS productName,
+		p.product_type_id AS productTypeId,
+		p.repayment_method AS repaymentMethod,
+		p.repayment_sequence AS repaymentSequence,
+		p.remark,
+		p.user_groupid AS userGroupid,
+		p.`status`,
+		p.creation_date AS creationDate,
+		p.creation_user AS creationUser,
+		p.update_date AS updateDate,
+		p.update_user AS updateUser,
+		p.sync,
+		p.guid,
+		t.maximum_amount AS money,
+		t.term_value AS day
+		FROM
+		ym_product AS p,
+		ym_product_term as t
+		WHERE p.id = t.product_id
+		AND t.status = '1'
+		ORDER BY
+		t.maximum_amount DESC
+
+
+	</select>
+	
+	
+</mapper>

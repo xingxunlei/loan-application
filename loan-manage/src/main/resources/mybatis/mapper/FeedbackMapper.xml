@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_manage.mapper.FeedbackMapper">
+    <resultMap id="BaseResultMap" type="com.loan_entity.manager_vo.FeedbackVo">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="per_id" property="perId" jdbcType="INTEGER"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="sync" property="sync" jdbcType="CHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getFeedbackList" resultMap="BaseResultMap">
+  	SELECT
+        f.id,
+        f.per_id,
+        f.content,
+        f.create_time,
+        f.update_date,
+        f.sync,
+        p.phone
+        FROM
+        ym_feedback AS f
+        LEFT JOIN ym_person AS p ON f.per_id = p.id
+        WHERE DATE_SUB(CURDATE(), INTERVAL 30 DAY) <![CDATA[ <= ]]> DATE(create_time)
+        ORDER BY
+        f.id DESC
+  </select>
+</mapper>

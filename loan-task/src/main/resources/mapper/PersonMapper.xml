@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jhh.dao.PersonMapper">
+	<resultMap id="BaseResultMap" type="com.jhh.model.Person">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="guid" property="guid" jdbcType="VARCHAR" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="check_date" property="checkDate" jdbcType="DATE" />
+		<result column="blacklist" property="blacklist" jdbcType="VARCHAR" />
+		<result column="phone_business" property="phoneBusiness"
+			jdbcType="VARCHAR" />
+		<result column="phone_service" property="phoneService"
+			jdbcType="VARCHAR" />
+		<result column="bpm_id" property="bpmId" jdbcType="INTEGER" />
+		<result column="grade" property="grade" jdbcType="INTEGER" />
+		<result column="is_login" property="isLogin" jdbcType="INTEGER" />
+		<result column="token_id" property="tokenId" jdbcType="VARCHAR" />
+		<result column="source" property="source" jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="sync" property="sync" jdbcType="CHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, guid, username, password, phone, check_date, blacklist,
+		phone_business, phone_service,
+		bpm_id, grade, is_login, token_id, source, create_date, update_date, sync
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from ym_person
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from ym_person
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.jhh.model.Person">
+		insert into ym_person (id, guid, username,
+		password, phone, check_date,
+		blacklist, phone_business, phone_service,
+		bpm_id, grade, is_login,
+		token_id, source, create_date,
+		update_date, sync)
+		values (#{id,jdbcType=INTEGER}, #{guid,jdbcType=VARCHAR},
+		#{username,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{checkDate,jdbcType=DATE},
+		#{blacklist,jdbcType=VARCHAR}, #{phoneBusiness,jdbcType=VARCHAR},
+		#{phoneService,jdbcType=VARCHAR},
+		#{bpmId,jdbcType=INTEGER}, #{grade,jdbcType=INTEGER}, #{isLogin,jdbcType=INTEGER},
+		#{tokenId,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{updateDate,jdbcType=TIMESTAMP}, #{sync,jdbcType=CHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.jhh.model.Person"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into ym_person
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="guid != null">
+				guid,
+			</if>
+			<if test="username != null">
+				username,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
+			<if test="phone != null">
+				phone,
+			</if>
+			<if test="checkDate != null">
+				check_date,
+			</if>
+			<if test="blacklist != null">
+				blacklist,
+			</if>
+			<if test="phoneBusiness != null">
+				phone_business,
+			</if>
+			<if test="phoneService != null">
+				phone_service,
+			</if>
+			<if test="bpmId != null">
+				bpm_id,
+			</if>
+			<if test="grade != null">
+				grade,
+			</if>
+			<if test="isLogin != null">
+				is_login,
+			</if>
+			<if test="tokenId != null">
+				token_id,
+			</if>
+			<if test="source != null">
+				source,
+			</if>
+			<if test="inviter != null">
+				inviter,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="sync != null">
+				sync,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="guid != null">
+				#{guid,jdbcType=VARCHAR},
+			</if>
+			<if test="username != null">
+				#{username,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="checkDate != null">
+				#{checkDate,jdbcType=DATE},
+			</if>
+			<if test="blacklist != null">
+				#{blacklist,jdbcType=VARCHAR},
+			</if>
+			<if test="phoneBusiness != null">
+				#{phoneBusiness,jdbcType=VARCHAR},
+			</if>
+			<if test="phoneService != null">
+				#{phoneService,jdbcType=VARCHAR},
+			</if>
+			<if test="bpmId != null">
+				#{bpmId,jdbcType=INTEGER},
+			</if>
+			<if test="grade != null">
+				#{grade,jdbcType=INTEGER},
+			</if>
+			<if test="isLogin != null">
+				#{isLogin,jdbcType=INTEGER},
+			</if>
+			<if test="tokenId != null">
+				#{tokenId,jdbcType=VARCHAR},
+			</if>
+			<if test="source != null">
+				#{source,jdbcType=VARCHAR},
+			</if>
+			<if test="inviter != null">
+				#{inviter,jdbcType=INTEGER},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="sync != null">
+				#{sync,jdbcType=CHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.jhh.model.Person">
+		update ym_person
+		<set>
+			<if test="guid != null">
+				guid = #{guid,jdbcType=VARCHAR},
+			</if>
+			<if test="username != null">
+				username = #{username,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				phone = #{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="checkDate != null">
+				check_date = #{checkDate,jdbcType=DATE},
+			</if>
+			<if test="blacklist != null">
+				blacklist = #{blacklist,jdbcType=VARCHAR},
+			</if>
+			<if test="phoneBusiness != null">
+				phone_business = #{phoneBusiness,jdbcType=VARCHAR},
+			</if>
+			<if test="phoneService != null">
+				phone_service = #{phoneService,jdbcType=VARCHAR},
+			</if>
+			<if test="bpmId != null">
+				bpm_id = #{bpmId,jdbcType=INTEGER},
+			</if>
+			<if test="grade != null">
+				grade = #{grade,jdbcType=INTEGER},
+			</if>
+			<if test="isLogin != null">
+				is_login = #{isLogin,jdbcType=INTEGER},
+			</if>
+			<if test="tokenId != null">
+				token_id = #{tokenId,jdbcType=VARCHAR},
+			</if>
+			<if test="source != null">
+				source = #{source,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="sync != null">
+				sync = #{sync,jdbcType=CHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.jhh.model.Person">
+		update ym_person
+		set guid = #{guid,jdbcType=VARCHAR},
+		username = #{username,jdbcType=VARCHAR},
+		password = #{password,jdbcType=VARCHAR},
+		phone = #{phone,jdbcType=VARCHAR},
+		check_date = #{checkDate,jdbcType=DATE},
+		blacklist = #{blacklist,jdbcType=VARCHAR},
+		phone_business = #{phoneBusiness,jdbcType=VARCHAR},
+		phone_service = #{phoneService,jdbcType=VARCHAR},
+		bpm_id = #{bpmId,jdbcType=INTEGER},
+		grade = #{grade,jdbcType=INTEGER},
+		is_login = #{isLogin,jdbcType=INTEGER},
+		token_id = #{tokenId,jdbcType=VARCHAR},
+		source = #{source,jdbcType=VARCHAR},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		update_date = #{updateDate,jdbcType=TIMESTAMP},
+		sync = #{sync,jdbcType=CHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="userLogin" parameterType="com.jhh.model.Person"
+		resultType="com.jhh.model.Person">
+		SELECT * FROM ym_person WHERE phone = #{phone} AND PASSWORD
+		= #{password} and is_login = 1
+	</select>
+
+	<update id="updatePassword" parameterType="com.jhh.model.Person">
+		UPDATE ym_person SET
+		PASSWORD = #{password} WHERE phone = #{phone}
+	</update>
+	<update id="personUpdatePassword" parameterType="com.jhh.model.Person">
+		UPDATE ym_person
+		SET PASSWORD = #{password} WHERE id = #{id} AND PASSWORD =
+		#{oldPassword}
+	</update>
+	<select id="getPersonByPhone" parameterType="java.lang.String"
+		resultType="com.jhh.model.Person">
+		SELECT id,guid,username,PASSWORD,phone,check_date AS
+		checkDate,blacklist,phone_business AS phoneBusiness,phone_service AS
+		phoneService,bpm_id AS bpmId,grade,is_login AS isLogin FROM
+		ym_person
+		WHERE phone = #{phone}
+	</select>
+
+	<!-- 获取用户当前tokenId -->
+	<select id="getTokenId" resultType="java.lang.String"
+		parameterType="java.lang.String">
+		select token_id
+		from ym_person
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<!-- 获取用户电话和创建事件 -->
+	<select id="getPhoneAndCreateDate" resultType="com.jhh.model.BorrowingExpertsPerson" parameterType="java.lang.String">
+		Select phone user_mobile, DATE_FORMAT(create_date, '%Y-%m-%d %h:%i:%s') register_time from ym_person where source= #{source,jdbcType=VARCHAR}
+		AND create_date > DATE_SUB(NOW(), INTERVAL 2 DAY)
+	</select>
+
+	<!--获取注册时间2天之内的用户信息-->
+	<select id="getPersonAndBorrByDate" resultMap="BaseResultMap">
+		/*PersonMapper.getPersonAndBorrByDate*/
+		SELECT DISTINCT p.id,p.phone
+		FROM ym_person p,ym_borrow_list b WHERE p.id = b.per_id AND b.borr_status ='BS001' AND p.is_login = 1 AND p.create_date &gt; DATE_SUB(date_format(now(),'%y-%m-%d'), INTERVAL 2 DAY)
+		AND  p.create_date &lt; date_format(now(),'%y-%m-%d');
+	</select>
+</mapper>

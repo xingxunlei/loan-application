@@ -1,0 +1,132 @@
+
+
+<!-- BEGIN PAGE HEADER-->
+
+<div class="page-bar" style="margin-bottom: 10px;">
+	<ul class="page-breadcrumb">
+		<li><i class="fa fa-home"></i> <a href="#/dashboard.html">首页</a>
+			<i class="fa fa-angle-right"></i></li>
+		<li><a href="#/question.html">问题管理</a></li>
+	</ul>
+</div>
+<!-- END PAGE HEADER-->
+<!-- BEGIN MAIN CONTENT -->
+<div class="row"  style="min-height:200px;background:url('/zloan-manage/assets/admin/layout/img/loading_mylike.gif') no-repeat center center;">
+	<div class="col-md-12 wblCheck">
+		<!-- BEGIN EXAMPLE TABLE PORTLET-->
+		<div class="wblBackground"></div>
+		<div class="wblTool">
+		    <div id="tool_add" style=" position: absolute; z-index: 1;width:50%;"></div>
+			<div id="tool_edit" style=" position: absolute; z-index: 1;left:120px;width:50%;"></div>
+		</div>
+		<div class="wblFillDiv"></div>
+		<div id="userTable" style="border: 0px solid #ccc;"></div>
+	</div>
+</div>
+<!-- END MAIN CONTENT -->
+<div id="window_add" class="container"
+	style=" position: absolute; z-index: 99999;overflow:auto;">
+	<div
+		style=" display:none; position: absolute; z-index: 1;width: 100%;height: 100%;"></div>
+				<div class="row" style="margin-top:0px">
+		<div class="col-md-12">
+		
+			<div class="dx-field">
+				<div class="dx-field-label"></div>
+				<div class="dx-field-value">
+					<div id="status"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top:20px">
+		<div class="col-md-12">
+		
+			<div class="dx-field">
+				<div class="dx-field-label">标题</div>
+				<div class="dx-field-value">
+					<div id="questionText"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top:20px">
+		<div class="col-md-12">
+		
+			<div class="dx-field">
+				<div class="dx-field-label">内容</div>
+				<div class="dx-field-value">
+					<div id="answer"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top: 30px">
+		<div class="col-md-12">
+			<div class="dx-field-label"></div>
+			<div id="submit_add"></div>
+		</div>
+	</div>
+</div>
+
+<div id="window_edit" class="container"
+	style=" position: absolute; z-index: 99999;overflow:auto;">
+	<div
+		style=" display:none; position: absolute; z-index: 1;width: 100%;height: 100%;"></div>
+				<div class="row" style="margin-top:0px">
+		<div class="col-md-12">
+		
+			<div class="dx-field">
+				<div class="dx-field-label"></div>
+				<div class="dx-field-value">
+					<div id="status2"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top:20px">
+		<div class="col-md-12">
+		
+			<div class="dx-field">
+				<div class="dx-field-label">标题</div>
+				<div class="dx-field-value">
+					<div id="questionText2"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top:20px">
+		<div class="col-md-12">
+		
+			<div class="dx-field">
+				<div class="dx-field-label">内容</div>
+				<div class="dx-field-value">
+					<div id="answer2"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top: 30px">
+		<div class="col-md-12">
+			<div class="dx-field-label"></div>
+			<div id="submit_edit"></div>
+		</div>
+	</div>
+</div>
+
+
+
+<!-- BEGIN MAIN JS -->
+<script>
+question();
+</script>
+<!-- END MAIN JS -->
+
+
+
+
+
+
+
+
+

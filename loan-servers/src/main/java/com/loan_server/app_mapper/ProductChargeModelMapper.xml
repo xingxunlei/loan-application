@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.app_mapper.ProductChargeModelMapper" >
+  <resultMap id="BaseResultMap" type="com.loan_entity.app.ProductChargeModel" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="guid" property="guid" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="product_term_id" property="productTermId" jdbcType="INTEGER" />
+    <result column="charge_name" property="chargeName" jdbcType="VARCHAR" />
+    <result column="calc_basis" property="calcBasis" jdbcType="VARCHAR" />
+    <result column="charge_rule" property="chargeRule" jdbcType="VARCHAR" />
+    <result column="term" property="term" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="rate" property="rate" jdbcType="DECIMAL" />
+    <result column="priority" property="priority" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="creation_date" property="creationDate" jdbcType="TIMESTAMP" />
+    <result column="creation_user" property="creationUser" jdbcType="INTEGER" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, guid, product_id, product_term_id, charge_name, calc_basis, charge_rule, term, 
+    amount, rate, priority, remark, status, creation_date, creation_user, update_date, 
+    update_user
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ym_product_charge_model
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 根据产品ID查询所有收费表 -->
+  <select id="selectByProductId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ym_product_charge_model
+    where product_id = #{product_id,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ym_product_charge_model
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.loan_entity.app.ProductChargeModel" >
+    insert into ym_product_charge_model (id, guid, product_id, 
+      product_term_id, charge_name, calc_basis, 
+      charge_rule, term, amount, 
+      rate, priority, remark, 
+      status, creation_date, creation_user, 
+      update_date, update_user)
+    values (#{id,jdbcType=INTEGER}, #{guid,jdbcType=VARCHAR}, #{productId,jdbcType=INTEGER}, 
+      #{productTermId,jdbcType=INTEGER}, #{chargeName,jdbcType=VARCHAR}, #{calcBasis,jdbcType=VARCHAR}, 
+      #{chargeRule,jdbcType=VARCHAR}, #{term,jdbcType=VARCHAR}, #{amount,jdbcType=DECIMAL}, 
+      #{rate,jdbcType=DECIMAL}, #{priority,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=CHAR}, #{creationDate,jdbcType=TIMESTAMP}, #{creationUser,jdbcType=INTEGER}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.loan_entity.app.ProductChargeModel" >
+    insert into ym_product_charge_model
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="guid != null" >
+        guid,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="productTermId != null" >
+        product_term_id,
+      </if>
+      <if test="chargeName != null" >
+        charge_name,
+      </if>
+      <if test="calcBasis != null" >
+        calc_basis,
+      </if>
+      <if test="chargeRule != null" >
+        charge_rule,
+      </if>
+      <if test="term != null" >
+        term,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="rate != null" >
+        rate,
+      </if>
+      <if test="priority != null" >
+        priority,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="creationDate != null" >
+        creation_date,
+      </if>
+      <if test="creationUser != null" >
+        creation_user,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="guid != null" >
+        #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="productTermId != null" >
+        #{productTermId,jdbcType=INTEGER},
+      </if>
+      <if test="chargeName != null" >
+        #{chargeName,jdbcType=VARCHAR},
+      </if>
+      <if test="calcBasis != null" >
+        #{calcBasis,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeRule != null" >
+        #{chargeRule,jdbcType=VARCHAR},
+      </if>
+      <if test="term != null" >
+        #{term,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="rate != null" >
+        #{rate,jdbcType=DECIMAL},
+      </if>
+      <if test="priority != null" >
+        #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="creationDate != null" >
+        #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creationUser != null" >
+        #{creationUser,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.loan_entity.app.ProductChargeModel" >
+    update ym_product_charge_model
+    <set >
+      <if test="guid != null" >
+        guid = #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="productTermId != null" >
+        product_term_id = #{productTermId,jdbcType=INTEGER},
+      </if>
+      <if test="chargeName != null" >
+        charge_name = #{chargeName,jdbcType=VARCHAR},
+      </if>
+      <if test="calcBasis != null" >
+        calc_basis = #{calcBasis,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeRule != null" >
+        charge_rule = #{chargeRule,jdbcType=VARCHAR},
+      </if>
+      <if test="term != null" >
+        term = #{term,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="rate != null" >
+        rate = #{rate,jdbcType=DECIMAL},
+      </if>
+      <if test="priority != null" >
+        priority = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="creationDate != null" >
+        creation_date = #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creationUser != null" >
+        creation_user = #{creationUser,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.loan_entity.app.ProductChargeModel" >
+    update ym_product_charge_model
+    set guid = #{guid,jdbcType=VARCHAR},
+      product_id = #{productId,jdbcType=INTEGER},
+      product_term_id = #{productTermId,jdbcType=INTEGER},
+      charge_name = #{chargeName,jdbcType=VARCHAR},
+      calc_basis = #{calcBasis,jdbcType=VARCHAR},
+      charge_rule = #{chargeRule,jdbcType=VARCHAR},
+      term = #{term,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=DECIMAL},
+      rate = #{rate,jdbcType=DECIMAL},
+      priority = #{priority,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      creation_date = #{creationDate,jdbcType=TIMESTAMP},
+      creation_user = #{creationUser,jdbcType=INTEGER},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

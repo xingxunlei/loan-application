@@ -1,0 +1,270 @@
+
+
+<!-- BEGIN PAGE HEADER-->
+
+<div class="page-bar" style="margin-bottom: 10px;">
+	<ul class="page-breadcrumb">
+		<li><i class="fa fa-home"></i> <a href="#/dashboard.html">首页</a>
+			<i class="fa fa-angle-right"></i></li>
+		<li><a href="#/drainage.html">引流管理</a></li>
+	</ul>
+</div>
+<!-- END PAGE HEADER-->
+<!-- BEGIN MAIN CONTENT -->
+<div class="row"  style="min-height:200px;background:url('/zloan-manage/assets/admin/layout/img/loading_mylike.gif') no-repeat center center;">
+	<div class="col-md-12 wblCheck">
+		<!-- BEGIN EXAMPLE TABLE PORTLET-->
+		<div class="wblBackground"></div>
+		<div class="wblTool">
+		   <div id="tool_add" style=" position: absolute; z-index: 1;width:50%;"></div>
+		   <div id="tool_edit" style=" position: absolute; z-index: 1;left:120px;width:50%;"></div>
+			<div id="tool_delete" style=" position: absolute; z-index: 1;left:240px;width:50%;"></div>
+		</div>
+		<div class="wblFillDiv"></div>
+		<div id="userTable" style="border: 0px solid #ccc;"></div>
+	</div>
+</div>
+<!-- END MAIN CONTENT -->
+<div id="window_add" class="container"
+	style=" position: absolute; z-index: 99999; overflow:auto">
+	<div
+		style=" display:none; position: absolute; z-index: 1;width: 100%;height: 100%;"></div>
+	<form class="form-horizontal" id="adddrainage-form" enctype="multipart/form-data" >
+				<div class="row" style="margin-top:0px">
+		<div class="col-md-12">
+		
+			<div class="dx-field">
+				<div class="dx-field-label"></div>
+				<div class="dx-field-value">
+					<div id="status"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top:10px">
+		<div class="col-md-12">
+		
+			<div class="dx-field">
+				<div class="dx-field-label">产品名字</div>
+				<div class="dx-field-value">
+					<div id="drainage_name"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top:15px">
+		<div class="col-md-12">
+		
+			<div class="dx-field">
+				<div class="dx-field-label">产品标题</div>
+				<div class="dx-field-value">
+					<div id="drainage_title"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top:15px">
+		<div class="col-md-12">
+		
+			<div class="dx-field">
+				<div class="dx-field-label">产品说明</div>
+				<div class="dx-field-value">
+					<div id="drainage_des"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+		<div class="row" style="margin-top:15px">
+		
+		<div class="col-md-12">
+		
+			<div class="dx-field">
+				<div class="dx-field-label">产品类型</div>
+				<div class="dx-field-value">
+					<div id="drainage_type"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top:15px">
+
+		<div class="col-md-12">
+
+			<div class="dx-field">
+				<div class="dx-field-label">产品地址</div>
+				<div class="dx-field-value">
+					<div id="drainage_url"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top:15px">
+
+		<div class="col-md-12">
+
+			<div class="dx-field">
+				<div class="dx-field-label">产品回调地址</div>
+				<div class="dx-field-value">
+					<div id="drainage_backurl"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top:15px">
+
+		<div class="col-md-12">
+
+			<div class="dx-field">
+				<div class="dx-field-label">产品图片</div>
+				<div class="dx-field-value">
+					<div id="drainage_img"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top: 10px">
+		<div class="col-md-12">
+			<div class="dx-field-label"></div>
+			<div id="submit_add"></div>
+		</div>
+	</div>
+	</form>
+</div>
+
+<div id="window_edit" class="container"
+	style=" position: absolute; z-index: 99999;overflow:auto;">
+	<div
+		style=" display:none; position: absolute; z-index: 1;width: 100%;height: 100%;"></div>
+	<form class="form-horizontal" id="editdrainage-form" enctype="multipart/form-data" >
+				<div class="row" style="margin-top:0px">
+		<div class="col-md-12">
+		
+			<div class="dx-field">
+				<div class="dx-field-label"></div>
+				<div class="dx-field-value">
+					<div id="status2"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top:10px">
+		<div class="col-md-12">
+
+			<div class="dx-field">
+				<div class="dx-field-label">产品名字</div>
+				<div class="dx-field-value">
+					<div id="drainage_name2"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top:15px">
+		<div class="col-md-12">
+
+			<div class="dx-field">
+				<div class="dx-field-label">产品标题</div>
+				<div class="dx-field-value">
+					<div id="drainage_title2"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top:15px">
+		<div class="col-md-12">
+
+			<div class="dx-field">
+				<div class="dx-field-label">产品说明</div>
+				<div class="dx-field-value">
+					<div id="drainage_des2"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top:15px">
+
+		<div class="col-md-12">
+
+			<div class="dx-field">
+				<div class="dx-field-label">产品类型</div>
+				<div class="dx-field-value">
+					<div id="drainage_type2"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top:15px">
+
+		<div class="col-md-12">
+
+			<div class="dx-field">
+				<div class="dx-field-label">产品地址</div>
+				<div class="dx-field-value">
+					<div id="drainage_url2"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--<div class="row" style="margin-top:20px">
+
+		<div class="col-md-12">
+
+			<div class="dx-field">
+				<div class="dx-field-label">产品回调地址</div>
+				<div class="dx-field-value">
+					<div id="drainage_backurl2"></div>
+				</div>
+			</div>
+		</div>
+	</div>-->
+	<div class="row" style="margin-top:20px">
+
+		<div class="col-md-12">
+
+			<div class="dx-field">
+				<div class="dx-field-label">产品图片</div>
+				<div class="dx-field-value">
+					<div id="drainage_img2"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+		<div class="row" style="margin-top:20px;display: none">
+			<div class="col-md-12">
+
+				<div class="dx-field">
+					<div class="dx-field-label">产品ID</div>
+					<div class="dx-field-value">
+						<div id="id2"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row" style="margin-top: 30px">
+			<div class="col-md-12">
+				<div class="dx-field-label"></div>
+				<div id="submit_edit"></div>
+			</div>
+		</div>
+	</form>
+
+
+</div>
+
+
+
+
+
+<!-- BEGIN MAIN JS -->
+<script>
+drainageInit();
+</script>
+<!-- END MAIN JS -->
+
+
+
+
+
+
+
+
+

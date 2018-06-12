@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.app_mapper.PerCouponMapper">
+	<resultMap id="BaseResultMap" type="com.loan_entity.app.PerCoupon">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="per_id" property="perId" jdbcType="INTEGER" />
+		<result column="coupon_id" property="couponId" jdbcType="INTEGER" />
+		<result column="coupon_name" property="couponName" jdbcType="VARCHAR" />
+		<result column="product_id" property="productId" jdbcType="VARCHAR" />
+		<result column="start_date" property="startDate" jdbcType="DATE" />
+		<result column="end_date" property="endDate" jdbcType="DATE" />
+		<result column="amount" property="amount" jdbcType="DECIMAL" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="update_user" property="updateUser" jdbcType="INTEGER" />
+		<result column="creation_date" property="creationDate"
+			jdbcType="TIMESTAMP" />
+		<result column="creation_user" property="creationUser"
+			jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, per_id, coupon_id, coupon_name, product_id, start_date,
+		end_date,
+		amount, status,
+		update_date, update_user, creation_date,
+		creation_user
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from ym_per_coupon
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		ym_per_coupon
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.loan_entity.app.PerCoupon">
+		insert into ym_per_coupon (id,
+		per_id, coupon_id,
+		coupon_name, product_id, start_date,
+		end_date,
+		amount, status,
+		update_date, update_user, creation_date,
+		creation_user)
+		values (#{id,jdbcType=INTEGER}, #{perId,jdbcType=INTEGER},
+		#{couponId,jdbcType=INTEGER},
+		#{couponName,jdbcType=VARCHAR},
+		#{productId,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE},
+		#{endDate,jdbcType=DATE}, #{amount,jdbcType=DECIMAL},
+		#{status,jdbcType=VARCHAR},
+		#{updateDate,jdbcType=TIMESTAMP},
+		#{updateUser,jdbcType=INTEGER}, #{creationDate,jdbcType=TIMESTAMP},
+		#{creationUser,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.loan_entity.app.PerCoupon">
+		insert into ym_per_coupon
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="perId != null">
+				per_id,
+			</if>
+			<if test="couponId != null">
+				coupon_id,
+			</if>
+			<if test="couponName != null">
+				coupon_name,
+			</if>
+			<if test="productId != null">
+				product_id,
+			</if>
+			<if test="startDate != null">
+				start_date,
+			</if>
+			<if test="endDate != null">
+				end_date,
+			</if>
+			<if test="amount != null">
+				amount,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="updateUser != null">
+				update_user,
+			</if>
+			<if test="creationDate != null">
+				creation_date,
+			</if>
+			<if test="creationUser != null">
+				creation_user,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="perId != null">
+				#{perId,jdbcType=INTEGER},
+			</if>
+			<if test="couponId != null">
+				#{couponId,jdbcType=INTEGER},
+			</if>
+			<if test="couponName != null">
+				#{couponName,jdbcType=VARCHAR},
+			</if>
+			<if test="productId != null">
+				#{productId,jdbcType=VARCHAR},
+			</if>
+			<if test="startDate != null">
+				#{startDate,jdbcType=DATE},
+			</if>
+			<if test="endDate != null">
+				#{endDate,jdbcType=DATE},
+			</if>
+			<if test="amount != null">
+				#{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+				#{updateUser,jdbcType=INTEGER},
+			</if>
+			<if test="creationDate != null">
+				#{creationDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creationUser != null">
+				#{creationUser,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.loan_entity.app.PerCoupon">
+		update ym_per_coupon
+		<set>
+			<if test="perId != null">
+				per_id = #{perId,jdbcType=INTEGER},
+			</if>
+			<if test="couponId != null">
+				coupon_id = #{couponId,jdbcType=INTEGER},
+			</if>
+			<if test="couponName != null">
+				coupon_name = #{couponName,jdbcType=VARCHAR},
+			</if>
+			<if test="productId != null">
+				product_id = #{productId,jdbcType=VARCHAR},
+			</if>
+			<if test="startDate != null">
+				start_date = #{startDate,jdbcType=DATE},
+			</if>
+			<if test="endDate != null">
+				end_date = #{endDate,jdbcType=DATE},
+			</if>
+			<if test="amount != null">
+				amount = #{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+				update_user = #{updateUser,jdbcType=INTEGER},
+			</if>
+			<if test="creationDate != null">
+				creation_date = #{creationDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creationUser != null">
+				creation_user = #{creationUser,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.loan_entity.app.PerCoupon">
+		update
+		ym_per_coupon
+		set per_id = #{perId,jdbcType=INTEGER},
+		coupon_id =
+		#{couponId,jdbcType=INTEGER},
+		coupon_name =
+		#{couponName,jdbcType=VARCHAR},
+		product_id =
+		#{productId,jdbcType=VARCHAR},
+		start_date = #{startDate,jdbcType=DATE},
+		end_date = #{endDate,jdbcType=DATE},
+		amount =
+		#{amount,jdbcType=DECIMAL},
+		status = #{status,jdbcType=VARCHAR},
+		update_date = #{updateDate,jdbcType=TIMESTAMP},
+		update_user =
+		#{updateUser,jdbcType=INTEGER},
+		creation_date =
+		#{creationDate,jdbcType=TIMESTAMP},
+		creation_user =
+		#{creationUser,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="selectByPerProductStatus" resultMap="BaseResultMap">
+		SELECT * FROM
+		ym_per_coupon
+		WHERE per_id = #{0}
+		AND (product_id =#{1}
+		OR product_id =
+		0)
+		AND `status` = #{2}
+		ORDER BY amount DESC,end_date
+	</select>
+	<select id="getMyCoupon" resultType="com.loan_entity.app.PerCoupon2">
+		SELECT c.id AS id,c.`product_id`
+		AS productId,
+		c.`amount`,c.`start_date` AS startDateString,c.`end_date` AS endDateString,
+		c.`per_id` AS perId,c.`status`,c.`coupon_name` AS couponName,
+		CASE
+		WHEN c.product_id > 0 THEN p.product_name
+		ELSE '所有'
+		END AS productName
+		FROM `ym_per_coupon` c LEFT JOIN ym_product p ON c.`product_id` = p.`id`
+		WHERE c.`per_id` = #{0} AND (c.status = 1 OR c.status = 4) ORDER BY c.status DESC, c.id DESC LIMIT #{1},#{2}
+	</select>
+	<select id="getMyCoupon2" resultType="com.loan_entity.app.PerCoupon2">
+		SELECT c.id AS id,c.`product_id`
+		AS productId,
+		c.`amount`,c.`start_date` AS startDateString,c.`end_date` AS endDateString,
+		c.`per_id` AS perId,c.`status`,c.`coupon_name` AS couponName,
+		CASE
+		WHEN c.product_id > 0 THEN p.product_name
+		ELSE '所有'
+		END AS productName
+		FROM `ym_per_coupon` c LEFT JOIN ym_product p ON c.`product_id` = p.`id`
+		WHERE c.`per_id` = #{0} AND c.status != 1 AND c.status !=4 LIMIT #{1},#{2}
+	</select>
+	<select id="getCoupon2ById" resultType="com.loan_entity.app.PerCoupon2">
+		SELECT c.id AS id,c.`product_id`
+		AS productId,
+		c.`amount`,c.`start_date` AS startDateString,c.`end_date` AS endDateString,
+		c.`per_id` AS perId,c.`status`,c.`coupon_name` AS couponName,
+		CASE
+		WHEN c.product_id > 0 THEN p.product_name
+		ELSE '所有'
+		END AS productName
+		FROM `ym_per_coupon` c LEFT JOIN ym_product p ON c.`product_id` = p.`id`
+		WHERE c.`id` = #{0}
+	</select>
+	<select id="selectByPerIdStatus" resultMap="BaseResultMap">
+		SELECT * FROM
+		ym_per_coupon
+		WHERE per_id = #{0}
+		AND status = #{1}
+		ORDER BY amount DESC,end_date
+	</select>
+</mapper>

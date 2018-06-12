@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.loan_mapper.CompanyBankMapper" >
+  <resultMap id="BaseResultMap" type="com.loan_entity.loan.CompanyBank" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="company_id" property="companyId" jdbcType="INTEGER" />
+    <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+    <result column="bank_id" property="bankId" jdbcType="VARCHAR" />
+    <result column="card_no" property="cardNo" jdbcType="VARCHAR" />
+    <result column="card_city" property="cardCity" jdbcType="INTEGER" />
+    <result column="card_province" property="cardProvince" jdbcType="INTEGER" />
+    <result column="card_type" property="cardType" jdbcType="VARCHAR" />
+    <result column="addtime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="addip" property="addip" jdbcType="VARCHAR" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+    <result column="delete_reason" property="deleteReason" jdbcType="VARCHAR" />
+    <result column="sys_user_id" property="sysUserId" jdbcType="INTEGER" />
+    <result column="delete_ip" property="deleteIp" jdbcType="VARCHAR" />
+    <result column="sync" property="sync" jdbcType="CHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.loan_entity.loan.CompanyBank" extends="BaseResultMap" >
+    <result column="card_zhihang" property="cardZhihang" jdbcType="VARBINARY" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, company_id, bank_name, bank_id, card_no, card_city, card_province, card_type, 
+    addtime, addip, deleted, delete_reason, sys_user_id, delete_ip, sync
+  </sql>
+  <sql id="Blob_Column_List" >
+    card_zhihang
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ym_company_bank
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ym_company_bank
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.loan_entity.loan.CompanyBank" >
+    insert into ym_company_bank (id, company_id, bank_name, 
+      bank_id, card_no, card_city, 
+      card_province, card_type, addtime, 
+      addip, deleted, delete_reason, 
+      sys_user_id, delete_ip, sync, 
+      card_zhihang)
+    values (#{id,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, #{bankName,jdbcType=VARCHAR}, 
+      #{bankId,jdbcType=VARCHAR}, #{cardNo,jdbcType=VARCHAR}, #{cardCity,jdbcType=INTEGER}, 
+      #{cardProvince,jdbcType=INTEGER}, #{cardType,jdbcType=VARCHAR}, #{addtime,jdbcType=TIMESTAMP}, 
+      #{addip,jdbcType=VARCHAR}, #{deleted,jdbcType=INTEGER}, #{deleteReason,jdbcType=VARCHAR}, 
+      #{sysUserId,jdbcType=INTEGER}, #{deleteIp,jdbcType=VARCHAR}, #{sync,jdbcType=CHAR}, 
+      #{cardZhihang,jdbcType=VARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.loan_entity.loan.CompanyBank" >
+    insert into ym_company_bank
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="bankName != null" >
+        bank_name,
+      </if>
+      <if test="bankId != null" >
+        bank_id,
+      </if>
+      <if test="cardNo != null" >
+        card_no,
+      </if>
+      <if test="cardCity != null" >
+        card_city,
+      </if>
+      <if test="cardProvince != null" >
+        card_province,
+      </if>
+      <if test="cardType != null" >
+        card_type,
+      </if>
+      <if test="addtime != null" >
+        addtime,
+      </if>
+      <if test="addip != null" >
+        addip,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="deleteReason != null" >
+        delete_reason,
+      </if>
+      <if test="sysUserId != null" >
+        sys_user_id,
+      </if>
+      <if test="deleteIp != null" >
+        delete_ip,
+      </if>
+      <if test="sync != null" >
+        sync,
+      </if>
+      <if test="cardZhihang != null" >
+        card_zhihang,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankId != null" >
+        #{bankId,jdbcType=VARCHAR},
+      </if>
+      <if test="cardNo != null" >
+        #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cardCity != null" >
+        #{cardCity,jdbcType=INTEGER},
+      </if>
+      <if test="cardProvince != null" >
+        #{cardProvince,jdbcType=INTEGER},
+      </if>
+      <if test="cardType != null" >
+        #{cardType,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addip != null" >
+        #{addip,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="deleteReason != null" >
+        #{deleteReason,jdbcType=VARCHAR},
+      </if>
+      <if test="sysUserId != null" >
+        #{sysUserId,jdbcType=INTEGER},
+      </if>
+      <if test="deleteIp != null" >
+        #{deleteIp,jdbcType=VARCHAR},
+      </if>
+      <if test="sync != null" >
+        #{sync,jdbcType=CHAR},
+      </if>
+      <if test="cardZhihang != null" >
+        #{cardZhihang,jdbcType=VARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.loan_entity.loan.CompanyBank" >
+    update ym_company_bank
+    <set >
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="bankName != null" >
+        bank_name = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankId != null" >
+        bank_id = #{bankId,jdbcType=VARCHAR},
+      </if>
+      <if test="cardNo != null" >
+        card_no = #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cardCity != null" >
+        card_city = #{cardCity,jdbcType=INTEGER},
+      </if>
+      <if test="cardProvince != null" >
+        card_province = #{cardProvince,jdbcType=INTEGER},
+      </if>
+      <if test="cardType != null" >
+        card_type = #{cardType,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        addtime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="addip != null" >
+        addip = #{addip,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="deleteReason != null" >
+        delete_reason = #{deleteReason,jdbcType=VARCHAR},
+      </if>
+      <if test="sysUserId != null" >
+        sys_user_id = #{sysUserId,jdbcType=INTEGER},
+      </if>
+      <if test="deleteIp != null" >
+        delete_ip = #{deleteIp,jdbcType=VARCHAR},
+      </if>
+      <if test="sync != null" >
+        sync = #{sync,jdbcType=CHAR},
+      </if>
+      <if test="cardZhihang != null" >
+        card_zhihang = #{cardZhihang,jdbcType=VARBINARY},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.loan_entity.loan.CompanyBank" >
+    update ym_company_bank
+    set company_id = #{companyId,jdbcType=INTEGER},
+      bank_name = #{bankName,jdbcType=VARCHAR},
+      bank_id = #{bankId,jdbcType=VARCHAR},
+      card_no = #{cardNo,jdbcType=VARCHAR},
+      card_city = #{cardCity,jdbcType=INTEGER},
+      card_province = #{cardProvince,jdbcType=INTEGER},
+      card_type = #{cardType,jdbcType=VARCHAR},
+      addtime = #{addtime,jdbcType=TIMESTAMP},
+      addip = #{addip,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=INTEGER},
+      delete_reason = #{deleteReason,jdbcType=VARCHAR},
+      sys_user_id = #{sysUserId,jdbcType=INTEGER},
+      delete_ip = #{deleteIp,jdbcType=VARCHAR},
+      sync = #{sync,jdbcType=CHAR},
+      card_zhihang = #{cardZhihang,jdbcType=VARBINARY}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.loan_entity.loan.CompanyBank" >
+    update ym_company_bank
+    set company_id = #{companyId,jdbcType=INTEGER},
+      bank_name = #{bankName,jdbcType=VARCHAR},
+      bank_id = #{bankId,jdbcType=VARCHAR},
+      card_no = #{cardNo,jdbcType=VARCHAR},
+      card_city = #{cardCity,jdbcType=INTEGER},
+      card_province = #{cardProvince,jdbcType=INTEGER},
+      card_type = #{cardType,jdbcType=VARCHAR},
+      addtime = #{addtime,jdbcType=TIMESTAMP},
+      addip = #{addip,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=INTEGER},
+      delete_reason = #{deleteReason,jdbcType=VARCHAR},
+      sys_user_id = #{sysUserId,jdbcType=INTEGER},
+      delete_ip = #{deleteIp,jdbcType=VARCHAR},
+      sync = #{sync,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

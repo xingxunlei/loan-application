@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_manage.mapper.CollectorsListMapper">
+    <!--auto generated Code-->
+    <resultMap id="AllColumnMap" type="com.loan_entity.loan.CollectorsList">
+        <result column="id" property="id"/>
+        <result column="guid" property="guid"/>
+        <result column="contract_sysno" property="contractSysno"/>
+        <result column="contract_id" property="contractId"/>
+        <result column="contract_type" property="contractType"/>
+        <result column="bedue_user_sysno" property="bedueUserSysno"/>
+        <result column="bedue_name" property="bedueName"/>
+        <result column="acqu_mode" property="acquMode"/>
+        <result column="obtain_time" property="obtainTime"/>
+        <result column="operator" property="operator"/>
+        <result column="bedue_level" property="bedueLevel"/>
+        <result column="user_group_id" property="userGroupId"/>
+        <result column="status" property="status"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_date" property="createDate"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_date" property="updateDate"/>
+    </resultMap>
+
+    <resultMap id="CollectorsInfoMap" type="com.loan_entity.loan.CollectorsVo">
+        <result column="contract_id" property="contractId"/>
+        <result column="bedue_user_sysno" property="bedueUserSysno"/>
+        <result column="bedue_name" property="bedueName"/>
+        <result column="update_date" property="updateDate"/>
+    </resultMap>
+
+    <resultMap id="CollectorsCompanyVoMap" type="com.loan_entity.manager.CollectorsCompanyVo">
+        <result column="id" property="id"/>
+        <result column="contract_sysno" property="contractSysno"/>
+        <result column="bedue_user_sysno" property="bedueUserSysno"/>
+        <result column="company_id" property="companyId"/>
+    </resultMap>
+
+    <!-- 根据合同ID查询单子是否有人催收及催收人归属公司 -->
+    <select id="selectCollectorsCompanyVo" parameterType="map" resultMap="CollectorsCompanyVoMap">
+        SELECT collectors.id,collectors.contract_sysno,borrow.company_id,collectors.bedue_user_sysno from ds_collectors_list collectors
+        LEFT JOIN ym_zloan_company_borrow borrow on borrow.borr_id = collectors.contract_sysno
+        WHERE collectors.status = 'A' and collectors.contract_sysno=#{contractSysno}
+    </select>
+
+    <select id="selectCollectorsInfo" parameterType="java.util.Map" resultMap="CollectorsInfoMap">
+        SELECT contract_id,bedue_user_sysno,bedue_name,update_date from ds_collectors_list WHERE contract_id=#{contractId}
+    </select>
+
+    <select id="selectSystemCollectorsLists" parameterType="java.util.Map" resultMap="AllColumnMap">
+        SELECT
+        id,contract_sysno,contract_id,contract_type,bedue_user_sysno,bedue_name,acqu_mode,obtain_time,operator,bedue_level
+        FROM ds_collectors_list WHERE create_date &gt; #{today} and bedue_user_sysno='9999' and status='A'
+    </select>
+
+    <select id="getWorkReport" parameterType="java.util.Map" resultType="com.loan_entity.loan.ExportWorkReport">
+        /*CollectorsListMapper.getWorkReport*/
+        SELECT
+        cl.bedue_name bedueName,dcl.dcl_type dclType,dcl.level_type levelType,
+        COUNT(cl.STATUS = "A" OR NULL) AS unDone,
+        COUNT(cl.STATUS = "B" OR NULL) AS done,
+        COUNT(cl.STATUS = "A" OR NULL) + COUNT(cl.STATUS = "B" OR NULL) sumDone
+        FROM ds_collectors_list cl LEFT JOIN ym_borrow_list bl ON bl.id = cl.contract_sysno
+        LEFT JOIN ds_collectors_level dcl ON dcl.user_sysno = cl.bedue_user_sysno
+        WHERE cl.is_delete = 2
+        <if test="bedueName != null and bedueName != ''">
+            and cl.bedue_name like "%${bedueName}%"
+        </if>
+        <if test="beginDate != null and beginDate != '' and endDate != null and endDate != ''">
+            and IFNULL(cl.update_date,cl.create_date) between #{beginDate} and #{endDate}
+        </if>
+        <if test="levelType != null">
+            AND dcl.level_type = #{levelType}
+        </if>
+        GROUP BY cl.bedue_user_sysno
+    </select>
+
+    <select id="selectUndoneContractNos" resultType="java.lang.Integer">
+        select contract_sysno from ds_collectors_list collectors
+    </select>
+
+    <insert id="batchInsertCollectorsList" parameterType="java.util.List">
+        INSERT INTO ds_collectors_list (contract_sysno,
+        contract_id,bedue_user_sysno,bedue_name,create_date,status,acqu_mode,update_date)
+        VALUES
+        <foreach collection="list" item="i" index="index" separator=",">
+            (
+            #{i.contractSysno},
+            #{i.contractId},
+            #{i.bedueUserSysno},
+            #{i.bedueName},
+            #{i.createDate},
+            #{i.status},
+            #{i.acquMode},
+            #{i.updateDate}
+            )
+        </foreach>
+    </insert>
+    <update id="batchUpdateCollectorsList" parameterType="java.util.List">
+        UPDATE ds_collectors_list
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="bedue_user_sysno = case" suffix=" end,">
+                <foreach collection="list" item="i" index="index">
+                    <if test="i.bedueUserSysno != null">
+                        WHEN (contract_sysno=#{i.contractSysno,jdbcType=INTEGER}) then
+                        #{i.bedueUserSysno,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="bedue_name = case" suffix=" end,">
+                <foreach collection="list" item="i" index="index">
+                    <if test="i.bedueName != null">
+                        WHEN (contract_sysno=#{i.contractSysno,jdbcType=INTEGER}) then #{i.bedueName,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="acqu_mode = case" suffix=" end,">
+                <foreach collection="list" item="i" index="index">
+                    <if test="i.acquMode != null">
+                        WHEN (contract_sysno=#{i.contractSysno,jdbcType=INTEGER}) then #{i.acquMode,jdbcType=VARCHAR}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="update_date = case" suffix=" end,">
+                <foreach collection="list" item="i" index="index">
+                    <if test="i.updateDate != null">
+                        WHEN (contract_sysno=#{i.contractSysno,jdbcType=INTEGER}) then
+                        #{i.updateDate,jdbcType=TIMESTAMP}
+                    </if>
+                </foreach>
+            </trim>
+        </trim>
+        WHERE contract_sysno in
+        <foreach collection="list" item="i" index="index" open="(" separator="," close=")">
+            #{i.contractSysno,jdbcType=INTEGER}
+        </foreach>
+    </update>
+</mapper>
+

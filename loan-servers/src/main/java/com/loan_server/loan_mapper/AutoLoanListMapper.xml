@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.loan_mapper.AutoLoanListMapper" >
+  <resultMap id="BaseResultMap" type="com.loan_entity.loan.AutoLoanList" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="creation_user" property="creationUser" jdbcType="INTEGER" />
+    <result column="creation_date" property="creationDate" jdbcType="TIMESTAMP" />
+    <result column="ruler_json" property="rulerJson" jdbcType="VARCHAR" />
+    <result column="trigger_ruler_key" property="triggerRulerKey" jdbcType="VARCHAR" />
+    <result column="trigger_ruler_value" property="triggerRulerValue" jdbcType="VARCHAR" />
+    <result column="loan_amount" property="loanAmount" jdbcType="DECIMAL" />
+    <result column="loan_amount_update_date" property="loanAmountUpdateDate" jdbcType="TIMESTAMP" />
+    <result column="data_type" property="dataType" jdbcType="INTEGER" />
+
+  </resultMap>
+  <sql id="Base_Column_List" >
+  id,status,creation_user,creation_date,ruler_json,trigger_ruler_key,trigger_ruler_value,loan_amount,loan_amount_update_date,data_type
+  </sql>
+
+  <select id="selectByMax" resultMap="BaseResultMap">
+    /*AutoLoanListMapper.selectByMax*/
+    SELECT <include refid="Base_Column_List" /> FROM ym_auto_loan_list WHERE
+    id = (SELECT MAX(id) FROM ym_auto_loan_list )
+  </select>
+
+  <insert id="saveAutoLoanList" parameterType="com.loan_entity.loan.AutoLoanList">
+    /*AutoLoanListMapper.saveAutoLoanList*/
+    INSERT INTO ym_auto_loan_list
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="creationUser != null" >
+        creation_user,
+      </if>
+      <if test="rulerJson != null" >
+        ruler_json,
+      </if>
+      <if test="triggerRulerKey != null" >
+        trigger_ruler_key,
+      </if>
+      <if test="triggerRulerValue != null" >
+        trigger_ruler_value,
+      </if>
+      <if test="loanAmount != null" >
+        loan_amount,
+      </if>
+      <if test="loanAmountUpdateDate != null" >
+        loan_amount_update_date,
+      </if>
+      <if test="dataType != null" >
+        data_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+
+      <if test="status != null" >
+        #{status},
+      </if>
+      <if test="creationUser != null" >
+        #{creationUser},
+      </if>
+      <if test="rulerJson != null" >
+        #{rulerJson},
+      </if>
+      <if test="triggerRulerKey != null" >
+        #{triggerRulerKey},
+      </if>
+      <if test="triggerRulerValue != null" >
+        #{triggerRulerValue},
+      </if>
+      <if test="loanAmount != null" >
+        #{loanAmount},
+      </if>
+      <if test="loanAmountUpdateDate != null" >
+        #{loanAmountUpdateDate},
+      </if>
+      <if test="dataType != null" >
+        #{dataType},
+      </if>
+    </trim>
+  </insert>
+
+</mapper>

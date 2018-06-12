@@ -1,0 +1,119 @@
+<div class="page-sidebar navbar-collapse collapse">
+    <ul class="page-sidebar-menu" data-keep-expanded="false"
+        data-auto-scroll="true" data-slide-speed="200"
+        ng-class="{'page-sidebar-menu-closed': settings.layout.pageSidebarClosed}">
+        <li class="sidebar-search-wrapper">
+            <form class="sidebar-search sidebar-search-bordered" action="extra_search.html" method="POST"
+                  style="display: none">
+                <a href="javascript:void(0);" class="remove"> <i class="icon-close"></i>
+                </a>
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="搜索...">
+                    <span class="input-group-btn">
+                        <a href="javascript:void(0);" class="btn submit"><i class="icon-magnifier"></i></a>
+					</span>
+                </div>
+            </form>
+        </li>
+        <li id="ym-h" class="start">
+            <a href="#/dashboard.html"> <i class="glyphicon glyphicon-home"></i> <span class="title">首页</span></a>
+        </li>
+        <li id="ym-z" style="display: none"><a href="javascript:void(0);">
+            <i class="glyphicon glyphicon-th"></i> <span class="title">审核管理</span>
+            <span class="arrow "></span>
+        </a>
+            <ul class="sub-menu">
+                <li id="ym-za" style="display: none"><a href="#/checkbyone.html"> <i
+                        class="glyphicon glyphicon-earphone"></i>待审批 </a></li>
+                <li id="ym-zma" style="display: none"><a href="#/checkbymanualone.html"> <i class="icon-vector"></i>
+                    人工审核 </a></li>
+                <li id="ym-zmr" style="display: none"><a href="#/checkbymanual_result.html"> <i class="icon-heart"></i>
+                    人工审核结果 </a></li>
+                <!--<li id="ym-zd" style="display: none"><a href="#/checkbyoned.html"> <i class="icon-check"></i>我的审批 </a></li>-->
+                <li id="ym-zb" style="display: none"><a href="#/checkbymanager.html"> <i
+                        class="glyphicon glyphicon-th-large"></i> 审核管理 </a></li>
+                <li id="ym-zc" style="display: none"><a href="#/managerbymanager.html"> <i class="icon-user"></i> 审核员管理
+                </a>
+                <li id="ym-ze" style="display: none;"><a href="#/manualAuditReport.html"><i class="icon-list"></i>人工审核报表 </a>
+                </li>
+                <li id="ym-zf" style="display: none"><a href="#/auditLoan.html"> <i class="icon-user"></i> 审核放款报表
+                </a></li>
+            </ul>
+        </li>
+        <li id="ym-u" style="display: none"><a href="javascript:void(0);">
+            <i class="glyphicon glyphicon-user"></i> <span class="title">用户管理</span><span class="arrow "></span>
+        </a>
+            <ul class="sub-menu">
+                <li id="ym-ua" style="display: none"><a href="#/perlist.html"><i class="icon-list"></i>用户列表 </a></li>
+            </ul>
+        </li>
+        <li id="ym-y" style="display: none"><a href="javascript:;">
+            <i class="glyphicon glyphicon-asterisk"></i> <span class="title">悠米管理</span>
+            <span class="arrow "></span>
+        </a>
+            <ul class="sub-menu">
+                <li id="ym-ya" style="display: none"><a href="#/feedback.html"><i class="icon-heart"></i>意见反馈 </a></li>
+                <li id="ym-yb" style="display: none"><a href="#/question.html"><i class="icon-film"></i>问题管理 </a></li>
+                <li id="ym-yc" style="display: none"><a href="#/message_temp.html"><i class="icon-envelope"></i>消息模板
+                </a></li>
+            </ul>
+        </li>
+        <li id="ym-v" style="display: none"><a href="javascript:;">
+            <i class="glyphicon glyphicon-tower"></i> <span class="title">运营管理</span>
+            <span class="arrow "></span>
+        </a>
+            <ul class="sub-menu">
+                <li id="ym-va" style="display: none"><a href="#/coupon.html"><i class="glyphicon glyphicon-gift"></i>优惠券管理
+                </a></li>
+                <li id="ym-vb" style="display: none"><a href="#/drainage.html"><i class="glyphicon glyphicon-gift"></i>引流管理
+                </a></li>
+            </ul>
+        </li>
+        <!-- 贷后管理的结构开始	 -->
+        <li id="ym-d" style="display: none"><a href="javascript:;">
+            <i class="glyphicon glyphicon-align-justify"></i> <span class="title">贷后管理</span>
+            <span class="arrow "></span>
+        </a>
+            <ul class="sub-menu">
+                <li id="ym-da" style="display: none"><a href="#/repayment.html"> <i
+                        class="glyphicon glyphicon-earphone"></i>还款流水 </a></li>
+                <li id="ym-db" style="display: none"><a href="#/repaymentPlan.html"><i
+                        class="icon-notebook"></i>还款计划</a></li>
+                <li style="display: none"><a href="#/paymentInfo.html"><i class="icon-info"></i>扣款信息 </a></li>
+                <li id="ym-dc" style="display: none"><a href="#/loanManagement.html"><i class="icon-globe"></i>贷后管理 </a>
+                </li>
+                <li id="ym-dh" style="display: none"><a href="#/batchReduce.html"><i class="icon-film"></i>批量扣款专用 </a>
+                </li>
+                <li id="ym-dd" style="display: none"><a href="#/collectionList.html"><i class="icon-list"></i>催收队列 </a>
+                </li>
+                <li id="ym-de" style="display: none"><a href="#/collectionInfo.html"><i class="icon-key"></i>催收信息</a>
+                </li>
+                <li id="ym-df" style="display: none"><a href="#/repaymentReportForms.html"><i class="icon-vector"></i>催收工作报表</a>
+                </li>
+                <li id="ym-dg" style="display: none"><a href="#/beatchConllectionList.html"><i class="icon-heart"></i>批量扣款列表</a>
+                </li>
+            </ul>
+        </li>
+        <!-- 贷后管理的结构结束	 -->
+        <li id="ym-g" style="display: none"><a href="javascript:;">
+            <i class="glyphicon glyphicon-cog"></i> <span class="title">系统设置</span>
+            <span class="arrow "></span>
+        </a>
+            <ul class="sub-menu">
+                <li id="ym-ga" style="display: none"><a href="#/lookup_type_manage.html"><i class="icon-star"></i>快速编码
+                </a></li>
+                <li id="ym-gb" style="display: none;"><a href="#/userTables.html"><i class="icon-list"></i>系统用户 </a>
+                </li>
+                <li id="ym-gc" style="display: none;"><a href="#/companyTables.html"><i class="icon-heart"></i>公司列表 </a>
+                </li>
+                <li id="ym-gd" style="display: none;"><a href="#/autoLoan.html"><i class="icon-key"></i>自动放款 </a>
+                </li>
+            </ul>
+        </li>
+        <li style="display: none"><a href="/zloan-manage/index.html" target="_blank"> <i
+                class="glyphicon glyphicon-send"></i> <span class="title">打开新标签</span> </a></li>
+    </ul>
+</div>
+<script>
+    getTree();
+</script>

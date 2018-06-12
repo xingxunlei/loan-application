@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.loan_mapper.CompanyAccountMapper" >
+  <resultMap id="BaseResultMap" type="com.loan_entity.loan.CompanyAccount" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="company_id" property="companyId" jdbcType="INTEGER" />
+    <result column="use_money" property="useMoney" jdbcType="DECIMAL" />
+    <result column="no_use_money" property="noUseMoney" jdbcType="DECIMAL" />
+    <result column="withdraw_money" property="withdrawMoney" jdbcType="DECIMAL" />
+    <result column="collection_money" property="collectionMoney" jdbcType="DECIMAL" />
+    <result column="sum_recharge" property="sumRecharge" jdbcType="DECIMAL" />
+    <result column="sum_withdraw" property="sumWithdraw" jdbcType="DECIMAL" />
+    <result column="sum_collection" property="sumCollection" jdbcType="DECIMAL" />
+    <result column="sum_online_recharge" property="sumOnlineRecharge" jdbcType="DECIMAL" />
+    <result column="sum_offline_recharge" property="sumOfflineRecharge" jdbcType="DECIMAL" />
+    <result column="sum_payment" property="sumPayment" jdbcType="DECIMAL" />
+    <result column="count_payment" property="countPayment" jdbcType="INTEGER" />
+    <result column="sync" property="sync" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, company_id, use_money, no_use_money, withdraw_money, collection_money, sum_recharge, 
+    sum_withdraw, sum_collection, sum_online_recharge, sum_offline_recharge, sum_payment, 
+    count_payment, sync
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ym_company_account
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 根据company_id查询账户 -->
+  <select id="selectByComId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ym_company_account
+    where company_id = #{0}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ym_company_account
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.loan_entity.loan.CompanyAccount" >
+    insert into ym_company_account (id, company_id, use_money, 
+      no_use_money, withdraw_money, collection_money, 
+      sum_recharge, sum_withdraw, sum_collection, 
+      sum_online_recharge, sum_offline_recharge, 
+      sum_payment, count_payment, sync
+      )
+    values (#{id,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, #{useMoney,jdbcType=DECIMAL}, 
+      #{noUseMoney,jdbcType=DECIMAL}, #{withdrawMoney,jdbcType=DECIMAL}, #{collectionMoney,jdbcType=DECIMAL}, 
+      #{sumRecharge,jdbcType=DECIMAL}, #{sumWithdraw,jdbcType=DECIMAL}, #{sumCollection,jdbcType=DECIMAL}, 
+      #{sumOnlineRecharge,jdbcType=DECIMAL}, #{sumOfflineRecharge,jdbcType=DECIMAL}, 
+      #{sumPayment,jdbcType=DECIMAL}, #{countPayment,jdbcType=INTEGER}, #{sync,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.loan_entity.loan.CompanyAccount" >
+    insert into ym_company_account
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="useMoney != null" >
+        use_money,
+      </if>
+      <if test="noUseMoney != null" >
+        no_use_money,
+      </if>
+      <if test="withdrawMoney != null" >
+        withdraw_money,
+      </if>
+      <if test="collectionMoney != null" >
+        collection_money,
+      </if>
+      <if test="sumRecharge != null" >
+        sum_recharge,
+      </if>
+      <if test="sumWithdraw != null" >
+        sum_withdraw,
+      </if>
+      <if test="sumCollection != null" >
+        sum_collection,
+      </if>
+      <if test="sumOnlineRecharge != null" >
+        sum_online_recharge,
+      </if>
+      <if test="sumOfflineRecharge != null" >
+        sum_offline_recharge,
+      </if>
+      <if test="sumPayment != null" >
+        sum_payment,
+      </if>
+      <if test="countPayment != null" >
+        count_payment,
+      </if>
+      <if test="sync != null" >
+        sync,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="useMoney != null" >
+        #{useMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="noUseMoney != null" >
+        #{noUseMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="withdrawMoney != null" >
+        #{withdrawMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="collectionMoney != null" >
+        #{collectionMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="sumRecharge != null" >
+        #{sumRecharge,jdbcType=DECIMAL},
+      </if>
+      <if test="sumWithdraw != null" >
+        #{sumWithdraw,jdbcType=DECIMAL},
+      </if>
+      <if test="sumCollection != null" >
+        #{sumCollection,jdbcType=DECIMAL},
+      </if>
+      <if test="sumOnlineRecharge != null" >
+        #{sumOnlineRecharge,jdbcType=DECIMAL},
+      </if>
+      <if test="sumOfflineRecharge != null" >
+        #{sumOfflineRecharge,jdbcType=DECIMAL},
+      </if>
+      <if test="sumPayment != null" >
+        #{sumPayment,jdbcType=DECIMAL},
+      </if>
+      <if test="countPayment != null" >
+        #{countPayment,jdbcType=INTEGER},
+      </if>
+      <if test="sync != null" >
+        #{sync,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.loan_entity.loan.CompanyAccount" >
+    update ym_company_account
+    <set >
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="useMoney != null" >
+        use_money = #{useMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="noUseMoney != null" >
+        no_use_money = #{noUseMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="withdrawMoney != null" >
+        withdraw_money = #{withdrawMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="collectionMoney != null" >
+        collection_money = #{collectionMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="sumRecharge != null" >
+        sum_recharge = #{sumRecharge,jdbcType=DECIMAL},
+      </if>
+      <if test="sumWithdraw != null" >
+        sum_withdraw = #{sumWithdraw,jdbcType=DECIMAL},
+      </if>
+      <if test="sumCollection != null" >
+        sum_collection = #{sumCollection,jdbcType=DECIMAL},
+      </if>
+      <if test="sumOnlineRecharge != null" >
+        sum_online_recharge = #{sumOnlineRecharge,jdbcType=DECIMAL},
+      </if>
+      <if test="sumOfflineRecharge != null" >
+        sum_offline_recharge = #{sumOfflineRecharge,jdbcType=DECIMAL},
+      </if>
+      <if test="sumPayment != null" >
+        sum_payment = #{sumPayment,jdbcType=DECIMAL},
+      </if>
+      <if test="countPayment != null" >
+        count_payment = #{countPayment,jdbcType=INTEGER},
+      </if>
+      <if test="sync != null" >
+        sync = #{sync,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.loan_entity.loan.CompanyAccount" >
+    update ym_company_account
+    set company_id = #{companyId,jdbcType=INTEGER},
+      use_money = #{useMoney,jdbcType=DECIMAL},
+      no_use_money = #{noUseMoney,jdbcType=DECIMAL},
+      withdraw_money = #{withdrawMoney,jdbcType=DECIMAL},
+      collection_money = #{collectionMoney,jdbcType=DECIMAL},
+      sum_recharge = #{sumRecharge,jdbcType=DECIMAL},
+      sum_withdraw = #{sumWithdraw,jdbcType=DECIMAL},
+      sum_collection = #{sumCollection,jdbcType=DECIMAL},
+      sum_online_recharge = #{sumOnlineRecharge,jdbcType=DECIMAL},
+      sum_offline_recharge = #{sumOfflineRecharge,jdbcType=DECIMAL},
+      sum_payment = #{sumPayment,jdbcType=DECIMAL},
+      count_payment = #{countPayment,jdbcType=INTEGER},
+      sync = #{sync,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

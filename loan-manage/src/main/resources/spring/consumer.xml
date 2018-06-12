@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd        
+    http://code.alibabatech.com/schema/dubbo        
+    http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <dubbo:application name="loan_web"/>
+    <dubbo:registry protocol="zookeeper"/>
+
+    <dubbo:reference id="rmiSettlementService" interface="com.jhh.settlementsoa.rmi.RMISettlementService" check="false" timeout="600000"/>
+    <dubbo:reference id="ysbCollectionService" interface="com.loan_api.loan.YsbCollectionService" check="false" timeout="600000"/>
+    <!--<dubbo:reference interface="com.loan_api.app.PaymentService" check="false" timeout="600000" id="paymentService"/>-->
+    <dubbo:reference interface="com.loan_api.loan.YsbpayService" check="false" timeout="600000" id="ysbpayService"/>
+    <dubbo:reference interface="com.loan_api.app.UserService" check="false" timeout="600000" id="userService"/>
+    <dubbo:reference interface="com.loan_api.manager.ManageLoanService" check="false" timeout="600000" id="manageLoanService"/>
+    <dubbo:reference interface="com.loan_api.manager.ManageInfoService" check="false" timeout="600000" id="manageInfoService"/>
+    <dubbo:reference interface="com.loan_api.contract.ElectronicContractService" check="false" timeout="600000" id="electronicContractService"/>
+    <dubbo:reference interface="com.loan_api.app.LoanService" check="false" timeout="600000" id="noteLoanService"/>
+</beans>

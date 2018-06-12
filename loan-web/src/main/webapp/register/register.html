@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>注册</title>
+<meta name="viewport"
+	content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="vue">
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script src="jquery-1.8.0.min.js" type="text/javascript"></script>
+<script>
+	var oHtml = document.documentElement;
+	getSize();
+	function getSize() {
+		// 获取屏幕的宽度
+		var ascreen = oHtml.clientWidth;
+		if (ascreen <= 319) {
+			oHtml.style.fontSize = '20px';
+		} else if (ascreen >= 750) {
+			oHtml.style.fontSize = '40px';
+		} else {
+			oHtml.style.fontSize = ascreen / 18.75 + "px";
+		}
+		;
+	}
+	// 当窗口发生改变的时候调用
+	window.onresize = function() {
+		getSize();
+	}
+</script>
+</head>
+<body>
+	<div class="main">
+		<div class="logoImg"></div>
+		<p class="regInfo">只需身份证+手机号，15分钟极速放款</p>
+		<div class="warp">
+			<form>
+				<div class="inputBox cliearfix">
+					<label>手机号码：</label> <input id="phone" type="text"
+						class="shortInput" />
+				</div>
+				<div class="inputBox cliearfix">
+					<label>验证码：</label> <input id="code" type="text" class="shortInput" />
+					<input id="codebutton" type="button" class="inputBtn" value="获取验证码" />
+				</div>
+				<div class="inputBox cliearfix">
+					<label>输入密码：</label> <input id="password" type="password"
+						class="longInput" />
+				</div>
+				<div class="inputBox cliearfix">
+					<label>再次输入密码：</label> <input id="repassword" type="password"
+						class="longInput" />
+				</div>
+				<div class="warpcheck">
+					<input name="checkbox" type="checkbox" ><a id="book" href="javascript:;">我已阅读注册协议</a>
+				</div>
+
+				<a href="javascript:;" class="goBtn">马上参与</a>
+			</form>
+		</div>
+	</div>
+	<div class="layerBox">
+		<div class="layerMain">
+			<div class="layerHd">
+				<p>提 示</p>
+				<i></i>
+			</div>
+			<div class="layerBd">
+				<div class="layerInfo">
+					<p id="message">手机号已经注册！</p>
+				</div>
+				<a href="javascript:;" class="larerBtn">确认</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+<script type="text/javascript">
+var phone = "";
+var code = 0;
+var source = window.location.href;
+source = source.split("=")[1];
+	//倒计时代码
+	var countdown = 60;
+	function settime(val) {
+		if (countdown == 0) {
+			val.removeAttribute("disabled");
+			val.value = "获取验证码";
+			countdown = 60;
+		} else {
+			val.setAttribute("disabled", true);
+			val.value = "重新发送(" + countdown + ")";
+			countdown--;
+			setTimeout(function() {
+				settime(val)
+			}, 1000)
+		}
+	}
+
+	//点击弹窗显示代码
+	var goBtn = document.querySelector(".goBtn");
+	var layerBox = document.querySelector(".layerBox");
+	var closeBtn = document.querySelector(".layerHd i");
+	var larerBtn = document.querySelector(".larerBtn");
+	var codebutton = document.querySelector("#codebutton");
+	codebutton.onclick = function() {
+		 phone = document.getElementById("phone").value;
+		var result = validatemobile(phone);
+		if (result) {
+			settime(document.getElementById("codebutton"));
+			$.ajax({
+				type : "post",
+				data:{
+					"phone":phone
+				},
+				url : "../../1.0.1/user/getCodeForSource.action",
+				success : function(msg) {
+					var jsonTrans = eval("(" + msg + ")");
+					if(jsonTrans.code=="999"){
+						layerBox.style.display = "block"
+						
+					}else{
+						code = jsonTrans.data;
+					}
+					
+					
+				}
+			});
+		}
+
+		
+	}
+	goBtn.onclick = function() {
+		var inphone = document.getElementById("phone").value;
+		var codein = $("#code").val();
+		var password = $("#password").val();
+		var repassword = $("#repassword").val();
+		var checkbox = $("[name='checkbox']").is(':checked');
+		var p = /(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{4,23}/;
+		if(!validatemobile(inphone)){
+			
+		}else if(codein==""){
+			alert("验证码不能为空！");
+		}else if(codein!=code){
+			alert("验证码不正确！");
+		}else if(password ==""){
+			alert("密码不能为空！");
+		}else if(password.length !=6){
+			alert("密码必须为六位字母数字组合！");
+		}else if(!p.test(password)){
+			alert("密码必须为六位字母数字组合！");
+		}else if(repassword==""){
+			alert("确认密码不能为空！");
+		}else if(password!=repassword){
+			alert("两次密码输入不一致！");
+		}else if(!checkbox){
+			alert("必须勾选注册协议！");
+		}else{
+			$.ajax({
+				type : "post",
+				data:{
+					"phone":phone,
+					"password":password,
+					"source":source
+				},
+				url : "../../1.0.1/user/userRegisterForSoruse.action",
+				success : function(msg) {
+					var jsonTrans = eval("(" + msg + ")");
+					if(jsonTrans.code=="200"){
+						window.location="registerSuccess.html";
+					}else{
+						alert(jsonTrans.info);
+					}
+					
+				}
+			});
+		}
+		
+		
+
+	}
+
+	closeBtn.onclick = larerBtn.onclick = function() {
+		layerBox.style.display = "none"
+	}
+	function validatemobile(mobile) {
+		if (mobile.length == 0) {
+			alert('请输入手机号码！');
+			return false;
+		}
+		if (mobile.length != 11) {
+			alert('请输入有效的手机号码！');
+			return false;
+		}
+
+		//var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+		//if (!myreg.test(mobile)) {
+			//alert('请输入有效的手机号码！');
+			//return false;
+		//}
+		return true;
+	}
+	$("#book").click(function(){
+		var iWidth = 850;
+		var iHeight = window.screen.availHeight - 54;
+		var iTop = 0;
+		var iLeft = (window.screen.availWidth - 10 - iWidth) / 2 + 40;
+		 window.open("../agreement.html", "注册协议", "height=" + iHeight + ", width=" + iWidth + ", top=" + iTop + ", left=" + iLeft + ",location=no,resizable=no,scrollbars=1");
+		
+	});
+</script>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_manage.mapper.BpmNodeMapper">
+    <select id="findNodesByPersonId" parameterType="Integer" resultType="com.loan_entity.manager_vo.BpmNodeVo">
+        SELECT n.id AS id,b.node_name AS nodeName,n.node_status AS nodeStatus, n.description AS description, n.node_date AS nodeDate, n.update_date AS updateDate
+        FROM ym_bpm_node n LEFT JOIN ym_bpm b ON n.node_id  = b.id
+        WHERE n.per_id = #{personId}
+        ORDER BY b.id
+    </select>
+</mapper>

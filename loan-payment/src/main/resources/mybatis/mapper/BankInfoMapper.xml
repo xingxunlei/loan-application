@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan.payment.mapper.BankInfoMapper">
+    <resultMap id="BaseMap" type="com.loan_entity.app.Bank">
+        <result column="id" property="id"/>
+        <result column="per_id" property="perId"/>
+        <result column="bank_id" property="bankId"/>
+        <result column="bank_num" property="bankNum"/>
+        <result column="phone" property="phone"/>
+        <result column="status" property="status"/>
+        <result column="start_date" property="startDate"/>
+        <result column="end_date" property="endDate"/>
+        <result column="result_code" property="resultCode"/>
+        <result column="result_msg" property="resultMsg"/>
+        <result column="sub_contract_num" property="subContractNum"/>
+        <result column="creation_date" property="creationDate"/>
+        <result column="creation_user" property="creationUser"/>
+        <result column="update_date" property="updateDate"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="name" property="name"/>
+    </resultMap>
+    <resultMap id="BankInfoMap" type="com.loan_entity.app.BankVo">
+        <result column="id" property="id"/>
+        <result column="bank_id" property="bankId"/>
+        <result column="bank_num" property="bankNum"/>
+        <result column="bank_name" property="bankName"/>
+        <result column="status" property="status"/>
+        <result column="phone" property="phone"/>
+        <result column="creation_date" property="createDate"/>
+    </resultMap>
+
+    <!-- 根据银行卡号查询有子协议号的记录-->
+    <select id="selectByBankNum" resultMap="BaseMap" parameterType="java.lang.String" >
+        SELECT *
+        FROM ym_bank
+        WHERE bank_num=#{0,jdbcType=VARCHAR}
+        AND sub_contract_num IS NOT NULL
+    </select>
+
+    <select id="selectBankInfos" resultMap="BankInfoMap">
+        SELECT
+            bank.id            AS id,
+            bank.bank_num      AS bank_num,
+            bank.bank_id       AS bank_id,
+            banklist.bank_name AS bank_name
+        FROM (SELECT *
+              FROM ym_bank
+              WHERE id = #{id}) bank
+            LEFT JOIN ym_bank_list banklist ON banklist.id = bank.bank_id
+    </select>
+
+
+
+    <select id="selectBankInfosByPerId" parameterType="java.util.Map" resultMap="BankInfoMap">
+        SELECT
+            bank.id as id,
+            bank.bank_num as bank_num,
+            bank.bank_id as bank_id,
+            bank.status as status,
+            bank.phone as phone,
+            bank.creation_date as createDate,
+            banklist.bank_name as bank_name
+        FROM ym_bank bank
+        LEFT JOIN ym_bank_list banklist ON banklist.id = bank.bank_id
+        where 1=1
+            <if test="id != null">
+                and bank.id = #{id}
+            </if>
+            <if test="perId != null">
+                and bank.per_id = #{perId}
+            </if>
+            <if test="status != null">
+                and bank.status = #{status}
+            </if>
+    </select>
+
+    <select id="selectMainBankByUserId" parameterType="java.lang.Integer" resultMap="BankInfoMap">
+        SELECT
+            bank.id as id,
+            bank.bank_num as bank_num,
+            bank.bank_id as bank_id,
+            bank.status as status,
+            bank.phone as phone,
+            bank.creation_date as createDate,
+            banklist.bank_name as bank_name
+        FROM ym_bank bank
+            LEFT JOIN ym_bank_list banklist ON banklist.id = bank.bank_id
+        where 1=1 and bank.per_id = #{perId} and bank.status = 1
+    </select>
+</mapper>
+

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jhh.dao.BorrowDeductionsMapper">
+	<select id="selectAllData" resultType="com.jhh.model.BorrowDeductions">
+		SELECT bl.id borrId,
+		(SELECT rl_state FROM ym_order o WHERE o.id = MAX(od.id)) state,
+		(SELECT IFNULL(IFNULL(o.reason,o.rl_remark),'8888') FROM ym_order o WHERE o.id = MAX(od.id)) reason,
+		bl.per_id perId,
+		SYSDATE() createDate
+		FROM ym_borrow_list bl,ym_order od
+		WHERE od.conctact_id = bl.id  AND bl.borr_status = 'BS005' AND od.type NOT IN (1,3,11)  GROUP BY bl.id
+	</select>
+
+	<select id="selectIdByBankId" resultType="java.lang.Integer">
+		SELECT
+		  bd.id
+		FROM
+		  ym_bank bk,
+		  ym_borrow_deductions bd
+		WHERE bd.per_id = bk.per_id
+		  AND bk.bank_id = 2
+		  AND bk.status = 1
+	</select>
+
+	<select id="selectByYesterdayOrder" resultType="com.jhh.model.BorrowDeductions">
+		SELECT bl.id borrId,
+		(SELECT rl_state FROM ym_order o WHERE o.id = MAX(od.id)) state,
+		(SELECT IFNULL(IFNULL(o.reason,o.rl_remark),'8888') FROM ym_order o WHERE o.id = MAX(od.id)) reason
+		FROM ym_borrow_list bl,ym_order od
+		WHERE od.conctact_id = bl.id  AND bl.borr_status = 'BS005' AND od.type NOT IN (1,3,11)
+		<![CDATA[ AND  TO_DAYS(NOW()) - TO_DAYS(od.creation_date)   <= 1]]>
+		GROUP BY bl.id
+	</select>
+
+	<insert id="createBorrowDeductions" parameterType="list">
+		INSERT INTO ym_borrow_deductions (borr_id, per_id,status,reason,create_date)
+		VALUES
+		<foreach collection ="list" item="bd" index= "index" separator=",">
+			(
+			#{bd.borrId},
+			#{bd.perId},
+			#{bd.status},
+			#{bd.reason},
+			#{bd.createDate}
+			)
+		</foreach>
+	</insert>
+
+	<update id="saveFailSatuts" parameterType="list">
+		UPDATE ym_borrow_deductions set status = 3
+		WHERE id in
+		<foreach collection ="list" item="ids" index= "index" open="(" separator="," close=")">
+			#{ids, jdbcType=INTEGER}
+		</foreach>
+	</update>
+
+	<update id="saveByYesterdayOrder" parameterType="list">
+		UPDATE ym_borrow_deductions
+		<trim prefix="set" suffixOverrides=",">
+			<trim prefix="status = case" suffix=" end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.status != null">
+						when borr_id = #{i.borrId} then #{i.status,jdbcType=VARCHAR}
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="reason = case" suffix=" end,">
+				<foreach collection="list" item="i" index="index">
+					<if test="i.reason != null">
+						when borr_id = #{i.borrId} then #{i.reason,jdbcType=VARCHAR}
+					</if>
+				</foreach>
+			</trim>
+		</trim>
+		WHERE borr_id in
+		<foreach collection="list" item="i" index="index" open="(" separator="," close=")">
+			#{i.borrId,jdbcType=INTEGER}
+		</foreach>
+	</update>
+</mapper>

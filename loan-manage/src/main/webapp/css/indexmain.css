@@ -1,0 +1,50 @@
+ul.shortcut-buttons-set li {
+	margin-right:50px;
+	float:left;
+	list-style: none;
+	text-decoration: none; 
+	float : left;
+	padding: 0 !important;
+	background: 0;
+	float: left;
+		cursor: pointer;
+
+}
+
+.shortcut-button {
+	text-decoration: none;
+	border: 1px solid #ccc;
+	display: block;
+	width: 200px;
+	margin: 0 0 20px 0;
+		cursor: pointer;
+	
+}
+
+.shortcut-button span {
+	text-decoration: none;
+	border: 1px solid #fff;
+	display: block;
+	padding: 30px 10px 50px 10px;
+	text-align: center;
+	color: #555;
+	font-size: 13px;
+	line-height: 1.3em;
+		cursor: pointer;
+}
+
+.shortcut-button span img {
+	text-decoration: none;
+	margin-bottom: 10px;
+		cursor: pointer;
+}
+
+.shortcut-button:hover {
+	background: #fff;
+		cursor: pointer;
+}
+
+.shortcut-button span:hover {
+	color: #57a000;
+		cursor: pointer;
+}

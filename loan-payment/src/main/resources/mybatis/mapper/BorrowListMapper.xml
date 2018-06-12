@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan.payment.mapper.BorrowListMapper">
+	<resultMap id="BaseResultMap" type="com.loan_entity.app.BorrowList">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="per_id" property="perId" jdbcType="INTEGER" />
+		<result column="prod_id" property="prodId" jdbcType="INTEGER" />
+		<result column="borr_type" property="borrType" jdbcType="VARCHAR" />
+		<result column="askborr_date" property="askborrDate" jdbcType="TIMESTAMP" />
+		<result column="borr_num" property="borrNum" jdbcType="VARCHAR" />
+		<result column="makeborr_date" property="makeborrDate" jdbcType="TIMESTAMP" />
+		<result column="pay_date" property="payDate" jdbcType="TIMESTAMP" />
+		<result column="planrepay_date" property="planrepayDate" jdbcType="TIMESTAMP" />
+		<result column="act_repay_date" property="actRepayDate" jdbcType="TIMESTAMP" />
+		<result column="borr_status" property="borrStatus" jdbcType="VARCHAR" />
+		<result column="plan_repay" property="planRepay" jdbcType="DECIMAL" />
+		<result column="act_repay_amount" property="actRepayAmount" jdbcType="DECIMAL" />
+		<result column="ispay" property="ispay" jdbcType="INTEGER" />
+		<result column="term_id" property="termId" jdbcType="INTEGER" />
+		<result column="borr_amount" property="borrAmount" jdbcType="DECIMAL" />
+		<result column="per_coupon_id" property="perCouponId" jdbcType="INTEGER" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="update_user" property="updateUser" jdbcType="INTEGER" />
+		<result column="creation_date" property="creationDate" jdbcType="TIMESTAMP" />
+		<result column="creation_user" property="creationUser" jdbcType="INTEGER" />
+		<result column="sync" property="sync" jdbcType="CHAR" />
+	</resultMap>
+
+</mapper>

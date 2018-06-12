@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.app_mapper.ContactMapper" >
+  <resultMap id="BaseResultMap" type="com.loan_entity.app.Contact" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="per_id" property="perId" jdbcType="INTEGER" />
+    <result column="contact_name" property="contactName" jdbcType="VARCHAR" />
+    <result column="contact_num" property="contactNum" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="sync" property="sync" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, per_id, contact_name, contact_num, update_date, sync
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ym_contact
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ym_contact
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.loan_entity.app.Contact" >
+    insert into ym_contact (id, per_id, contact_name, 
+      contact_num, update_date, sync
+      )
+    values (#{id,jdbcType=INTEGER}, #{perId,jdbcType=INTEGER}, #{contactName,jdbcType=VARCHAR}, 
+      #{contactNum,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{sync,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.loan_entity.app.Contact" >
+    insert into ym_contact
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="perId != null" >
+        per_id,
+      </if>
+      <if test="contactName != null" >
+        contact_name,
+      </if>
+      <if test="contactNum != null" >
+        contact_num,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="sync != null" >
+        sync,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="perId != null" >
+        #{perId,jdbcType=INTEGER},
+      </if>
+      <if test="contactName != null" >
+        #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactNum != null" >
+        #{contactNum,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sync != null" >
+        #{sync,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.loan_entity.app.Contact" >
+    update ym_contact
+    <set >
+      <if test="perId != null" >
+        per_id = #{perId,jdbcType=INTEGER},
+      </if>
+      <if test="contactName != null" >
+        contact_name = #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactNum != null" >
+        contact_num = #{contactNum,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sync != null" >
+        sync = #{sync,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.loan_entity.app.Contact" >
+    update ym_contact
+    set per_id = #{perId,jdbcType=INTEGER},
+      contact_name = #{contactName,jdbcType=VARCHAR},
+      contact_num = #{contactNum,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      sync = #{sync,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 获取用户通讯录 -->
+  <select id="selectAllByPerId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ym_contact
+    where per_id = #{0}
+  </select>
+
+ <!-- 删除用户所有通讯录 -->
+  <delete id="deleteByPerId" parameterType="java.lang.Integer" >
+    delete from ym_contact
+    where per_id = #{0}
+  </delete>
+
+<!-- 获取用户的通讯录的第一条 -->
+  <select id="selectOne" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ym_contact
+    where per_id = #{0} AND status = '1'
+    ORDER BY id LIMIT 1
+  </select>
+
+  <update id="updateStatusByPerId" >
+    /*ContactMapper.updateStatusByPerId*/
+    UPDATE ym_contact
+    SET status = #{status}
+    WHERE per_id = #{perId}
+  </update>
+</mapper>

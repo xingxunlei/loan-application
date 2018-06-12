@@ -1,0 +1,826 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_manage.mapper.OrderMapper">
+
+	<resultMap id="BaseResultMap" type="com.loan_entity.manager.Order">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="guid" property="guid" jdbcType="VARCHAR" />
+		<result column="borr_num" property="borrNum" jdbcType="VARCHAR" />
+		<result column="p_id" property="pId" jdbcType="INTEGER" />
+		<result column="serial_no" property="serialNo" jdbcType="VARCHAR" />
+		<result column="company_id" property="companyId" jdbcType="INTEGER" />
+		<result column="per_id" property="perId" jdbcType="INTEGER" />
+		<result column="bank_id" property="bankId" jdbcType="INTEGER" />
+		<result column="conctact_id" property="conctactId" jdbcType="INTEGER" />
+		<result column="opt_amount" property="optAmount" jdbcType="DECIMAL" />
+		<result column="act_amount" property="actAmount" jdbcType="DECIMAL" />
+		<result column="rl_date" property="rlDate" jdbcType="TIMESTAMP" />
+		<result column="rl_remark" property="rlRemark" jdbcType="VARCHAR" />
+		<result column="rl_state" property="rlState" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="reason" property="reason" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="CHAR" />
+		<result column="creation_date" property="creationDate" jdbcType="TIMESTAMP" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="sync" property="sync" jdbcType="CHAR" />
+	</resultMap>
+	<resultMap id="orderMap" type="com.loan_manage.entity.DownloadOrder">
+		<id column="borrNum" property="borrNum"/>
+		<id column="borrId" property="borrId" />
+		<id column="prodId" property="prodId" />
+		<id column="id" property="id"/>
+		<id column="serialNo" property="serialNo"/>
+		<id column="bankId" property="bankId"/>
+		<id column="bankName" property="bankName"/>
+		<id column="perId" property="perId"/>
+		<id column="rlState" property="rlState"/>
+		<id column="type" property="type"/>
+		<id column="actAmount" property="actAmount"/>
+		<id column="createDate" property="createDate"/>
+		<id column="bedueDays" property="bedueDays"/>
+		<id column="reason" property="reason"/>
+		<id column="createUser" property="createUser"/>
+		<id column="collectionUser" property="collectionUser"/>
+		<id column="deductionsType" property="deductionsType"/>
+	</resultMap>
+	<resultMap id="OrderVoMap" type="com.loan_manage.entity.OrderVo">
+		<result column="borr_num" property="borrNum"/>
+		<result column="serial_no" property="serialNo"/>
+		<result column="name" property="name"/>
+		<result column="id_card" property="idCard"/>
+		<result column="phone" property="phone"/>
+		<result column="bank_num" property="bankNum"/>
+		<result column="type" property="type"/>
+		<result column="rl_state" property="rlState"/>
+		<result column="act_amount" property="actAmount"/>
+		<result column="create_date" property="createDate"/>
+		<result column="create_user" property="createUser"/>
+		<result column="collection_user" property="collectionUser"/>
+		<result column="collectors" property="collectors"/>
+		<result column="reason" property="reason"/>
+		<result column="black_list" property="blackList"/>
+	</resultMap>
+
+	<!-- 根据订单号查询订单 -->
+	<select id="selectBySerial" resultMap="BaseResultMap"
+		parameterType="String">
+		select
+		*
+		from ym_order
+		where serial_no = #{0}
+		and rl_state != 's'
+		and rl_state != 'f'
+	</select>
+
+	<!-- 根据pid查询订单 -->
+	<select id="selectByPid" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		*
+		from ym_order
+		where p_id = #{0}
+	</select>
+
+	<!-- 查询订单状态为state,订单类型为type(代收)的数据，订单创建时间<任务运行的时间-30分钟 -->
+	<select id="selectOrders" resultMap="BaseResultMap">
+		SELECT *
+		FROM ym_order
+		WHERE rl_state = #{0}
+		AND type = #{1}
+		and status='y'
+		AND creation_date &lt;CURRENT_TIMESTAMP - INTERVAL #{2} MINUTE
+	</select>
+
+	<select id="selectByGuid" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		*
+		from ym_order
+		where guid = #{0}
+	</select>
+
+	<select id="selectBorrNumById" resultType="java.lang.String"
+		parameterType="java.lang.Integer">
+		SELECT borr_num FROM `ym_borrow_list` WHERE id = #{conctactId}
+	</select>
+	<update id="updateOrder">
+		UPDATE ym_order SET
+		rl_state = 'f',rl_remark=#{1} WHERE
+		id = #{0}
+	</update>
+	<select id="selectByConStatusTime" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM ym_order 
+		WHERE conctact_id = #{0} 
+		AND rl_state = #{1} 
+		AND type = #{2} 
+		AND DATE_ADD(update_date,INTERVAL 2 HOUR)&gt;NOW()
+	</select>
+	
+	<select id="selectPayOrders" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		*
+		from ym_order
+		where conctact_id = #{0}
+		and rl_state = #{1}
+		and type in ('2','4','5')
+	</select>
+
+	<select id="getOrdersByArgs" parameterType="Map" resultMap="BaseResultMap">
+		SELECT 
+		  o.id,
+		  bl.borr_num,
+		  guid,
+		  p_id,
+		  serial_no,
+		  company_id,
+		  o.per_id,
+		  bank_id,
+		  conctact_id,
+		  opt_amount,
+		  act_amount,
+		  rl_date,
+		  IFNULL(rl_remark,reason) reason,
+		  rl_state,
+		  TYPE,
+		  reason,
+		  STATUS,
+		  o.creation_date,
+		  o.update_date,
+		  o.sync 
+		FROM
+		  ym_order o LEFT JOIN ym_borrow_list bl ON bl.id = conctact_id
+		<where>
+			<if test="guid != null">
+			and	guid = #{guid,jdbcType=VARCHAR}
+			</if>
+			<if test="pId != null">
+			and	p_id = #{pId,jdbcType=INTEGER}
+			</if>
+			<if test="serialNo != null">
+			and	serial_no = #{serialNo,jdbcType=VARCHAR}
+			</if>
+			<if test="companyId != null">
+			and	company_id = #{companyId,jdbcType=INTEGER}
+			</if>
+			<if test="perId != null">
+			and	o.per_id = #{perId,jdbcType=INTEGER}
+			</if>
+			<if test="bankId != null">
+			and	bank_id = #{bankId,jdbcType=INTEGER}
+			</if>
+			<if test="conctactId != null">
+			and	conctact_id = #{conctactId,jdbcType=INTEGER}
+			</if>
+			<if test="optAmount != null">
+			and	opt_amount = #{optAmount,jdbcType=DECIMAL}
+			</if>
+			<if test="actAmount != null">
+			and	act_amount = #{actAmount,jdbcType=DECIMAL}
+			</if>
+			<if test="rlDate != null">
+			and	rl_date = #{rlDate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="rlRemark != null">
+			and	rl_remark = #{rlRemark,jdbcType=VARCHAR}
+			</if>
+			<if test="rlState != null">
+			and	rl_state = #{rlState,jdbcType=VARCHAR}
+			</if>
+			<if test="type_s != null">
+			and	
+			<foreach item="item" index="index" collection="type_s" open="(" close=")"
+               separator="or">
+               type = #{item,jdbcType=VARCHAR}
+        	</foreach>
+			</if>
+			<if test="reason != null">
+			and	reason = #{reason,jdbcType=VARCHAR}
+			</if>
+			<if test="status_s != null">
+			and	
+			<foreach item="item" index="index" collection="status_s" open="(" close=")"
+               separator="or">
+         	status = #{item,jdbcType=CHAR}
+        	</foreach>
+        	
+			</if>
+			<if test="creationDate != null">
+			and	creation_date = #{creationDate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="updateDate != null">
+			and	update_date = #{updateDate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="sync != null">
+			and	sync = #{sync,jdbcType=CHAR}
+			</if>
+		</where>
+
+	</select>
+
+	<select id="selectDownloadOrder" parameterType="java.util.Map" resultMap="orderMap" >
+		SELECT
+		bl.borr_num borrNum,
+		bl.id borrId,
+		bl.prod_id prodId,
+		o.id id,
+		o.serial_no serialNo,
+		o.bank_id bankId,
+		o.per_id perId,
+		o.rl_state rlState,
+		o.type type,
+		o.act_amount actAmount,
+		o.creation_date createDate,
+		p.phone phone,
+		c.card_num idCard,
+		c.name name,
+		bank.bank_num bankNum,
+		list.bank_name bankName,
+		ds.user_name username,
+		ds1.user_name bedueUser,
+		CASE WHEN bl.borr_status='BS010' THEN to_days(CASE WHEN bl.act_repay_date is null THEN now() ELSE bl.act_repay_date END)- to_days(bl.planrepay_date)
+		WHEN bl.borr_status='BS006' THEN 0
+		WHEN bl.borr_status='BS004' THEN 0
+		WHEN bl.borr_status='BS005' THEN  to_days(curdate()) - to_days(bl.planrepay_date) ELSE 0 END bedueDays,
+		(SELECT person.blacklist FROM ym_person person WHERE person.id=bl.per_id) as black_list,
+		IFNULL(o.reason, o.rl_remark) reason,
+		o.create_user createUser,
+		o.collection_user collectionUser,
+		o.deductions_type deductionsType
+		FROM
+		ym_order o
+		<if test="levelType == 2">
+			INNER JOIN ym_zloan_company_order company ON company.order_id = o.id and company.company_id=#{companyId}
+		</if>
+		LEFT JOIN ym_person p ON o.per_id = p.id
+		LEFT JOIN ym_card c ON c.per_id = p.id
+		LEFT JOIN ym_borrow_list bl ON bl.id = o.conctact_id
+		LEFT JOIN ym_bank bank ON o.bank_id = bank.id
+		LEFT JOIN ym_bank_list list ON bank.bank_id = list.id
+		LEFT JOIN ds_collectors_level_back ds ON ds.user_sysno = o.create_user
+		LEFT JOIN ds_collectors_level_back ds1 ON ds1.user_sysno = o.collection_user
+		<where>
+			o.type not in (1,3) and o.rl_state in ('s','p','f')
+			<if test="deductionsType != null">
+				and	 o.deductions_type = #{deductionsType,jdbcType=INTEGER}
+			</if>
+			<if test="bankName != null">
+				and	 list.id = #{bankName,jdbcType=VARCHAR}
+			</if>
+			<if test="borrId != null">
+				and	 bl.id = #{borrId,jdbcType=VARCHAR}
+			</if>
+			<if test="borrNum != null">
+				and	 bl.borr_num = #{borrNum,jdbcType=VARCHAR}
+			</if>
+			<if test="guid != null">
+				and	o.guid = #{guid,jdbcType=VARCHAR}
+			</if>
+			<if test="pId != null">
+				and	o.p_id = #{pId,jdbcType=INTEGER}
+			</if>
+			<if test="serialNo != null">
+				and	o.serial_no = #{serialNo,jdbcType=VARCHAR}
+			</if>
+			<if test="perId != null">
+				and	o.per_id = #{perId,jdbcType=INTEGER}
+			</if>
+			<if test="bankId != null">
+				and	o.bank_id = #{bankId,jdbcType=INTEGER}
+			</if>
+			<if test="conctactId != null">
+				and	o.conctact_id = #{conctactId,jdbcType=INTEGER}
+			</if>
+			<if test="optAmount != null">
+				and	o.opt_amount = #{optAmount,jdbcType=DECIMAL}
+			</if>
+			<if test="actAmount != null">
+				and	o.act_amount = #{actAmount,jdbcType=DECIMAL}
+			</if>
+			<if test="rlDate != null">
+				and	o.rl_date = #{rlDate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="rlRemark != null">
+				and	o.rl_remark = #{rlRemark,jdbcType=VARCHAR}
+			</if>
+			<if test="rlState != null">
+				and	o.rl_state = #{rlState,jdbcType=VARCHAR}
+			</if>
+			<if test="type_s != null">
+				and
+				<foreach item="item" index="index" collection="type_s" open="(" close=")" separator="or">
+					o.type = #{item,jdbcType=VARCHAR}
+				</foreach>
+			</if>
+			<if test="type != null">
+				and	 o.type = #{type,jdbcType=VARCHAR}
+			</if>
+			<if test="reason != null">
+				and	o.reason = #{reason,jdbcType=VARCHAR}
+			</if>
+			<if test="status_s != null">
+				and
+				<foreach item="item" index="index" collection="status_s" open="(" close=")" separator="or">
+					o.status = #{item,jdbcType=CHAR}
+				</foreach>
+			</if>
+			<if test="creationDate != null">
+				and	o.creation_date = #{creationDate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="updateDate != null">
+				and	o.update_date = #{updateDate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="createDate_start != null">
+				<![CDATA[ and o.creation_date >= DATE_FORMAT(#{createDate_start},'%Y-%m-%d') ]]>
+			</if>
+			<if test="createDate_end != null">
+				<![CDATA[	and o.creation_date < DATE_FORMAT(#{createDate_end},'%Y-%m-%d') ]]>
+			</if>
+			<if test="sync != null">
+				and	o.sync = #{sync,jdbcType=CHAR}
+			</if>
+			<if test="prodName != null">
+				and	bl.prod_id = #{prodName,jdbcType=INTEGER}
+			</if>
+			<if test="perIds != null ">
+				and bl.per_id in
+				<foreach item="item" index="index" collection="perIds" open="(" close=")" separator=",">
+					#{item,jdbcType=VARCHAR}
+				</foreach>
+			</if>
+			<if test="createUsers != null ">
+				and o.create_user in
+				<foreach item="item" index="index" collection="createUsers" open="(" close=")" separator=",">
+					#{item,jdbcType=VARCHAR}
+				</foreach>
+			</if>
+			<if test="collectorsUsers != null ">
+				and o.collection_user in
+				<foreach item="item" index="index" collection="collectorsUsers" open="(" close=")" separator=",">
+					#{item,jdbcType=VARCHAR}
+				</foreach>
+			</if>
+			<if test="selector == 'createDate' and desc != ''">
+				order by o.creation_date ${desc}
+			</if>
+			<if test="selector == 'actAmount' and desc != ''">
+				order by o.act_amount ${desc}
+			</if>
+			<if test="selector == 'type' and desc != ''">
+				order by o.type ${desc}
+			</if>
+			<if test="selector == 'rlState' and desc != ''">
+				order by o.rl_state ${desc}
+			</if>
+		</where>
+		limit 50000
+	</select>
+
+	<select id="getOrders" parameterType="Map" resultType="Map">
+		SELECT 
+		  bl.borr_num borrNum,
+		  bl.id borrId,
+		  bl.prod_id prodId,
+		  o.id id,
+		  o.serial_no serialNo,
+		  o.bank_id bankId,
+		  o.per_id perId,
+		  o.rl_state rlState,
+		  o.type type,
+		  o.act_amount actAmount,
+		  o.creation_date createDate,
+		CASE WHEN bl.borr_status='BS010' THEN to_days(CASE WHEN bl.act_repay_date is null THEN now() ELSE bl.act_repay_date END)- to_days(bl.planrepay_date)
+		WHEN bl.borr_status='BS006' THEN 0
+		WHEN bl.borr_status='BS004' THEN 0
+		WHEN bl.borr_status='BS005' THEN  to_days(curdate()) - to_days(bl.planrepay_date) ELSE 0 END bedueDays,
+		IFNULL(reason,rl_remark) reason,
+		  o.create_user createUser,
+		  o.collection_user collectionUser,
+		o.deductions_type deductionsType
+		FROM
+		   ym_order o ,ym_borrow_list bl 
+		<where>
+			 bl.id = o.conctact_id and o.type not in (1,3) and o.rl_state in ('s','p','f')
+			<if test="deductionsType != null">
+				and	 o.deductions_type = #{deductionsType,jdbcType=INTEGER}
+			</if>
+			<if test="borrId != null">
+				and	 bl.id = #{borrId,jdbcType=VARCHAR}
+			</if>
+			<if test="borrNum != null">
+				and	 bl.borr_num = #{borrNum,jdbcType=VARCHAR}
+			</if>
+			<if test="serialNo != null">
+				and	 o.serial_no = #{serialNo,jdbcType=VARCHAR}
+			</if>
+			<if test="guid != null">
+			and	o.guid = #{guid,jdbcType=VARCHAR}
+			</if>
+			<if test="pId != null">
+			and	o.p_id = #{pId,jdbcType=INTEGER}
+			</if>
+			<if test="serialNo != null">
+			and	o.serial_no = #{serialNo,jdbcType=VARCHAR}
+			</if>
+			<if test="companyId != null">
+			and	o.company_id = #{companyId,jdbcType=INTEGER}
+			</if>
+			<if test="perId != null">
+			and	o.per_id = #{perId,jdbcType=INTEGER}
+			</if>
+			<if test="bankId != null">
+			and	o.bank_id = #{bankId,jdbcType=INTEGER}
+			</if>
+			<if test="conctactId != null">
+			and	o.conctact_id = #{conctactId,jdbcType=INTEGER}
+			</if>
+			<if test="optAmount != null">
+			and	o.opt_amount = #{optAmount,jdbcType=DECIMAL}
+			</if>
+			<if test="actAmount != null">
+			and	o.act_amount = #{actAmount,jdbcType=DECIMAL}
+			</if>
+			<if test="rlDate != null">
+			and	o.rl_date = #{rlDate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="rlRemark != null">
+			and	o.rl_remark = #{rlRemark,jdbcType=VARCHAR}
+			</if>
+			<if test="rlState != null">
+			and	o.rl_state = #{rlState,jdbcType=VARCHAR}
+			</if>
+			<if test="type_s != null">
+			and	
+			<foreach item="item" index="index" collection="type_s" open="(" close=")"
+               separator="or">
+               o.type = #{item,jdbcType=VARCHAR}
+        	</foreach>
+			</if>
+			<if test="type != null">
+			and	 o.type = #{type,jdbcType=VARCHAR}
+			</if>
+			<if test="reason != null">
+			and	o.reason = #{reason,jdbcType=VARCHAR}
+			</if>
+			<if test="status_s != null">
+			and	
+			<foreach item="item" index="index" collection="status_s" open="(" close=")"
+               separator="or">
+         	o.status = #{item,jdbcType=CHAR}
+        	</foreach>
+			</if>
+			<if test="creationDate != null">
+			and	o.creation_date = #{creationDate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="updateDate != null">
+			and	o.update_date = #{updateDate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="createDate_start != null">
+		  		<![CDATA[ and o.creation_date >= DATE_FORMAT(#{createDate_start},'%Y-%m-%d') ]]>
+		  		
+		  	</if>
+		  	<if test="createDate_end != null">
+		  		<![CDATA[	and o.creation_date < DATE_FORMAT(#{createDate_end},'%Y-%m-%d') ]]>
+		  	</if>
+			<if test="bedueDays != null">
+			and (
+				CASE WHEN bl.borr_status='BS010' THEN to_days(CASE WHEN bl.act_repay_date is null THEN now() ELSE bl.act_repay_date END)- to_days(bl.planrepay_date)
+				WHEN bl.borr_status='BS006' THEN 0
+				WHEN bl.borr_status='BS004' THEN 0
+				WHEN bl.borr_status='BS005' THEN  to_days(curdate()) - to_days(bl.planrepay_date) ELSE 0 END
+			) = #{bedueDays}
+				<!--<![CDATA[ and to_days(bl.planrepay_date) +  = to_days(curdate())]]>-->
+			</if>
+			<if test="sync != null">
+				and	o.sync = #{sync,jdbcType=CHAR}
+			</if>
+			<if test="prodName != null">
+				and	bl.prod_id = #{prodName,jdbcType=INTEGER}
+			</if>
+			<if test="perIds != null ">
+				and bl.per_id in
+				<foreach item="item" index="index" collection="perIds" open="(" close=")" separator=",">
+					 #{item,jdbcType=VARCHAR}
+				</foreach>
+			</if>
+			<if test="createUsers != null ">
+				and o.create_user in
+				<foreach item="item" index="index" collection="createUsers" open="(" close=")" separator=",">
+					#{item,jdbcType=VARCHAR}
+				</foreach>
+			</if>
+			<if test="collectorsUsers != null ">
+				and o.collection_user in
+				<foreach item="item" index="index" collection="collectorsUsers" open="(" close=")" separator=",">
+					#{item,jdbcType=VARCHAR}
+				</foreach>
+			</if>
+			<if test="selector == 'createDate' and desc != ''">
+				order by o.creation_date ${desc}
+			</if>
+			<if test="selector == 'actAmount' and desc != ''">
+				order by o.act_amount ${desc}
+			</if>
+			<if test="selector == 'type' and desc != ''">
+				order by o.type ${desc}
+			</if>
+			<if test="selector == 'rlState' and desc != ''">
+				order by o.rl_state ${desc}
+			</if>
+		</where>
+	</select>
+
+	<select id="getOrderMoney" parameterType="Map" resultType="java.lang.Double">
+		SELECT IFNULL(SUM(act_amount),0) FROM ym_order
+		<where>
+			<if test="borrId != null">
+				and conctact_id = ${borrId}
+			</if>
+			<if test="type != null">
+				and type = ${type}
+			</if>
+			<if test="status != null">
+				and rl_state = #{status,jdbcType=VARCHAR}
+			</if>
+			AND TYPE  NOT IN (1,3)
+		</where>
+	</select>
+
+	<select id="selectOrderVoInfoItem" parameterType="java.util.Map" resultType="java.lang.Long">
+		SELECT
+			count(1)
+		FROM
+		ym_order o
+		<if test="levelType == 2">
+			INNER JOIN ym_zloan_company_order company ON company.order_id = o.id and company.company_id=#{companyId}
+		</if>
+		<if test="borrId !=null or borrNum != null or prodName !=null or perIds!=null">
+			LEFT JOIN ym_borrow_list bl ON bl.id = o.conctact_id
+		</if>
+		<if test="bankName != null">
+			LEFT JOIN ym_bank bank ON o.bank_id = bank.id
+			LEFT JOIN ym_bank_list list ON bank.bank_id = list.id
+		</if>
+		<if test="blackList != null">
+			LEFT JOIN ym_borrow_list bl ON bl.id = o.conctact_id
+		</if>
+		<where>
+			o.type not in (1,3) and o.rl_state in ('s','p','f')
+			<if test="deductionsType != null">
+				and	 o.deductions_type = #{deductionsType,jdbcType=INTEGER}
+			</if>
+			<if test="bankName != null">
+				and	 list.id = #{bankName,jdbcType=VARCHAR}
+			</if>
+			<if test="borrId != null">
+				and	 bl.id = #{borrId,jdbcType=VARCHAR}
+			</if>
+			<if test="borrNum != null">
+				and	 bl.borr_num = #{borrNum,jdbcType=VARCHAR}
+			</if>
+			<if test="serialNo != null">
+				and	 o.serial_no = #{serialNo,jdbcType=VARCHAR}
+			</if>
+			<if test="guid != null">
+				and	o.guid = #{guid,jdbcType=VARCHAR}
+			</if>
+			<if test="pId != null">
+				and	o.p_id = #{pId,jdbcType=INTEGER}
+			</if>
+			<if test="perId != null">
+				and	o.per_id = #{perId,jdbcType=INTEGER}
+			</if>
+			<if test="bankId != null">
+				and	o.bank_id = #{bankId,jdbcType=INTEGER}
+			</if>
+			<if test="conctactId != null">
+				and	o.conctact_id = #{conctactId,jdbcType=INTEGER}
+			</if>
+			<if test="optAmount != null">
+				and	o.opt_amount = #{optAmount,jdbcType=DECIMAL}
+			</if>
+			<if test="actAmount != null">
+				and	o.act_amount = #{actAmount,jdbcType=DECIMAL}
+			</if>
+			<if test="rlDate != null">
+				and	o.rl_date = #{rlDate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="rlRemark != null">
+				and	o.rl_remark = #{rlRemark,jdbcType=VARCHAR}
+			</if>
+			<if test="rlState != null">
+				and	o.rl_state = #{rlState,jdbcType=VARCHAR}
+			</if>
+			<if test="type_s != null">
+				and
+				<foreach item="item" index="index" collection="type_s" open="(" close=")"
+						 separator="or">
+					o.type = #{item,jdbcType=VARCHAR}
+				</foreach>
+			</if>
+			<if test="type != null">
+				and	 o.type = #{type,jdbcType=VARCHAR}
+			</if>
+			<if test="reason != null">
+				and	o.reason = #{reason,jdbcType=VARCHAR}
+			</if>
+			<if test="status_s != null">
+				and
+				<foreach item="item" index="index" collection="status_s" open="(" close=")"
+						 separator="or">
+					o.status = #{item,jdbcType=CHAR}
+				</foreach>
+			</if>
+			<if test="creationDate != null">
+				and	o.creation_date = #{creationDate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="updateDate != null">
+				and	o.update_date = #{updateDate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="createDate_start != null">
+				<![CDATA[ and o.creation_date >= DATE_FORMAT(#{createDate_start},'%Y-%m-%d') ]]>
+
+			</if>
+			<if test="createDate_end != null">
+				<![CDATA[	and o.creation_date < DATE_FORMAT(#{createDate_end},'%Y-%m-%d') ]]>
+			</if>
+			<if test="sync != null">
+				and	o.sync = #{sync,jdbcType=CHAR}
+			</if>
+			<if test="prodName != null">
+				and	bl.prod_id = #{prodName,jdbcType=INTEGER}
+			</if>
+			<if test="blackList != null">
+				and (SELECT person.blacklist FROM ym_person person WHERE person.id=bl.per_id) = #{blackList}
+			</if>
+			<if test="perIds != null ">
+				and bl.per_id in
+				<foreach item="item" index="index" collection="perIds" open="(" close=")" separator=",">
+					#{item,jdbcType=VARCHAR}
+				</foreach>
+			</if>
+			<if test="createUsers != null ">
+				and o.create_user in
+				<foreach item="item" index="index" collection="createUsers" open="(" close=")" separator=",">
+					#{item,jdbcType=VARCHAR}
+				</foreach>
+			</if>
+			<if test="collectorsUsers != null ">
+				and o.collection_user in
+				<foreach item="item" index="index" collection="collectorsUsers" open="(" close=")" separator=",">
+					#{item,jdbcType=VARCHAR}
+				</foreach>
+			</if>
+		</where>
+	</select>
+
+	<select id="selectOrderVoInfo"  parameterType="java.util.Map" resultMap="OrderVoMap">
+		SELECT
+			bl.borr_num borrNum,
+			bl.id borrId,
+			bl.prod_id prodId,
+			o.id id,
+			o.serial_no serialNo,
+			o.bank_id bankId,
+			o.per_id perId,
+			o.rl_state rlState,
+			o.type type,
+			o.act_amount actAmount,
+			o.creation_date createDate,
+			CASE WHEN bl.borr_status='BS010' THEN to_days(CASE WHEN bl.act_repay_date is null THEN now() ELSE bl.act_repay_date END)- to_days(bl.planrepay_date)
+			WHEN bl.borr_status='BS006' THEN 0
+			WHEN bl.borr_status='BS004' THEN 0
+			WHEN bl.borr_status='BS005' THEN  to_days(curdate()) - to_days(bl.planrepay_date) ELSE 0 END bedueDays,
+		(SELECT person.blacklist FROM ym_person person WHERE person.id=bl.per_id) as black_list,
+			IFNULL(o.reason,o.rl_remark) as reason,
+			o.create_user createUser,
+			o.collection_user collectionUser,
+			o.deductions_type deductionsType
+		FROM
+			ym_order o
+			<if test="levelType == 2">
+				INNER JOIN ym_zloan_company_order company ON company.order_id = o.id and company.company_id=#{companyId}
+			</if>
+			LEFT JOIN ym_borrow_list bl ON bl.id = o.conctact_id
+			LEFT JOIN ym_bank bank ON o.bank_id = bank.id
+			LEFT JOIN ym_bank_list list ON bank.bank_id = list.id
+		<where>
+				o.type not in (1,3) and o.rl_state in ('s','p','f')
+			<if test="deductionsType != null">
+				and	 o.deductions_type = #{deductionsType,jdbcType=INTEGER}
+			</if>
+			<if test="bankName != null">
+				and	 list.id = #{bankName,jdbcType=VARCHAR}
+			</if>
+			<if test="borrId != null">
+				and	 bl.id = #{borrId,jdbcType=VARCHAR}
+			</if>
+			<if test="borrNum != null">
+				and	 bl.borr_num = #{borrNum,jdbcType=VARCHAR}
+			</if>
+			<if test="guid != null">
+				and	o.guid = #{guid,jdbcType=VARCHAR}
+			</if>
+			<if test="pId != null">
+				and	o.p_id = #{pId,jdbcType=INTEGER}
+			</if>
+			<if test="serialNo != null">
+				and	o.serial_no = #{serialNo,jdbcType=VARCHAR}
+			</if>
+			<if test="perId != null">
+				and	o.per_id = #{perId,jdbcType=INTEGER}
+			</if>
+			<if test="bankId != null">
+				and	o.bank_id = #{bankId,jdbcType=INTEGER}
+			</if>
+			<if test="conctactId != null">
+				and	o.conctact_id = #{conctactId,jdbcType=INTEGER}
+			</if>
+			<if test="optAmount != null">
+				and	o.opt_amount = #{optAmount,jdbcType=DECIMAL}
+			</if>
+			<if test="actAmount != null">
+				and	o.act_amount = #{actAmount,jdbcType=DECIMAL}
+			</if>
+			<if test="rlDate != null">
+				and	o.rl_date = #{rlDate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="rlRemark != null">
+				and	o.rl_remark = #{rlRemark,jdbcType=VARCHAR}
+			</if>
+			<if test="rlState != null">
+				and	o.rl_state = #{rlState,jdbcType=VARCHAR}
+			</if>
+			<if test="type_s != null">
+				and
+				<foreach item="item" index="index" collection="type_s" open="(" close=")" separator="or">
+					o.type = #{item,jdbcType=VARCHAR}
+				</foreach>
+			</if>
+			<if test="type != null">
+				and	 o.type = #{type,jdbcType=VARCHAR}
+			</if>
+			<if test="reason != null">
+				and	o.reason = #{reason,jdbcType=VARCHAR}
+			</if>
+			<if test="status_s != null">
+				and
+				<foreach item="item" index="index" collection="status_s" open="(" close=")" separator="or">
+					o.status = #{item,jdbcType=CHAR}
+				</foreach>
+			</if>
+			<if test="creationDate != null">
+				and	o.creation_date = #{creationDate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="updateDate != null">
+				and	o.update_date = #{updateDate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="createDate_start != null">
+				<![CDATA[ and o.creation_date >= DATE_FORMAT(#{createDate_start},'%Y-%m-%d') ]]>
+
+			</if>
+			<if test="createDate_end != null">
+				<![CDATA[	and o.creation_date < DATE_FORMAT(#{createDate_end},'%Y-%m-%d') ]]>
+			</if>
+			<if test="sync != null">
+				and	o.sync = #{sync,jdbcType=CHAR}
+			</if>
+			<if test="prodName != null">
+				and	bl.prod_id = #{prodName,jdbcType=INTEGER}
+			</if>
+			<if test="perIds != null ">
+				and bl.per_id in
+				<foreach item="item" index="index" collection="perIds" open="(" close=")" separator=",">
+					#{item,jdbcType=VARCHAR}
+				</foreach>
+			</if>
+			<if test="createUsers != null ">
+				and o.create_user in
+				<foreach item="item" index="index" collection="createUsers" open="(" close=")" separator=",">
+					#{item,jdbcType=VARCHAR}
+				</foreach>
+			</if>
+			<if test="collectorsUsers != null ">
+				and o.collection_user in
+				<foreach item="item" index="index" collection="collectorsUsers" open="(" close=")" separator=",">
+					#{item,jdbcType=VARCHAR}
+				</foreach>
+			</if>
+			<if test="blackList != null">
+				and (SELECT person.blacklist FROM ym_person person WHERE person.id=bl.per_id) = #{blackList}
+			</if>
+			<if test="selector == 'createDate' and desc != ''">
+				order by o.creation_date ${desc}
+			</if>
+			<if test="selector == 'actAmount' and desc != ''">
+				order by o.act_amount ${desc}
+			</if>
+			<if test="selector == 'type' and desc != ''">
+				order by o.type ${desc}
+			</if>
+			<if test="selector == 'rlState' and desc != ''">
+				order by o.rl_state ${desc}
+			</if>
+		</where>
+	</select>
+</mapper>

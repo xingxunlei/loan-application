@@ -1,0 +1,218 @@
+.clear{clear:both;}
+.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;}
+.clearfix{display:inline-block;}
+* html .clearfix{height:1%;}
+.clearfix{display:block;}
+html{height:100%;}
+*{padding:0;margin:0;}
+a{outline:none;text-decoration:none;}
+img{ vertical-align:top}
+a img{border:0;}
+/*a:active,button{star:expression(this.onFocus=this.blur());}*/
+a:hover{text-decoration:none;}
+a:focus{outline:0; text-decoration:none;}/*input:focus,textarea:focus{outline:0;}*/
+table{border-collapse:collapse;empty-cells:show;background:#fff;}
+ul{list-style-type:none;-webkit-list-style-position:inside;-moz-list-style-position:inside;-ms-list-style-position:inside;-o-list-style-position:inside;}
+li{list-style-type:none;}
+.mga{ margin:0 auto}
+.mgla{ margin-left:auto}
+.mgra{ margin-right:auto}
+.displayNone{ display:none}
+.l,.left,.f-l,.m-l{float:left;}
+.r,.right,.f-r,.m-r{float:right;}
+.align-l{text-align:left;}
+.align-r{text-align:right;}
+.align-c{text-align:center;}
+.f-no{float:none}
+.of-h{overflow:hidden;}
+.of-a{overflow:auto;}
+.ofy-h{overflow-y:hidden;overflow-x:auto;_overflow-x:visible;}
+.ofx-h{overflow-x:hidden;overflow-y:auto;_overflow-y:visible;}
+
+
+/* css样式开始 */
+body {
+    font: normal 14px/20px "微软雅黑";
+    color: #333;
+}
+.main{
+	width:100%;
+	height:100%;
+}
+.mainTop{
+	height:350px;
+
+}
+.ban{
+	height:350px;
+	padding:0;
+}
+.ban ul{
+	position:relative;
+}
+.ban ul li {|	
+	height:350px;
+	position:absolute;
+	display:none;
+	width:100%;
+}
+.ban ul li:first-child{
+	display:block;
+	
+}
+.ban img{
+	width:100%;
+	height:100%;
+}
+.topRight{
+	padding:0;
+	height:350px;
+}
+.topRight h2,.bodyLeft h2,.bodyMain h2,.bodyRight h2{
+	height:36px;
+	font-size:18px;
+	color:#333;
+	margin:0;
+	line-height:36px;
+	padding-left:15px;
+	border-left:8px solid #d64635;
+	background:#fff;
+}
+.topList{
+	height:314px;
+	overflow-y:auto;
+}
+.topList ul{
+	height:314px;
+}
+.topList ul li{
+	border-bottom:1px solid #e4e4e4;
+	cursor: pointer;
+}
+.topList ul li .inList{
+	border-left:4px solid #fff;
+}
+.inList{
+	padding-left:20px;
+}
+.inList p{
+	color:#333;
+	font-size:14px;
+	line-height:61px;
+	margin:0;
+}
+.inList p span{
+	width:24px;
+	display:inline-block;
+	height:24px;
+	line-height:24px;
+	text-align:center;
+	border:1px solid #e4e4e4;
+	border-radius: 3px;
+	margin-right:15px;
+}
+
+.pList{
+	padding-right:70px;
+	color:#999;
+	font-size:14px;
+	line-height:61px;
+	margin:0;
+}
+
+.topList ul li:hover .inList{
+	border-left:4px solid #d64635;
+}
+.topList ul li:hover .inList p{
+	
+	color:#d64635;
+	font-size:18px;
+}
+.topList ul li:hover .inList p span{
+	border:1px solid #d64635;
+	font-size:14px;
+}
+
+
+
+
+.mainbody{
+	margin-top:10px;
+	height:290x;
+}
+.bodyLeft{
+	padding:0;
+
+}
+.inLeft{
+   height:254px;
+   background:#f9f9f9;
+   overflow-y:auto;
+}
+
+.inLeft ul{
+	height:254px;
+	padding-left:20px;
+	padding-top:15px;
+}
+.inLeft ul li{
+	line-height:38px;
+	color:#999;
+}
+.inLeft ul li .news{
+	font-size:14px;
+	
+	color:#333;
+	padding-left:15px;
+	background:url(/jhhoa/images/images/icon.png) no-repeat left center;
+}
+.inLeft ul li .news p{
+	margin:0;
+}
+.leftTime{
+	color:#999;
+	padding-right:20px;
+}
+
+
+
+
+.bodyMain,.bodyRight{
+	padding:0;
+}
+.birthday,.newpeople{
+	background:#f9f9f9;
+	height:254px;
+	overflow-y: auto;
+}
+.birthday ul li{
+	padding:5px;
+	float:left;
+	width:112px;
+	height:150px;
+	margin-right:10px;
+}
+.birthday ul li p{
+	margin:0;
+}
+
+
+
+.mainFooter{
+	margin-top:10px;
+	padding-left:8px;
+	
+}
+.mainFooter span{
+	padding-left:20px;
+	font-size:14px;
+	color:#d64635;
+	font-weight:bold;
+	margin-right:40px;
+	background:url(/jhhoa/images/images/icon1.png) no-repeat left center;
+}
+.mainFooter a{
+	color:#333;
+	font-size:12px;
+	margin-right:25px;
+}

@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.app_mapper.DsAppReportMapper" >
+  <resultMap id="BaseResultMap" type="com.loan_entity.app.DsAppReport" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="SysNo" property="sysno" jdbcType="INTEGER" />
+    <result column="brrowNum" property="brrownum" jdbcType="VARCHAR" />
+    <result column="penalty" property="penalty" jdbcType="VARCHAR" />
+    <result column="penaltyInterest" property="penaltyinterest" jdbcType="VARCHAR" />
+    <result column="isSettle" property="issettle" jdbcType="VARCHAR" />
+    <result column="surplusQuota" property="surplusquota" jdbcType="VARCHAR" />
+    <result column="surplusMoney" property="surplusmoney" jdbcType="VARCHAR" />
+    <result column="surplusInterest" property="surplusinterest" jdbcType="VARCHAR" />
+    <result column="surplusPenalty" property="surpluspenalty" jdbcType="VARCHAR" />
+    <result column="surplusPenaltyInteres" property="surpluspenaltyinteres" jdbcType="VARCHAR" />
+    <result column="actRepayDate" property="actrepaydate" jdbcType="VARCHAR" />
+    <result column="borrStatus" property="borrstatus" jdbcType="VARCHAR" />
+    <result column="planRepay" property="planrepay" jdbcType="VARCHAR" />
+    <result column="actRepayAmount" property="actrepayamount" jdbcType="VARCHAR" />
+    <result column="InDate" property="indate" jdbcType="DATE" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, SysNo, brrowNum, penalty, penaltyInterest, isSettle, surplusQuota, surplusMoney, 
+    surplusInterest, surplusPenalty, surplusPenaltyInteres, actRepayDate, borrStatus, 
+    planRepay, actRepayAmount, InDate, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from DS_APP_REPORT
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from DS_APP_REPORT
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.loan_entity.app.DsAppReport" >
+    insert into DS_APP_REPORT (id, SysNo, brrowNum, 
+      penalty, penaltyInterest, isSettle, 
+      surplusQuota, surplusMoney, surplusInterest, 
+      surplusPenalty, surplusPenaltyInteres, 
+      actRepayDate, borrStatus, planRepay, 
+      actRepayAmount, InDate, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{sysno,jdbcType=INTEGER}, #{brrownum,jdbcType=VARCHAR}, 
+      #{penalty,jdbcType=VARCHAR}, #{penaltyinterest,jdbcType=VARCHAR}, #{issettle,jdbcType=VARCHAR}, 
+      #{surplusquota,jdbcType=VARCHAR}, #{surplusmoney,jdbcType=VARCHAR}, #{surplusinterest,jdbcType=VARCHAR}, 
+      #{surpluspenalty,jdbcType=VARCHAR}, #{surpluspenaltyinteres,jdbcType=VARCHAR}, 
+      #{actrepaydate,jdbcType=VARCHAR}, #{borrstatus,jdbcType=VARCHAR}, #{planrepay,jdbcType=VARCHAR}, 
+      #{actrepayamount,jdbcType=VARCHAR}, #{indate,jdbcType=DATE}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.loan_entity.app.DsAppReport" >
+    insert into DS_APP_REPORT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sysno != null" >
+        SysNo,
+      </if>
+      <if test="brrownum != null" >
+        brrowNum,
+      </if>
+      <if test="penalty != null" >
+        penalty,
+      </if>
+      <if test="penaltyinterest != null" >
+        penaltyInterest,
+      </if>
+      <if test="issettle != null" >
+        isSettle,
+      </if>
+      <if test="surplusquota != null" >
+        surplusQuota,
+      </if>
+      <if test="surplusmoney != null" >
+        surplusMoney,
+      </if>
+      <if test="surplusinterest != null" >
+        surplusInterest,
+      </if>
+      <if test="surpluspenalty != null" >
+        surplusPenalty,
+      </if>
+      <if test="surpluspenaltyinteres != null" >
+        surplusPenaltyInteres,
+      </if>
+      <if test="actrepaydate != null" >
+        actRepayDate,
+      </if>
+      <if test="borrstatus != null" >
+        borrStatus,
+      </if>
+      <if test="planrepay != null" >
+        planRepay,
+      </if>
+      <if test="actrepayamount != null" >
+        actRepayAmount,
+      </if>
+      <if test="indate != null" >
+        InDate,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sysno != null" >
+        #{sysno,jdbcType=INTEGER},
+      </if>
+      <if test="brrownum != null" >
+        #{brrownum,jdbcType=VARCHAR},
+      </if>
+      <if test="penalty != null" >
+        #{penalty,jdbcType=VARCHAR},
+      </if>
+      <if test="penaltyinterest != null" >
+        #{penaltyinterest,jdbcType=VARCHAR},
+      </if>
+      <if test="issettle != null" >
+        #{issettle,jdbcType=VARCHAR},
+      </if>
+      <if test="surplusquota != null" >
+        #{surplusquota,jdbcType=VARCHAR},
+      </if>
+      <if test="surplusmoney != null" >
+        #{surplusmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="surplusinterest != null" >
+        #{surplusinterest,jdbcType=VARCHAR},
+      </if>
+      <if test="surpluspenalty != null" >
+        #{surpluspenalty,jdbcType=VARCHAR},
+      </if>
+      <if test="surpluspenaltyinteres != null" >
+        #{surpluspenaltyinteres,jdbcType=VARCHAR},
+      </if>
+      <if test="actrepaydate != null" >
+        #{actrepaydate,jdbcType=VARCHAR},
+      </if>
+      <if test="borrstatus != null" >
+        #{borrstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="planrepay != null" >
+        #{planrepay,jdbcType=VARCHAR},
+      </if>
+      <if test="actrepayamount != null" >
+        #{actrepayamount,jdbcType=VARCHAR},
+      </if>
+      <if test="indate != null" >
+        #{indate,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.loan_entity.app.DsAppReport" >
+    update DS_APP_REPORT
+    <set >
+      <if test="sysno != null" >
+        SysNo = #{sysno,jdbcType=INTEGER},
+      </if>
+      <if test="brrownum != null" >
+        brrowNum = #{brrownum,jdbcType=VARCHAR},
+      </if>
+      <if test="penalty != null" >
+        penalty = #{penalty,jdbcType=VARCHAR},
+      </if>
+      <if test="penaltyinterest != null" >
+        penaltyInterest = #{penaltyinterest,jdbcType=VARCHAR},
+      </if>
+      <if test="issettle != null" >
+        isSettle = #{issettle,jdbcType=VARCHAR},
+      </if>
+      <if test="surplusquota != null" >
+        surplusQuota = #{surplusquota,jdbcType=VARCHAR},
+      </if>
+      <if test="surplusmoney != null" >
+        surplusMoney = #{surplusmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="surplusinterest != null" >
+        surplusInterest = #{surplusinterest,jdbcType=VARCHAR},
+      </if>
+      <if test="surpluspenalty != null" >
+        surplusPenalty = #{surpluspenalty,jdbcType=VARCHAR},
+      </if>
+      <if test="surpluspenaltyinteres != null" >
+        surplusPenaltyInteres = #{surpluspenaltyinteres,jdbcType=VARCHAR},
+      </if>
+      <if test="actrepaydate != null" >
+        actRepayDate = #{actrepaydate,jdbcType=VARCHAR},
+      </if>
+      <if test="borrstatus != null" >
+        borrStatus = #{borrstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="planrepay != null" >
+        planRepay = #{planrepay,jdbcType=VARCHAR},
+      </if>
+      <if test="actrepayamount != null" >
+        actRepayAmount = #{actrepayamount,jdbcType=VARCHAR},
+      </if>
+      <if test="indate != null" >
+        InDate = #{indate,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.loan_entity.app.DsAppReport" >
+    update DS_APP_REPORT
+    set SysNo = #{sysno,jdbcType=INTEGER},
+      brrowNum = #{brrownum,jdbcType=VARCHAR},
+      penalty = #{penalty,jdbcType=VARCHAR},
+      penaltyInterest = #{penaltyinterest,jdbcType=VARCHAR},
+      isSettle = #{issettle,jdbcType=VARCHAR},
+      surplusQuota = #{surplusquota,jdbcType=VARCHAR},
+      surplusMoney = #{surplusmoney,jdbcType=VARCHAR},
+      surplusInterest = #{surplusinterest,jdbcType=VARCHAR},
+      surplusPenalty = #{surpluspenalty,jdbcType=VARCHAR},
+      surplusPenaltyInteres = #{surpluspenaltyinteres,jdbcType=VARCHAR},
+      actRepayDate = #{actrepaydate,jdbcType=VARCHAR},
+      borrStatus = #{borrstatus,jdbcType=VARCHAR},
+      planRepay = #{planrepay,jdbcType=VARCHAR},
+      actRepayAmount = #{actrepayamount,jdbcType=VARCHAR},
+      InDate = #{indate,jdbcType=DATE},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="getAll" parameterType="map" resultType="com.loan_entity.app.DsAppReport">
+  	select <include refid="Base_Column_List" /> 
+  		from DS_APP_REPORT
+  		<where>
+		  	  <if test="sysno != null" >
+		      and  SysNo = #{sysno,jdbcType=INTEGER}
+		      </if>
+		      <if test="brrownum != null" >
+		       and brrowNum = #{brrownum,jdbcType=VARCHAR}
+		      </if>
+		      <if test="penalty != null" >
+		       and penalty = #{penalty,jdbcType=VARCHAR}
+		      </if>
+		      <if test="penaltyinterest != null" >
+		       and penaltyInterest = #{penaltyinterest,jdbcType=VARCHAR}
+		      </if>
+		      <if test="issettle != null" >
+		       and isSettle = #{issettle,jdbcType=VARCHAR}
+		      </if>
+		      <if test="surplusquota != null" >
+		       and surplusQuota = #{surplusquota,jdbcType=VARCHAR}
+		      </if>
+		      <if test="surplusmoney != null" >
+		       and surplusMoney = #{surplusmoney,jdbcType=VARCHAR}
+		      </if>
+		      <if test="surplusinterest != null" >
+		       and surplusInterest = #{surplusinterest,jdbcType=VARCHAR}
+		      </if>
+		      <if test="surpluspenalty != null" >
+		       and surplusPenalty = #{surpluspenalty,jdbcType=VARCHAR}
+		      </if>
+		      <if test="surpluspenaltyinteres != null" >
+		       and surplusPenaltyInteres = #{surpluspenaltyinteres,jdbcType=VARCHAR}
+		      </if>
+		      <if test="actrepaydate != null" >
+		       and actRepayDate = #{actrepaydate,jdbcType=VARCHAR}
+		      </if>
+		      <if test="borrstatus != null" >
+		       and borrStatus = #{borrstatus,jdbcType=VARCHAR}
+		      </if>
+		      <if test="planrepay != null" >
+		       and planRepay = #{planrepay,jdbcType=VARCHAR}
+		      </if>
+		      <if test="actrepayamount != null" >
+		      and  actRepayAmount = #{actrepayamount,jdbcType=VARCHAR}
+		      </if>
+		      <if test="indate != null" >
+		      and  InDate = #{indate,jdbcType=DATE}
+		      </if>
+		      <if test="status != null" >
+		      and  status = #{status,jdbcType=INTEGER}
+		      </if>
+  		</where>
+  </select>
+  
+  
+  <select id="getBadBorrows"  resultType="com.loan_entity.app.DsAppReport">
+  	SELECT dar.* FROM DS_APP_REPORT dar, ym_borrow_list ybl
+		WHERE dar.brrowNum = ybl.borr_num AND dar.status=0
+		AND (ybl.borr_status = 'BS006' OR ybl.borr_status ='BS010')
+  </select>
+  
+  <select id="getGoodBorrows"  resultType="com.loan_entity.app.DsAppReport">
+  	SELECT * FROM DS_APP_REPORT dar , ym_borrow_list ybl WHERE dar.status = 0
+	AND dar.borrStatus=ybl.borr_status AND
+	(( ybl.borr_status ='BS005' AND dar.borrStatus='BS004' ) OR ( ybl.borr_status ='BS010' AND dar.borrStatus='BS005' )
+	OR ( ybl.borr_status ='BS006' AND dar.borrStatus='BS004' )
+	)
+  </select>
+  
+</mapper>

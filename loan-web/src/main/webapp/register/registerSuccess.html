@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>注册成功</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="vue">
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <script>
+    	
+		var oHtml = document.documentElement;
+		 getSize();
+		function getSize(){
+			// 获取屏幕的宽度
+			var ascreen=oHtml.clientWidth;
+			if (ascreen<=319) {
+				oHtml.style.fontSize = '20px';
+			} else if(ascreen>=750){
+				oHtml.style.fontSize = '40px';
+			}else{
+				oHtml.style.fontSize=ascreen/18.75+"px";
+			};		
+		}
+		// 当窗口发生改变的时候调用
+		window.onresize = function(){
+			getSize();
+		}
+    </script>
+  </head>
+  <body>
+     <div class="regSuc">
+     		<div class="logoImg"></div>
+     		<div class="sucInfo"></div>
+     		<a href="javascript:;" class="suceBtn"> 去借款</a>
+     		<div class="imgBox">
+     			<div class="imgEr"><img src="images/erweima_bg.png"></div>
+     			<p>扫一扫下载悠米闪借app</p>
+     		</div>
+     </div>
+  </body>
+</html>

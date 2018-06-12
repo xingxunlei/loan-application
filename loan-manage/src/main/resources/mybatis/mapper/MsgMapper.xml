@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_manage.mapper.MsgMapper">
+    <resultMap id="BaseResultMap" type="com.loan_entity.manager.Msg">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="per_id" property="perId" jdbcType="INTEGER"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="CHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="sync" property="sync" jdbcType="CHAR"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.loan_entity.manager.Msg" extends="BaseResultMap">
+        <result column="content" property="content" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+
+    <select id="getMessageByUserId" resultType="com.loan_entity.manager.Msg">
+  	SELECT id,title,per_id AS perId,TYPE,content,STATUS,create_time FROM ym_msg
+  	WHERE per_id = #{0} ORDER BY create_time DESC limit #{1},#{2}
+  </select>
+    <select id="selectUnread" parameterType="java.lang.String" resultType="java.lang.Integer">
+  	select count(*) 
+  	FROM ym_msg 
+ 	WHERE per_id=#{0}
+ 	AND status = 'n'
+  </select>
+    <update id="updateMessageStatus" parameterType="java.lang.String">
+        UPDATE `ym_msg`
+        SET STATUS = 'y'
+        WHERE id = #{msgId}
+    </update>
+</mapper>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>征信报告</title>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<link
+	href="/zloan-manage/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<!-- END GLOBAL MANDATORY STYLES -->
+<!-- for devextreme -->
+<link rel="stylesheet" type="text/css" href="/zloan-manage/devextreme/css/dx.common.css" />
+<link rel="stylesheet" href="/zloan-manage/devextreme/css/dx.light.css" />
+<link rel="stylesheet" href="/zloan-manage/css/style.css" />
+<script src="/zloan-manage/js/controllers/GeneralPageController.js" type="text/javascript"></script>
+<script src="/zloan-manage/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+
+</head>
+<body>
+<div id="creditInvestigation" > </div>
+</body>
+<script>
+
+args = {};
+args.name = GetQueryString("name");
+args.idCard = GetQueryString("idCard");
+$.ajax({
+    url: "/zloan-manage/creditInvestigation.action",
+    data: args,
+    success: function(result) {
+    	$("#creditInvestigation").html(result);
+    },
+    error: function() {
+        deferred.reject("Data Loading Error");
+    },
+    timeout: 50000
+});
+
+
+function GetQueryString(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+</script>

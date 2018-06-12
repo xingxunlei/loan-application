@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.app_mapper.PersonMapper">
+	<resultMap id="BaseResultMap" type="com.loan_entity.app.Person">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="guid" property="guid" jdbcType="VARCHAR" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="check_date" property="checkDate" jdbcType="DATE" />
+		<result column="blacklist" property="blacklist" jdbcType="VARCHAR" />
+		<result column="phone_business" property="phoneBusiness"
+			jdbcType="VARCHAR" />
+		<result column="phone_service" property="phoneService"
+			jdbcType="VARCHAR" />
+		<result column="bpm_id" property="bpmId" jdbcType="INTEGER" />
+		<result column="grade" property="grade" jdbcType="INTEGER" />
+		<result column="is_login" property="isLogin" jdbcType="INTEGER" />
+		<result column="token_id" property="tokenId" jdbcType="VARCHAR" />
+		<result column="source" property="source" jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="sync" property="sync" jdbcType="CHAR" />
+		<result column="is_manual" property="isManual" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, guid, username, password, phone, check_date, blacklist,
+		phone_business, phone_service,
+		bpm_id, grade, is_login, token_id, source, create_date, update_date, sync,is_manual,description
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from ym_person
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from ym_person
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.loan_entity.app.Person">
+		insert into ym_person (id, guid, username,
+		password, phone, check_date,
+		blacklist, phone_business, phone_service,
+		bpm_id, grade, is_login,
+		token_id, source, create_date,
+		update_date, sync)
+		values (#{id,jdbcType=INTEGER}, #{guid,jdbcType=VARCHAR},
+		#{username,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{checkDate,jdbcType=DATE},
+		#{blacklist,jdbcType=VARCHAR}, #{phoneBusiness,jdbcType=VARCHAR},
+		#{phoneService,jdbcType=VARCHAR},
+		#{bpmId,jdbcType=INTEGER}, #{grade,jdbcType=INTEGER}, #{isLogin,jdbcType=INTEGER},
+		#{tokenId,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{updateDate,jdbcType=TIMESTAMP}, #{sync,jdbcType=CHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.loan_entity.app.Person"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into ym_person
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="guid != null">
+				guid,
+			</if>
+			<if test="username != null">
+				username,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
+			<if test="phone != null">
+				phone,
+			</if>
+			<if test="checkDate != null">
+				check_date,
+			</if>
+			<if test="blacklist != null">
+				blacklist,
+			</if>
+			<if test="phoneBusiness != null">
+				phone_business,
+			</if>
+			<if test="phoneService != null">
+				phone_service,
+			</if>
+			<if test="bpmId != null">
+				bpm_id,
+			</if>
+			<if test="grade != null">
+				grade,
+			</if>
+			<if test="isLogin != null">
+				is_login,
+			</if>
+			<if test="tokenId != null">
+				token_id,
+			</if>
+			<if test="source != null">
+				source,
+			</if>
+			<if test="inviter != null">
+				inviter,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="sync != null">
+				sync,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="guid != null">
+				#{guid,jdbcType=VARCHAR},
+			</if>
+			<if test="username != null">
+				#{username,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="checkDate != null">
+				#{checkDate,jdbcType=DATE},
+			</if>
+			<if test="blacklist != null">
+				#{blacklist,jdbcType=VARCHAR},
+			</if>
+			<if test="phoneBusiness != null">
+				#{phoneBusiness,jdbcType=VARCHAR},
+			</if>
+			<if test="phoneService != null">
+				#{phoneService,jdbcType=VARCHAR},
+			</if>
+			<if test="bpmId != null">
+				#{bpmId,jdbcType=INTEGER},
+			</if>
+			<if test="grade != null">
+				#{grade,jdbcType=INTEGER},
+			</if>
+			<if test="isLogin != null">
+				#{isLogin,jdbcType=INTEGER},
+			</if>
+			<if test="tokenId != null">
+				#{tokenId,jdbcType=VARCHAR},
+			</if>
+			<if test="source != null">
+				#{source,jdbcType=VARCHAR},
+			</if>
+			<if test="inviter != null">
+				#{inviter,jdbcType=INTEGER},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="sync != null">
+				#{sync,jdbcType=CHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.loan_entity.app.Person">
+		update ym_person
+		<set>
+			<if test="guid != null">
+				guid = #{guid,jdbcType=VARCHAR},
+			</if>
+			<if test="username != null">
+				username = #{username,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				phone = #{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="checkDate != null">
+				check_date = #{checkDate,jdbcType=DATE},
+			</if>
+			<if test="blacklist != null">
+				blacklist = #{blacklist,jdbcType=VARCHAR},
+			</if>
+			<if test="phoneBusiness != null">
+				phone_business = #{phoneBusiness,jdbcType=VARCHAR},
+			</if>
+			<if test="phoneService != null">
+				phone_service = #{phoneService,jdbcType=VARCHAR},
+			</if>
+			<if test="bpmId != null">
+				bpm_id = #{bpmId,jdbcType=INTEGER},
+			</if>
+			<if test="grade != null">
+				grade = #{grade,jdbcType=INTEGER},
+			</if>
+			<if test="isLogin != null">
+				is_login = #{isLogin,jdbcType=INTEGER},
+			</if>
+			<if test="tokenId != null">
+				token_id = #{tokenId,jdbcType=VARCHAR},
+			</if>
+			<if test="source != null">
+				source = #{source,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="sync != null">
+				sync = #{sync,jdbcType=CHAR},
+			</if>
+			<if test="isManual != null">
+				is_manual = #{isManual,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null and description != ''">
+				description = #{description,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.loan_entity.app.Person">
+		update ym_person
+		set guid = #{guid,jdbcType=VARCHAR},
+		username = #{username,jdbcType=VARCHAR},
+		password = #{password,jdbcType=VARCHAR},
+		phone = #{phone,jdbcType=VARCHAR},
+		check_date = #{checkDate,jdbcType=DATE},
+		blacklist = #{blacklist,jdbcType=VARCHAR},
+		phone_business = #{phoneBusiness,jdbcType=VARCHAR},
+		phone_service = #{phoneService,jdbcType=VARCHAR},
+		bpm_id = #{bpmId,jdbcType=INTEGER},
+		grade = #{grade,jdbcType=INTEGER},
+		is_login = #{isLogin,jdbcType=INTEGER},
+		token_id = #{tokenId,jdbcType=VARCHAR},
+		source = #{source,jdbcType=VARCHAR},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		update_date = #{updateDate,jdbcType=TIMESTAMP},
+		sync = #{sync,jdbcType=CHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="userLogin" parameterType="com.loan_entity.app.Person"
+		resultType="com.loan_entity.app.Person">
+		SELECT * FROM ym_person WHERE phone = #{phone} AND PASSWORD
+		= #{password} and is_login = 1
+	</select>
+
+	<update id="updatePassword" parameterType="com.loan_entity.app.Person">
+		UPDATE ym_person SET
+		PASSWORD = #{password} WHERE phone = #{phone}
+	</update>
+	<select id="getPersonInfo" parameterType="java.lang.String"
+		resultType="com.loan_entity.app.PersonMode">
+		SELECT * FROM `personInfoMode` WHERE perId = #{userId}
+	</select>
+	<update id="personUpdatePassword" parameterType="com.loan_entity.app.Person">
+		UPDATE ym_person
+		SET PASSWORD = #{password} WHERE id = #{id} AND PASSWORD =
+		#{oldPassword}
+	</update>
+	<select id="getPersonByPhone" parameterType="java.lang.String"
+		resultType="com.loan_entity.app.Person">
+		SELECT id,guid,username,PASSWORD,phone,check_date AS
+		checkDate,blacklist,phone_business AS phoneBusiness,phone_service AS
+		phoneService,bpm_id AS bpmId,grade,is_login AS isLogin,source FROM
+		ym_person
+		WHERE phone = #{phone}
+	</select>
+
+	<!-- 获取用户当前tokenId -->
+	<select id="getTokenId" resultType="java.lang.String"
+		parameterType="java.lang.String">
+		select token_id
+		from ym_person
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="getPersonInfoByBorr" parameterType="java.lang.String"
+		resultType="com.loan_entity.app.PersonMode">
+		SELECT
+		*
+		FROM
+		personInfoMode AS v
+		WHERE
+		v.perId=(SELECT l.per_id FROM ym_borrow_list as l WHERE l.id = #{brroid,jdbcType=INTEGER})
+	</select>
+
+	<!-- 检查手机号是否黑名单-->
+	<select id="checkBlack" resultType="java.lang.Integer"
+			parameterType="java.lang.String">
+		SELECT COUNT(1) FROM ym_person where blacklist = 'Y' AND
+		phone = #{phone}
+	</select>
+
+	<select id="getPersonAvailableBorrowCount" parameterType="java.lang.Integer"
+			resultType="java.lang.Integer">
+		select count(t2.id) from (select id from ym_person t where t.id=#{userId} and t.blacklist='N') t1
+		left join ym_borrow_list t2 on t1.id = t2.per_id and t2.borr_status = 'BS006'
+	</select>
+
+</mapper>

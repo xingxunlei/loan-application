@@ -1,0 +1,123 @@
+
+
+<!-- BEGIN PAGE HEADER-->
+
+<div class="page-bar" style="margin-bottom: 10px;">
+	<ul class="page-breadcrumb">
+		<li><i class="fa fa-home"></i> <a href="#/dashboard.html">首页</a>
+			<i class="fa fa-angle-right"></i></li>
+		<li><a href="#/checkbymanager.html">审核管理</a></li>
+	</ul>
+</div>
+<!-- END PAGE HEADER-->
+<!-- BEGIN MAIN CONTENT -->
+<div class="row"  style="min-height:200px;background:url('/zloan-manage/assets/admin/layout/img/loading_mylike.gif') no-repeat center center;">
+	<div class="col-md-12 wblCheck">
+		<!-- BEGIN EXAMPLE TABLE PORTLET-->
+		<div class="wblBackground"></div>
+		<div class="wblTool" style="width:700px">
+			<div id="tool_find"></div>
+		    <div id="tool_ok"></div>
+		    <div id="tool_no"></div>
+		    <div id="tool_transfer"></div>
+		    <div id="tool_cancel"></div>
+		    <div id="tool_reload"></div>
+		</div>
+		<div class="wblFillDiv"></div>
+		<div id="userTable" style="border: 0px solid #ccc;"></div>
+	</div>
+</div>
+<!-- END MAIN CONTENT -->
+
+<div id="window_find" class="container"
+	style="position: absolute; z-index: 99999;overflow:auto;display:none;">
+	
+	<div class="row">
+		<div class="col-md-12">
+			<!-- BEGIN EXAMPLE TABLE PORTLET-->
+			<div id="tool_add_value" style=" position: absolute; z-index: 1;"></div>
+			<div id="tool_edit_value" style=" position: absolute; z-index: 1;left:60px"></div>
+			<div id="tool_del_value" style=" position: absolute; z-index: 1;left:105px"></div>
+			<div id="userTable_value" style="border: 0px solid #ccc;"></div>
+		</div>
+	</div>
+</div>
+<div id="window_ok" class="container"
+	style=" position: absolute; z-index: 99999;overflow:auto;">
+	<div
+		style=" display:none; position: absolute; z-index: 1;width: 100%;height: 100%;"></div>
+	<div class="row" style="margin-top:20px">
+		<div class="col-md-12">
+		&nbsp;确认将&nbsp;<span id = "pro_check_name" style="color: #0a5cb3;"></span>&nbsp;
+		放款给&nbsp;<span id = "per_check_name" style="color: #0a5cb3;"></span>&nbsp;吗？
+		</div>
+	</div>
+	<div class="row" style="margin-top: 40px">
+		<div class="col-md-12">
+			<div class="dx-field-label"></div>
+			<div id="submit_ok"></div>
+		</div>
+	</div>
+</div>
+<div id="window_no" class="container"
+	style=" position: absolute; z-index: 99999;overflow:auto;">
+	<div
+		style=" display:none; position: absolute; z-index: 1;width: 100%;height: 100%;"></div>
+	<div class="row" style="margin-top:20px">
+		<div class="col-md-12">
+		
+			<div class="dx-field">
+				<div class="dx-field-label">请说明拒绝原因</div>
+				<div class="dx-field-value">
+					<div id="reason"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top: 30px">
+		<div class="col-md-12">
+			<div class="dx-field-label"></div>
+			<div id="submit_no"></div>
+		</div>
+	</div>
+</div>
+
+
+<div id="window_transfer" class="container" style=" position: absolute; z-index: 99999;overflow:auto;">
+	<div style=" display:none; position: absolute; z-index: 1;width: 100%;height: 100%;"></div>
+	
+	<div class="row" style="margin-top: 30px">
+		<div class="col-md-12">
+				<div class="dx-field">
+				<div class="dx-field-label">转件已选中的合同给</div>
+				<div class="dx-field-value">
+					<div id="transfer"></div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top: 70px">
+		<div class="col-md-12">
+			<div class="dx-field-label"></div>
+			<div id="submit_transfer"></div>
+		</div>
+	</div>
+</div>
+
+
+
+<!-- BEGIN MAIN JS -->
+<script>
+checkbymanager();
+</script>
+<!-- END MAIN JS -->
+
+
+
+
+
+
+
+
+

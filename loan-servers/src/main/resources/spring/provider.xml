@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+          http://www.springframework.org/schema/beans/spring-beans.xsd  
+                http://code.alibabatech.com/schema/dubbo      
+                  http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	<!-- 和本地bean一样实现服务 <bean id="userService" class="com.loan_server.app_service.UserApiImpl" 
+		/> -->
+	<!-- 提供方应用信息，用于计算依赖关系 -->
+	<dubbo:application name="loan_server" />
+	<dubbo:registry  id="host" protocol="zookeeper"/>
+	<dubbo:protocol name="dubbo" threads="1000" accepts="50000" />  
+	<dubbo:provider timeout="1200000" retries="0" registry="host"  />
+	
+
+
+    <bean id="userApi2" class="com.loan_server.app_service.UserApiImpl2"/>
+	<dubbo:service interface="com.loan_api.app.UserApi" ref="userApi2" />
+
+	<bean id="loanService" class="com.loan_server.app_service.LoanServiceImpl"/>
+	<dubbo:service interface="com.loan_api.app.LoanService" ref="loanService" />
+
+	<bean id="timerService" class="com.loan_server.app_service.TimerServiceImpl"/>
+	<dubbo:service interface="com.loan_api.app.TimerService" ref="timerService" />
+
+	<bean id="userService" class="com.loan_server.app_service.UserServiceImpl"/>
+	<dubbo:service interface="com.loan_api.app.UserService" ref="userService" />
+
+	<bean id="notifyService" class="com.loan_server.app_service.NotifyServiceImpl"/>
+	<dubbo:service interface="com.loan_api.app.NotifyService" ref="notifyService" />
+
+	<bean id="bankService" class="com.loan_server.loan_service.BankServiceImpl"/>
+	<dubbo:service interface="com.loan_api.loan.BankService" ref="bankService" />
+
+	<bean id="ysbCollectionService" class="com.loan_server.loan_service.YsbCollectionServiceImpl"/>
+	<dubbo:service interface="com.loan_api.loan.YsbCollectionService" ref="ysbCollectionService" />
+
+	<bean id="ysbpayService" class="com.loan_server.loan_service.YsbPayServiceImpl"/>
+	<dubbo:service interface="com.loan_api.loan.YsbpayService" ref="ysbpayService" />
+
+	<bean id="manageInfoService" class="com.loan_server.manager_service.ManageInfoServiceImpl"/>
+	<dubbo:service interface="com.loan_api.manager.ManageInfoService" ref="manageInfoService" />
+
+	<bean id="manageLoanService" class="com.loan_server.manager_service.ManageLoanServiceImpl"/>
+	<dubbo:service interface="com.loan_api.manager.ManageLoanService" ref="manageLoanService" />
+
+	<bean id="jxlService" class="com.loan_server.app_service.JuxinliServiceImpl"/>
+	<dubbo:service interface="com.loan_api.app.JuxinliService" ref="jxlService" />
+
+	<bean id="drainageService" class="com.loan_server.app_service.DrainageServiceImpl"/>
+	<dubbo:service interface="com.loan_api.app.DrainageService" ref="drainageService" />
+
+	<bean id="delayQueueService" class="com.loan_server.loan_service.DelayQueueServiceImpl"/>
+	<dubbo:service interface="com.loan_api.loan.DelayQueueService" ref="delayQueueService" timeout="12000000"/>
+
+	<bean id="electronicContractService" class="com.loan_server.contract_service.ElectronicContractServiceImpl"/>
+	<dubbo:service interface="com.loan_api.contract.ElectronicContractService" ref="electronicContractService" />
+
+	<!-- 消费者配置 -->
+	<!-- <dubbo:application name="loan_consumer" /> -->
+
+	<dubbo:reference id="rmiSettlementService" interface="com.jhh.settlementsoa.rmi.RMISettlementService" check="false" timeout="1200000"/>
+	<dubbo:reference id="JuxinliAPI" interface="com.jinhuhang.risk.service.juxinli.JuxinliAPI" check="false" timeout="1200000"/>
+	<!--<dubbo:reference id="ManageInfoService" interface="com.jinhuhang.market.api.manage.ManageInfoService" check="false" timeout="1200000"/>-->
+	<dubbo:reference id="ZhiMaCreditApi" interface="com.jinhuhang.risk.service.zhima.ZhiMaCreditApi" check="false" timeout="1200000"/>
+
+	<dubbo:reference interface="com.jinhuhang.risk.service.RiskAPI" id="riskAPI" check="false" timeout="1200000"/>
+</beans>

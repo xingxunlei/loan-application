@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.loan_mapper.DrainageMapper">
+    <resultMap id="drainage" type="com.loan_entity.drainage.Drainage" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="drainage_img" property="drainage_img" jdbcType="VARCHAR" />
+        <result column="drainage_name" property="drainage_name" jdbcType="VARCHAR" />
+        <result column="drainage_title" property="drainage_title" jdbcType="VARCHAR" />
+        <result column="drainage_des" property="drainage_des" jdbcType="VARCHAR" />
+        <result column="drainage_type" property="drainage_type" jdbcType="VARCHAR" />
+        <result column="drainage_url" property="drainage_url" jdbcType="VARCHAR" />
+        <result column="drainage_backurl" property="drainage_backurl" jdbcType="VARCHAR" />
+        <result column="drainage_status" property="drainage_status" jdbcType="INTEGER"/>
+        <result column="creation_date" property="creation_date" jdbcType="TIMESTAMP" />
+        <result column="update_date" property="update_date" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <resultMap id="drainage_stat" type="com.loan_entity.drainage.DrainageStat" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="per_id" property="per_id" jdbcType="INTEGER" />
+        <result column="drainage_id" property="drainage_id" jdbcType="INTEGER" />
+        <result column="event_type" property="event_type" jdbcType="VARCHAR" />
+        <result column="event_time" property="event_time" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <!--所有产品-->
+    <select id="selectDrainage" resultMap="drainage" parameterType="java.lang.String">
+      select id,
+      drainage_img,
+      drainage_name,
+      drainage_title,
+      drainage_des,
+      drainage_type,
+      drainage_url,
+      drainage_backurl
+      from
+      ym_drainage
+      WHERE drainage_status = #{status}
+    </select>
+
+    <insert id="insertDrainageStat" parameterType="java.util.List" >
+      INSERT INTO ym_drainage_stat
+      (per_id,drainage_id,event_type,event_time)
+      VALUES
+        <foreach item="item" collection="list"  index= "index"  separator="," >
+            (
+            #{item.per_id},
+            #{item.drainage_id},
+            #{item.event_type},
+            #{item.event_time}
+            )
+        </foreach>
+    </insert>
+</mapper>

@@ -1,0 +1,75 @@
+body {
+	background: url('/jhhoa/images/img_login/backg.jpg');
+	text-align: center;
+	padding-top: 0px;
+}
+
+#back_body {
+	margin:0px auto;
+	width: 1200px;
+	height: 100%;
+}
+#logo{
+	margin:80px auto;
+}
+#loginbox{
+		text-align: center;
+		margin:0px auto;
+}
+#loginform{
+	text-align: center;
+	margin:40px auto;
+	
+}
+#table_form{
+	width: 600px;
+	height: 300%;
+	text-align: center;
+	margin-left:388px;
+	
+}
+#login-actions{
+	margin:10px auto;
+}
+#loginName{
+	width: 220px;
+	height: 30px;
+	border: #95B8E7 2px solid;
+}
+#loginPwd{
+	width: 220px;
+	height: 28px;
+	border: #95B8E7 2px solid;
+	
+}
+
+#loginbox_pwd{
+		text-align: center;
+		margin:0px auto;
+}
+#loginform_pwd{
+	text-align: center;
+	margin:40px auto;
+	
+}
+#table_form_pwd{
+	width: 600px;
+	height: 300%;
+	text-align: center;
+	margin-left:388px;
+	
+}
+#login-actions_pwd{
+	margin:10px auto;
+}
+#loginName_pwd{
+	width: 220px;
+	height: 30px;
+	border: #95B8E7 2px solid;
+}
+#loginPwd_pwd{
+	width: 220px;
+	height: 28px;
+	border: #95B8E7 2px solid;
+	
+}

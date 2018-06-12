@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_manage.mapper.LoanCompanyBorrowMapper">
+    <!--auto generated Code-->
+    <resultMap id="AllColumnMap" type="com.loan_entity.manager.LoanCompanyBorrow">
+        <result column="id" property="id"/>
+        <result column="borr_id" property="borrId"/>
+        <result column="company_id" property="companyId"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_date" property="createDate"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_date" property="updateDate"/>
+    </resultMap>
+
+    <update id="batchUpdate" parameterType="list">
+        UPDATE ym_zloan_company_borrow
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="company_id = case" suffix=" end,">
+                <foreach collection ="list" item="i" index="index">
+                    <if test="i.companyId != null">
+                        WHEN (borr_id=#{i.borrId,jdbcType=INTEGER}) then #{i.companyId}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="update_user = case" suffix=" end,">
+                <foreach collection ="list" item="i" index="index">
+                    <if test="i.updateUser != null">
+                        WHEN (borr_id=#{i.borrId,jdbcType=INTEGER}) then #{i.updateUser}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="update_date = case" suffix=" end,">
+                <foreach collection ="list" item="i" index="index">
+                    <if test="i.updateDate != null">
+                        WHEN (borr_id=#{i.borrId,jdbcType=INTEGER}) then #{i.updateDate}
+                    </if>
+                </foreach>
+            </trim>
+        </trim>
+        WHERE borr_id in
+        <foreach collection ="list" item="i" index= "index" open="(" separator="," close=")">
+            #{i.borrId,jdbcType=INTEGER}
+        </foreach>
+    </update>
+    <insert id="batchInsert" parameterType="list">
+        INSERT INTO ym_zloan_company_borrow(borr_id,company_id,create_user,create_date) VALUES
+        <foreach collection ="list" item="i" index= "index" separator=",">
+            (
+              #{i.borrId},
+              #{i.companyId},
+              #{i.createUser},
+              #{i.createDate}
+            )
+        </foreach>
+    </insert>
+</mapper>
+

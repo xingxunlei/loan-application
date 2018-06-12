@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<!-- 
+Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.3.5
+Version: 4.1.0
+Author: KeenThemes
+Website: http://www.keenthemes.com/
+Contact: support@keenthemes.com
+Follow: www.twitter.com/keenthemes
+Like: www.facebook.com/keenthemes
+Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
+License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
+-->
+<!--[if IE 8]> <html lang="en" class="ie8 no-js" data-ng-app="MetronicApp"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js" data-ng-app="MetronicApp"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" data-ng-app="MetronicApp">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+<title data-ng-bind="'悠米闪借系统  _' + $state.current.data.pageTitle"></title>
+
+<meta charset="utf-8"/>
+<meta http-equiv=Cache-Control content=no-cache /> 
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="" name="description"/>
+<meta content="" name="author"/>
+<!-- UC应用模式 -->
+    <meta name="browsermode" content="application">
+<!-- BEGIN GLOBAL MANDATORY STYLES -->
+<link href="/zloan-manage/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+<link href="/zloan-manage/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
+<link href="/zloan-manage/assets/global/plugins/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+<link href="/zloan-manage/assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+<link href="/zloan-manage/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css"/>
+<link href="/zloan-manage/assets/global/plugins/bootstrap/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css"/>
+<!-- END GLOBAL MANDATORY STYLES -->
+
+<!-- BEGIN DYMANICLY LOADED CSS FILES(all plugin and page related styles must be loaded between GLOBAL and THEME css files ) -->
+<link id="ng_load_plugins_before"/>
+<!-- END DYMANICLY LOADED CSS FILES -->
+
+<!-- BEGIN THEME STYLES -->
+<!-- DOC: To use 'rounded corners' style just load 'components-rounded.css' stylesheet instead of 'components.css' in the below style tag -->
+<link href="/zloan-manage/assets/global/css/components.css" id="style_components" rel="stylesheet" type="text/css"/>
+<link href="/zloan-manage/assets/global/css/plugins.css" rel="stylesheet" type="text/css"/>
+<link href="/zloan-manage/assets/admin/layout/css/layout.css" rel="stylesheet" type="text/css"/>
+<link href="/zloan-manage/assets/admin/layout/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color"/>
+<!--begin can cut 
+<link href="/zloan-manage/assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
+end can cut -->
+<!-- END THEME STYLES -->
+
+<link rel="shortcut icon" href="/zloan-manage/assets/global/img/favicon.ico"/>
+
+<!-- for devextreme -->
+<link rel="stylesheet" type="text/css" href="/zloan-manage/devextreme/css/dx.common.css" />    
+<link rel="stylesheet" href="/zloan-manage/devextreme/css/dx.light.css" />
+<!-- for devextreme -->
+<link rel="stylesheet" href="/zloan-manage/css/style.css" />
+<style type="text/css">
+table {
+	top:0px ! important;
+}
+tr{
+  height: 31px ! important;
+}
+</style>
+</head>
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<!-- DOC: Apply "page-header-fixed-mobile" and "page-footer-fixed-mobile" class to body element to force fixed header or footer in mobile devices -->
+<!-- DOC: Apply "page-sidebar-closed" class to the body and "page-sidebar-menu-closed" class to the sidebar menu element to hide the sidebar by default -->
+<!-- DOC: Apply "page-sidebar-hide" class to the body to make the sidebar completely hidden on toggle -->
+<!-- DOC: Apply "page-sidebar-closed-hide-logo" class to the body element to make the logo hidden on sidebar toggle -->
+<!-- DOC: Apply "page-sidebar-hide" class to body element to completely hide the sidebar on sidebar toggle -->
+<!-- DOC: Apply "page-sidebar-fixed" class to have fixed sidebar -->
+<!-- DOC: Apply "page-footer-fixed" class to the body element to have fixed footer -->
+<!-- DOC: Apply "page-sidebar-reversed" class to put the sidebar on the right side -->
+<!-- DOC: Apply "page-full-width" class to the body element to have full width page without the sidebar menu -->
+<body ng-controller="AppController" class="page-header-fixed page-sidebar-closed-hide-logo page-quick-sidebar-over-content page-on-load" ng-class="{'page-container-bg-solid': settings.layout.pageBodySolid, 'page-sidebar-closed': settings.layout.pageSidebarClosed}">
+
+	<!-- BEGIN PAGE SPINNER -->
+	<div ng-spinner-bar class="page-spinner-bar">
+		<div class="bounce1"></div>
+		<div class="bounce2"></div>
+		<div class="bounce3"></div>
+	</div>
+	<!-- END PAGE SPINNER -->
+
+	<!-- BEGIN HEADER -->
+	<div data-ng-include="'/zloan-manage/tpl/header.html'" data-ng-controller="HeaderController" class="page-header navbar navbar-fixed-top">
+	</div>
+	<!-- END HEADER -->
+
+	<div class="clearfix">
+	</div>
+
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container"  >
+		<!-- BEGIN SIDEBAR -->
+		<div data-ng-include="'/zloan-manage/tpl/sidebar.html'" data-ng-controller="SidebarController" class="page-sidebar-wrapper" >			
+		</div>
+		<!-- END SIDEBAR -->
+
+		<!-- BEGIN CONTENT -->
+		<div class="page-content-wrapper">
+			<div class="page-content">
+				<!-- BEGIN STYLE CUSTOMIZER(optional) -->
+				<!--<div data-ng-include="'/zloan-manage/tpl/theme-panel.html'" data-ng-controller="ThemePanelController" class="theme-panel hidden-xs hidden-sm">
+				</div>-->
+				<!-- END STYLE CUSTOMIZER -->
+						
+				<!-- BEGIN ACTUAL CONTENT -->
+				<div ui-view class="fade-in-up">
+				</div> 
+				<!-- END ACTUAL CONTENT -->
+			</div>	
+		</div>
+		<!-- END CONTENT -->
+		
+		<!-- BEGIN QUICK SIDEBAR -->
+		<a href="javascript:;" class="page-quick-sidebar-toggler"><i class="icon-close"></i></a>
+		<!--<div data-ng-include="'/zloan-manage/tpl/quick-sidebar.html'" data-ng-controller="QuickSidebarController" class="page-quick-sidebar-wrapper"></div>
+		 END QUICK SIDEBAR -->
+	</div>
+	<!-- END CONTAINER -->
+
+	<!-- BEGIN FOOTER -->
+	<div data-ng-include="'/zloan-manage/tpl/footer.html'" data-ng-controller="FooterController" class="page-footer" >
+	</div>
+	<!-- END FOOTER -->
+	<!-- BEGIN message -->
+	<div id="message_alert" class="container-fiuld"
+	style=" position: absolute; z-index: 99999;overflow:auto;">
+	<div
+		style=" display:none; position: absolute; z-index: 1;width: 100%;height: 100%;"></div>
+	<div style="width: 100%;height:60%;OVERFLOW-Y: auto; OVERFLOW-X:hidden">
+		<div class="row" style="margin-top:20px">
+			<div  id="message_text" class="col-md-12 ">
+			</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top: 15px">
+		<div class="col-md-12" style="text-align: center;">
+			<div id="message_ok"></div>
+		</div>
+	</div>
+	</div>
+	<div class="modal fade" tabindex="-1" role="dialog" id="modifyPasswordModal">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">修改密码</h4>
+				</div>
+				<div class="modal-body">
+					<form id="reduce" class="form-horizontal">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">原始密码</label>
+							<div class="col-sm-9">
+								<input type="hidden" id="userNo" name="userNo">
+								<input type="password" id="oldPwd" name="oldPwd" style="font-size: 12px;" class="form-control">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">新密码</label>
+							<div class="col-sm-9">
+								<input type="password" id="newPwd" name="newPwd" class="form-control">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">确认新密码</label>
+							<div class="col-sm-9">
+								<input type="password" id="newPwdConfirm" name="newPwdConfirm" class="form-control">
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" id="btnModifyPassword" class="btn btn-primary">修改密码</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END message -->
+	<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+
+	<!-- BEGIN CORE JQUERY PLUGINS -->
+	<!--[if lt IE 9]>
+	<script src="/zloan-manage/assets/global/plugins/respond.min.js"></script>
+	<script src="/zloan-manage/assets/global/plugins/excanvas.min.js"></script> 
+	<![endif]-->
+	<script src="/zloan-manage/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="/zloan-manage/js/jquery.cookie.js"></script>
+	
+	<script src="/zloan-manage/js/ajaxfileupload.js" type="text/javascript"></script>
+	<script charset="utf-8" src="/zloan-manage/js/kindeditor4/kindeditor-min.js" type="text/javascript"></script>
+	
+	<!--<script charset="utf-8" src="/zloan-manage/js/kindeditor4/zh_CN.js" type="text/javascript"></script>-->
+	
+	<script src="/zloan-manage/js/kindeditor4/plugins/code/prettify.js" type="text/javascript"></script>
+	<script src="/zloan-manage/js/jquery.form.js" type="text/javascript"></script>
+	<!-- begin can cut
+	<script src="/zloan-manage/assets/global/plugins/jquery-migrate.min.js" type="text/javascript"></script>
+	end can cut -->
+	<script src="/zloan-manage/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+	<script src="/zloan-manage/assets/global/plugins/bootstrap/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+	<script src="/zloan-manage/assets/global/plugins/bootstrap/js/bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
+	<!-- begin can cut
+	<script src="/zloan-manage/assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+	end can cut -->
+	<script src="/zloan-manage/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+	<!-- begin can cut
+	<script src="/zloan-manage/assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+	<script src="/zloan-manage/assets/global/plugins/jquery.cokie.min.js" type="text/javascript"></script>
+	<script src="/zloan-manage/assets/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>	
+	<script src="/zloan-manage/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+	end can cut -->
+	<!-- END CORE JQUERY PLUGINS -->
+
+	<!-- BEGIN CORE ANGULARJS PLUGINS -->
+	
+	
+	<script src="/zloan-manage/assets/global/plugins/angularjs/angular.min.js" type="text/javascript"></script>	
+	<script src="/zloan-manage/assets/global/plugins/angularjs/angular-sanitize.min.js" type="text/javascript"></script>
+	<!-- begin can cut
+	<script src="/zloan-manage/assets/global/plugins/angularjs/angular-touch.min.js" type="text/javascript"></script>	
+	end can cut -->
+	<script src="/zloan-manage/assets/global/plugins/angularjs/plugins/angular-ui-router.min.js" type="text/javascript"></script>
+	<script src="/zloan-manage/assets/global/plugins/angularjs/plugins/ocLazyLoad.min.js" type="text/javascript"></script>
+	<script src="/zloan-manage/assets/global/plugins/angularjs/plugins/ui-bootstrap-tpls.min.js" type="text/javascript"></script>
+	<!-- END CORE ANGULARJS PLUGINS -->
+	
+	<!-- BEGIN APP LEVEL ANGULARJS SCRIPTS -->
+	<script src="/zloan-manage/js/app.js" type="text/javascript"></script>
+	<script src="/zloan-manage/js/directives.js" type="text/javascript"></script>
+	<!-- END APP LEVEL ANGULARJS SCRIPTS -->
+
+	<!-- BEGIN APP LEVEL JQUERY SCRIPTS -->
+	<script src="/zloan-manage/assets/global/scripts/metronic.js" type="text/javascript"></script>
+	<script src="/zloan-manage/assets/admin/layout/scripts/layout.js" type="text/javascript"></script>
+	<script src="/zloan-manage/assets/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
+	<script src="/zloan-manage/assets/admin/layout/scripts/demo.js" type="text/javascript"></script>  
+	<!-- END APP LEVEL JQUERY SCRIPTS -->
+	<script src="/zloan-manage/js/home.js" type="text/javascript"></script>  
+<!-- for devextreme -->
+ 	<script src="/zloan-manage/devextreme/js/globalize.min.js"></script>
+	<!--
+    <script src="http://js.youmishanjie.com/dx.webappjs.js"></script>
+    
+    <script src="/zloan-manage/devextreme/js/dx.webappjs.debug.js"></script>
+    -->
+   <script src="/zloan-manage/devextreme/js/jszip.min.js"></script>
+   <script src="/zloan-manage/devextreme/js/dx.all.ja.js"></script>
+   <script src="/zloan-manage/devextreme/js/dx.all.de.js"></script>
+<!-- for devextreme -->
+	<script src="/zloan-manage/js/index.js" type="text/javascript"></script> 
+	<script src="/zloan-manage/js/loadwindow_form.js" type="text/javascript"></script>
+	<script src="/zloan-manage/js/util.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		/* Init Metronic's core jquery plugins and layout scripts */
+		$(document).ready(function() {
+			Metronic.init(); // Run metronic theme
+			Metronic.setAssetsPath('/zloan-manage/assets/'); // Set the assets folder path
+
+		});
+		
+	</script>
+	<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

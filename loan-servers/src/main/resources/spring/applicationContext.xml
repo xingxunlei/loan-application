@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+                 http://www.springframework.org/schema/beans/spring-beans-4.0.xsd   
+                   http://www.springframework.org/schema/context    
+                     http://www.springframework.org/schema/context/spring-context-4.0.xsd    
+
+
+                        http://www.springframework.org/schema/tx    
+       http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+	<!-- 加载配置文件 -->
+	<context:property-placeholder location="classpath:db.properties,classpath:redis.properties,
+	classpath:autoLoan.properties,classpath:third.properties"
+		ignore-unresolvable="true" />
+	<!-- <context:property-placeholder location="classpath:dubbo.properties" /> -->
+	<context:component-scan base-package="com.loan_server"></context:component-scan>
+	<context:annotation-config></context:annotation-config>
+
+	<!-- 数据源，使用Druid -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
+		  destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="maxActive" value="${jdbc.maxTotal}" />
+		<property name="initialSize" value="${jdbc.initialSize}" />
+		<property name="validationQuery" value="${jdbc.validationQuery}" />
+
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="true"/>
+		<property name="testOnReturn" value="false" />
+
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+		<property name="timeBetweenEvictionRunsMillis" value="${jdbc.timeBetweenEvictionRunsMillis}" />
+
+		<!-- 超过时间限制是否回收 -->
+		<property name="removeAbandoned" value="${jdbc.removeAbandoned}" />
+		<!-- 超时时间；单位为秒。180秒=3分钟 -->
+		<property name="removeAbandonedTimeout" value="${jdbc.removeAbandonedTimeout}" />
+		<!-- 关闭abanded连接时输出错误日志 -->
+		<property name="logAbandoned" value="${jdbc.logAbandoned}" />
+		<property name="maxWait" value="${jdbc.removeAbandonedTimeout}" />
+
+		<property name="filters" value="stat,wall,log4j" />
+		<property name="connectionProperties" value="druid.stat.mergeSql=true;druid.stat.slowSqlMillis=10000" />
+
+		<!--
+            打开PSCache，并且指定每个连接上PSCache的大小
+            如果用Oracle，则把poolPreparedStatements配置为true，mysql可以配置为false
+        -->
+		<property name="poolPreparedStatements" value="false" />
+		<property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+
+		<!-- 监控统计拦截的filters -->
+		<!-- 并在filters属性中配置了log4j -->
+		<property name="proxyFilters">
+			<list>
+				<ref bean="stat-filter" />
+				<ref bean="log-filter" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- 慢SQL记录-->
+	<bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
+		<property name="mergeSql" value="true" />
+		<property name="slowSqlMillis" value="10000" />
+		<property name="logSlowSql" value="true" />
+	</bean>
+
+	<bean id="log-filter" class="com.alibaba.druid.filter.logging.Log4jFilter">
+		<!-- <property name="resultSetLogEnabled" value="false" /> -->
+		<!-- <property name="statementExecutableSqlLogEnable" value="true" /> -->
+	</bean>
+
+	<!-- 配置druid监控spring jdbc -->
+	<bean id="druid-stat-interceptor" class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor" />
+
+	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut" scope="prototype">
+		<property name="patterns">
+			<list>
+				<value>com.loan_server.*.*</value>
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- sqlSessinFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 加载mybatis的配置文件 -->
+		<property name="configLocation" value="classpath:mybatis/SqlMapConfig.xml" />
+		<!-- 数据源 -->
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!--<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">-->
+		<!--&lt;!&ndash; 指定扫描的包名 如果扫描多个包， &ndash;&gt;-->
+		<!--<property name="basePackage"-->
+			<!--value="com.loan_server.app_mapper,com.loan_server.loan_mapper,com.loan_server.manager_mapper" />-->
+		<!--<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />-->
+    <!--</bean>-->
+	<bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- 扫描包路径，如果需要扫描多个包，中间使用半角逗号隔开 -->
+		<property name="basePackage" value="com.loan_server.app_mapper,com.loan_server.loan_mapper,
+		com.loan_server.manager_mapper,com.loan_server.contract_mapper"/>
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+
+
+		 <!--<import resource="classpath*:/spring/provider.xml" />-->
+		<import resource="classpath*:/spring/spring-pool.xml" />
+	    <import resource="classpath*:/spring/spring-redis.xml" />
+
+	<bean id="txManager"
+		  class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 事务控制   -->
+	<tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/>
+
+</beans>

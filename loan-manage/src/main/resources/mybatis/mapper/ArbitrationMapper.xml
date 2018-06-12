@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_manage.mapper.ArbitrationMapper">
+
+    <select id="selectContract" parameterType="com.loan_entity.contract.Contract" resultType="com.loan_entity.contract.Contract">
+        SELECT
+          yc.id,
+          yc.borr_id AS borrId,
+          yc.borr_num AS borrNum,
+          yc.status AS STATUS,
+          yc.contract_url AS contractUrl,
+          yc.result_json AS resultJson,
+          yc.create_date AS createDate,
+          yc.update_date AS updateDate,
+          yc.product_id AS productId
+        FROM
+          ym_contract yc
+        WHERE borr_id = #{borrId}
+          AND product_id = #{productId}
+    </select>
+
+    <select id="selectRepayRecords" parameterType="string" resultType="map">
+        SELECT
+           bl.borr_num AS borrNum,
+           c.name AS customerName,
+           c.card_num AS customerCard,
+           p.phone AS customerPhone,
+           bankList.bank_name AS bankName,
+           bank.bank_num AS bankCardNum,
+           (SELECT ycv.meaning FROM ym_code_value ycv WHERE ycv.code_code = o.type AND ycv.code_type = 'order_type') AS repayTypeName,
+           CASE WHEN ISNULL(o.act_amount) THEN NULL ELSE '成功' END AS repayStatusName,
+           IFNULL(o.act_amount, 0) AS repayAmount,
+           o.serial_no AS orderCode,
+           DATE_FORMAT(o.creation_date, '%Y-%m-%d %T') AS repayTime
+         FROM
+           ym_borrow_list bl
+        INNER JOIN ym_person p
+           ON bl.per_id = p.id
+        INNER JOIN ym_card c
+           ON p.id = c.per_id
+         LEFT JOIN ym_order o
+           ON bl.id = o.conctact_id AND o.type NOT IN (1, 3, 6, 11) AND o.rl_date = 's'
+         LEFT JOIN ym_bank bank
+           ON o.bank_id = bank.id
+         LEFT JOIN ym_bank_list bankList
+           ON bank.bank_id = bankList.id
+        WHERE bl.id = #{borrId}
+    </select>
+
+    <select id="selectRemarkInfo" parameterType="string" resultType="map">
+        SELECT
+          c.name AS customerName,
+          c.card_num AS customerCard,
+          p.phone AS customerPhone,
+          l.borr_num AS borrNum,
+          DATE_FORMAT(ds.create_date, '%Y-%m-%d %T') AS collectionTime,
+          ds.remark AS collectionResult,
+          '电话催收' dunningType,
+          '021-63333137' dunningTocall,
+          dsc.user_name AS collectionUser
+        FROM
+          ym_borrow_list l,
+          ds_collectors_remark ds,
+          ym_person p,
+          ym_card c,
+          ds_collectors_level dsc
+        WHERE l.id = ds.contract_sysno
+          AND l.per_id = p.id
+          AND p.id = c.per_id
+          AND ds.create_user = dsc.user_sysno
+          AND l.id = #{borrId}
+    </select>
+
+    <select id="queryCardInfoById" parameterType="string" resultType="map">
+        SELECT
+           c.per_id AS perId,
+           c.name AS perName,
+           z.image_type AS imageTypeZ,
+           z.image_format AS imageFormatZ,
+           z.image AS imageZ,
+           f.image_type AS imageTypeF,
+           f.image_format AS imageFormatF,
+           f.image AS imageF,
+           c.id AS id,
+           z.image_url AS image_urlZ,
+           f.image_url AS image_urlF
+         FROM ym_card c
+        INNER JOIN ym_image z
+           ON c.card_photoz = z.id
+        INNER JOIN ym_image AS f
+           ON c.card_photof = f.id
+        WHERE c.per_id = #{perId}
+          AND c.id = (SELECT MAX(t.id) FROM ym_card AS t WHERE t.per_id = #{perId})
+    </select>
+
+    <select id="selectTemplateExclOneLine" resultType="com.loan_manage.entity.arbitration.TemplateExcl" parameterType="java.lang.Integer">
+        SELECT
+            bl.borr_num borrNum,
+            bl.borr_amount money,
+            FORMAT(term.maximum_amount * monthly_rate, 2) interest,
+            DATE_FORMAT(bl.planrepay_date,'%Y-%m-%d') planDate,
+            '' serviceCharge,
+            DATE_FORMAT(DATE_ADD(bl.planrepay_date,INTERVAL 1 DAY),'%Y-%m-%d') lateStartDate,
+            rp.penalty lateDamages,
+            (bl.borr_amount + rp.penalty + FORMAT(term.maximum_amount * monthly_rate, 2) - IFNULL(bl.act_repay_amount, 0)) borrowMoney,
+            '' requestItems,
+            '' reasons,
+            CONCAT((SELECT NAME FROM ym_card cd WHERE cd.per_id = bl.per_id),'借贷纠纷案仲裁申请书.docx') arbitrationForm,
+            '广州仲裁委' arbitrationCourt,
+            '13' businessNum
+          FROM ym_borrow_list bl, ym_repayment_plan rp, ym_product_term term
+         WHERE bl.id = rp.contract_id
+           AND bl.prod_id = term.product_id
+           AND bl.id = #{borrId}
+    </select>
+
+    <select id="selectTemplateExclThreeLine" resultType="com.loan_manage.entity.arbitration.TemplateExcl" parameterType="java.lang.Integer">
+        SELECT
+        '自然人' borrNum,
+        cd.name money,
+        '身份证' interest,
+        cd.card_num planDate,
+        '' serviceCharge,
+        pe.profession lateStartDate,
+        cd.sex lateDamages,
+        cd.address borrowMoney,
+        pn.phone requestItems,
+        pe.email reasons,
+        pe.usuallyaddress arbitrationForm,
+        '' arbitrationCourt,
+        '' businessNum
+        FROM ym_borrow_list bl, ym_card cd,ym_private pe,ym_person pn
+        WHERE bl.per_id = cd.per_id AND pe.per_id = bl.per_id AND pn.id = bl.per_id  AND  bl.id = #{borrId}
+    </select>
+
+    <select id="selectExtDataByBorrId" resultType="com.loan_manage.entity.arbitration.ExtData" parameterType="java.lang.Integer">
+        SELECT
+        cd.name borrowerName,
+        '方伟' lenderName,
+        '上海米缸企业信用征信有限公司' serviceCompany,
+        DATE_FORMAT(bl.makeborr_date, '%Y-%m-%d') loanDate,
+        DATE_FORMAT(bl.pay_date, '%Y-%m-%d') payDate,
+        bl.borr_amount loanContractMoney,
+        FORMAT((pt.monthly_rate / pt.term_value) * 100, 3) dailyRate,
+        pt.term_value loanDays,
+        DATE_FORMAT(bl.planrepay_date, '%Y-%m-%d') repaymentDate,
+        (SELECT amount FROM ym_product_charge_model WHERE product_id = bl.prod_id AND charge_name = 'managecost') serviceFee1,
+        (SELECT amount FROM ym_product_charge_model WHERE product_id = bl.prod_id AND charge_name = 'letter') serviceFee2,
+        IFNULL((SELECT amount FROM ym_per_coupon WHERE id = bl.per_coupon_id),0) serviceFeeDiscount,
+        IFNULL(bl.act_repay_amount, 0) repayMoneyTotal,
+        '' serviceFeeTotal,
+        '1' liquidatedDamages1DailyRate,
+        '10' liquidatedDamages2Rate,
+        FORMAT(pt.maximum_amount * pt.monthly_rate,2) accrual,
+        (rp.surplus_money - IFNULL(bl.act_repay_amount, 0)) principle,
+        DATE_FORMAT(NOW(),'%Y-%m-%d') accountingDate,
+        DATEDIFF(NOW(), bl.planrepay_date) accountingDays,
+        rp.penalty_interest liquidatedDamages1,
+        rp.penalty liquidatedDamages2,
+        DATE_FORMAT(yp.create_date,'%Y-%m-%d') registrationDate,
+        rp.penalty penalty
+
+        FROM ym_borrow_list bl, ym_product_term pt,ym_card cd, ym_repayment_plan rp, ym_person yp
+        WHERE bl.per_id = cd.per_id AND  pt.product_id = bl.prod_id AND rp.contract_id = bl.id AND bl.per_id = yp.id AND bl.id = #{borrId}
+    </select>
+
+    <select id="selectEvidenceItemsExtDataByBorrId" resultType="com.loan_manage.entity.arbitration.EvidenceItemsExtData" parameterType="java.lang.Integer">
+        SELECT
+        cd.name borrowerName,
+        '方伟' lenderName,
+        '上海米缸企业信用征信有限公司' serviceCompany,
+        bl.makeborr_date loanDate,
+        bl.borr_amount loanContractMoney,
+        FORMAT((pt.monthly_rate / pt.term_value) * 100, 3) dailyRate,
+        pt.term_value loanDays,
+        bl.planrepay_date repaymentDate,
+        (SELECT amount FROM ym_product_charge_model WHERE product_id = bl.prod_id AND charge_name = 'managecost') serviceFee1,
+        (SELECT amount FROM ym_product_charge_model WHERE product_id = bl.prod_id AND charge_name = 'letter') serviceFee2,
+        IFNULL((SELECT amount FROM ym_per_coupon WHERE id = bl.per_coupon_id),0) serviceFeeDiscount,
+        '1' liquidatedDamages1DailyRate,
+        '10' liquidatedDamages2Rate,
+        pn.phone borrowerServedMobile,
+        pe.email borrowerServedEmail,
+        bl.borr_num loanContractNo,
+        bl.pay_date transactionTime,
+        od.serial_no transactionOderNo,
+        od.serial_no transactionSerialNo,
+        bl.borr_amount loanMoney,
+        (SELECT bank_num FROM ym_bank WHERE id = od.bank_id) loanAccount,
+        '31050170370000000425' lenderAccount,
+        DATE_FORMAT(NOW(), '%Y-%m-%d') AS signPowerofAttorneyDate
+        FROM ym_borrow_list bl, ym_card cd,ym_private pe,ym_person pn, ym_product_term pt,ym_order od
+        WHERE bl.per_id = cd.per_id AND pe.per_id = bl.per_id AND pn.id = bl.per_id  AND
+        pt.product_id = bl.prod_id AND od.conctact_id = bl.id AND od.type = 1 AND od.rl_state = 's' AND bl.id = #{borrId}
+    </select>
+</mapper>

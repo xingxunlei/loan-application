@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+    .table-condensed tfoot {
+        display: none;
+    }
+    .red{
+        color: red;
+    }
+    .blue{
+        color: blue;
+    }
+</style>
+</head>
+<body>
+<div class="page-bar" style="margin-bottom: 10px;">
+    <ul class="page-breadcrumb">
+        <li><i class="fa fa-home"></i> <a href="#/dashboard.html">首页</a>
+            <i class="fa fa-angle-right"></i></li>
+        <li><a href="#/batchReduce.html">批量扣款专用</a></li>
+    </ul>
+    <p style="float:right;line-height:36px;margin:0;padding-right:100px;" class="text-danger">注意：不对接第三方支付接口！！</p>
+</div>
+<div class="row" style="min-height:200px;background:url('/zloan-manage/assets/admin/layout/img/loading_mylike.gif') no-repeat center center;">
+    <div class="col-md-12 wblMd">
+       <div class="wblBackground"></div>
+       <div class="wblFillDiv"></div>
+        <a id="download" target="_blank" class="hide"><span id="downloadBtn">下载文件</span></a>
+        <div id="batchReduceTable"></div>
+    </div>
+</div>
+<!-- 以下是弹出模态框 -->
+<div class="modal fade" id="reduceApprove" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="padding: 10px;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: 5px;padding-right: 15px;"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">申请减免金额</h4>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <form class="form-horizontal" id="reduce-form">
+                    <div class="form-group">
+                        <label for="customerName" class="col-sm-2 control-label">姓名</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="customerName" class="form-control" readonly id="customerName">
+                        </div>
+                        <label for="customerIdValue" class="col-sm-2 control-label">身份证</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="customerIdValue" style="font-size: 12px;" class="form-control" readonly id="customerIdValue">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="contractID" class="col-sm-2 control-label">合同号</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="contractID" class="form-control" readonly id="contractID">
+                        </div>
+                        <label for="maxReduce" class="col-sm-2 control-label">最大减免</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="maxReduce"  class="form-control" readonly id="maxReduce">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="surplusTotalAmount" class="col-sm-2 control-label">剩余还款</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="surplusTotalAmount" readonly class="form-control" id="surplusTotalAmount">
+                        </div>
+                        <label for="maxReduce" class="col-sm-2 control-label">违约金</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="penalty" class="form-control" readonly id="penalty">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="penaltyInterest" class="col-sm-2 control-label">罚息</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="penaltyInterest" readonly class="form-control" id="penaltyInterest">
+                        </div>
+                        <label for="maxReduce" class="col-sm-2 control-label">减免金额</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="reduceAmount" onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')" placeholder="不能大于剩余还款总额" class="form-control" id="reduceAmount">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="maxReduce" class="col-sm-2 control-label">备注</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" name="remark" id="message-text" rows="3" style="resize: none;"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="btnReduce_loan">提交减免</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="whiteBlackList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="padding: 10px;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: 5px;padding-right: 5px;"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="whiteBlackListTitle"></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="form-whiteBlackList">
+                    <div class="form-group">
+                        <input type="hidden" name="contractId" id="whiteBlackListContractId" />
+                        <input type="hidden" name="userId" id="whiteBlackListUserId" />
+                        <input type="hidden" name="type" id="whiteBlackListType" />
+                        <label for="remarkOffline" class="col-sm-2 control-label">备注</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" name="reason" id="reason" rows="6" style="resize: none;"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="btnWhiteBlackList">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="offlineApprove" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="padding: 10px;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: 5px;padding-right: 5px;"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">线下还款</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="form-horizontal">
+                    <div class="form-group">
+                        <label for="customerName" class="col-sm-2 control-label">姓名</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="customerName" class="form-control" readonly id="customerNameOffline">
+                        </div>
+                        <label for="customerIdValue" class="col-sm-2 control-label">身份证</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="customerIdValue" style="font-size: 12px;" class="form-control" readonly id="customerIdValueOffline">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="contractID" class="col-sm-2 control-label">合同号</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="contractID" class="form-control" readonly id="contractIDOffline">
+                        </div>
+                        <label for="surplusTotalAmount" class="col-sm-2 control-label">剩余还款</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="surplusTotalAmount" readonly class="form-control" id="surplusTotalAmountOffline">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="offlineAmount" class="col-sm-2 control-label">输入金额</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="offlineAmount" onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')" class="form-control" id="offlineAmount">
+                        </div>
+                        <label for="remarkOffline" class="col-sm-2 control-label">备注</label>
+                        <div class="col-sm-4">
+                            <textarea class="form-control" name="remarkOffline" id="remarkOffline" rows="3" style="resize: none;"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="btnOffline">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="transferApprove" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content modal-lg">
+            <div class="modal-header" style="padding: 10px;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: 5px;padding-right: 5px;"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">转件(请勿重复点击按钮)</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="itemValue" name="itemValue">
+                <div id="transferUserTable"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="collectionReduce">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">提交扣款</h4>
+            </div>
+            <div class="modal-body">
+                <form id="reduce" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">姓名</label>
+                        <div class="col-sm-4">
+                            <input type="hidden" id="createUser_ask" name="createUser" class="form-control">
+                            <input type="hidden" id="askUrl" name="askUrl" class="form-control">
+                            <input type="hidden" id="perId" name="perId" class="form-control">
+                            <input type="text" id="name" name="name" class="form-control" readonly>
+                        </div>
+                        <label class="col-sm-2 control-label">身份证</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="idCardNo" name="idCardNo" style="font-size: 12px;" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">合同号</label>
+                        <div class="col-sm-4">
+                            <input type="hidden" id="borrowId" name="borrId" value="">
+                            <input type="text" id="borrNum" name="borrNum" class="form-control" readonly>
+                        </div>
+                        <label class="col-sm-2 control-label">扣款方式</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" value="代收还款" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">银行名称</label>
+                        <div class="col-sm-4">
+                            <select name="bankId" id="bankId" class="form-control">
+                            </select>
+                        </div>
+                        <label class="col-sm-2 control-label">银行卡号</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="bankNum" name="bankNum" class="form-control">
+                            <input type="hidden" id="bankInfoId" name="bankInfoId" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">预留手机号</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="phone" name="phone" class="form-control">
+                        </div>
+                        <label class="col-sm-2 control-label">剩余还款金额</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="totalAmount" name="surplusTotalAmount" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">输入金额</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="optAmount" onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')" name="optAmount" class="form-control">
+                        </div>
+                        <label class="col-sm-2 control-label">备注</label>
+                        <div class="col-sm-4">
+                            <textarea name="description" id="description" class="form-control" style="resize: none" rows="3"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" id="btnReduceT" class="btn btn-primary">提交扣款</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="checkExport">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                <h4 class="modal-title" id="showMessageTitle">检查导出条件</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="showMessage">正在检查导出条件</h4>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                        <span class="sr-only">100% Complete</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="trP">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                <h4 class="modal-title" >正在转件</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="tmsg">正在转件，数量过多，请稍后</h4>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                        <span class="sr-only">100% Complete</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="collectionReduceBatch1">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">批量代扣(<span style="color: red">0为代扣所有欠款,若输入金额即输入多少扣款多少</span>)</h4>
+            </div>
+            <div class="modal-body">
+                <form id="reduce_batch1" class="form-horizontal">
+                    <input type="hidden" id="reduceData1" name="reduceData1">
+                    <div class="form-group">
+                        <label for="customerName" class="col-sm-2 control-label">代扣人姓名</label>
+                        <div class="col-sm-10">
+                           <textarea id="reduceNames1" class="form-control col-sm-10" rows="4" placeholder="代扣人姓名"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerName" class="col-sm-2 control-label">代扣金额</label>
+                        <div class="col-sm-10">
+                            <input type="hidden" id="requestUrl1" name="requestUrl1" value="">
+                            <input type="text" name="reduceMoney1" class="form-control" onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')" id="reduceMoney1" value="0" placeholder="代扣金额">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span style="color: red" id="payInterface"></span>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" id="btnReduceBatch1" class="btn btn-primary">提交扣款</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    loanBatchReduce();
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

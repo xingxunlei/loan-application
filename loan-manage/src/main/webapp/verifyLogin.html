@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>上海金互行金融信息服务有限公司</title>
+    <meta http-equiv=Cache-Control content=no-cache />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta content="" name="description"/>
+    <meta content="" name="author"/>
+    <link href="/zloan-manage/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/zloan-manage/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/zloan-manage/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/zloan-manage/assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+    <link href="/zloan-manage/assets/global/plugins/select2/select2.css" rel="stylesheet" type="text/css"/>
+    <link href="/zloan-manage/assets/admin/layout/css/login-soft.css" rel="stylesheet" type="text/css"/>
+    <link href="/zloan-manage/assets/global/css/components.css" id="style_components" rel="stylesheet" type="text/css"/>
+    <link href="/zloan-manage/assets/global/css/plugins.css" rel="stylesheet" type="text/css"/>
+    <link href="/zloan-manage/assets/admin/layout/css/layout.css" rel="stylesheet" type="text/css"/>
+    <link id="style_color" href="/zloan-manage/assets/admin/layout/css/themes/darkblue.css" rel="stylesheet" type="text/css"/>
+    <link href="/zloan-manage/assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
+    <link rel="shortcut icon" href="/zloan-manage/assets/global/img/favicon.ico"/>
+</head>
+<body class="login" >
+<div class="logo" style="margin-top: 120px">
+    <a href="index.html">
+        <img src="/zloan-manage/assets/admin/layout/img/logo_login1.png" alt=""/>
+    </a>
+</div>
+<div class="menu-toggler sidebar-toggler">
+</div>
+<div class="content">
+    <form class="login-form" action="index.html" method="post">
+        <h3 class="form-title" style="font-family: '微软雅黑'">悠米闪借管理系统</h3>
+
+        <div class="form-group">
+            <label class="control-label visible-ie8 visible-ie9">登录账号</label>
+            <div class="input-icon">
+                <i class="fa fa-user"></i>
+                <input id="loginName"  class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="登录账号" name="username"/>
+            </div>
+            <div id="loginName_message" style="color:#EC2E2E;"></div>
+        </div>
+        <div class="form-group">
+            <label class="control-label visible-ie8 visible-ie9">登录密码</label>
+            <div class="input-icon">
+                <i class="fa fa-lock"></i>
+                <input id="loginPwd" class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="登录密码" name="password"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label visible-ie8 visible-ie9">验证码</label>
+            <div class="input-icon">
+                <i class="fa fa-lock"></i>
+                <input id="loginVerifyCode" class="form-control placeholder-no-fix" style="width: 60%;display:inline-block;" type="text" name="verifyVode"/>
+                <button id="loadVerifyCode" class="btn blue pull-right">获取验证码</button>
+            </div>
+            <div id="loginPwd_message"  style="color:#EC2E2E;"></div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" id="loginBtn" class="btn blue pull-right" style="display: none;">
+                登录 <i class="m-icon-swapright m-icon-white"></i>
+            </button>
+        </div>
+
+        <div class="forget-password" style="display:none ">
+            <h5 style="font-family: '微软雅黑';color:#FFFFFF">忘记密码 ?</h5>
+            <p style="font-family: '微软雅黑';">
+                不要担心 , 请点击 <a href="javascript:;" id="forget-password" style="color:#0047FF; font-family: '微软雅黑';">
+                这里 </a>
+                重置您的密码.
+            </p>
+        </div>
+        <br/>
+        <div class="create-account">
+            <p style="font-family: '微软雅黑';">
+
+            </p>
+        </div>
+    </form>
+
+    <form class="forget-form" action="index.html" method="post">
+        <h3 style="font-family: '微软雅黑';">忘记密码 ?</h3>
+        <p style="font-family: '微软雅黑';">
+            请输入您的登录账号和用户姓名 , 我们会将重置后的密码发送到您的预留邮箱.
+        </p>
+        <p style="height:1px"></p>
+        <div class="form-group">
+            <label class="control-label visible-ie8 visible-ie9">登录账号</label>
+            <div class="input-icon">
+                <i class="fa fa-user"></i>
+                <input id="loginName_pwd"  class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="登录账号" name="username"/>
+            </div>
+            <div id="loginName_message_pwd" style="color: rgb(63, 19, 19);"></div>
+        </div>
+        <div class="form-group">
+            <label class="control-label visible-ie8 visible-ie9">用户姓名</label>
+            <div class="input-icon">
+                <i class="fa fa-lock"></i>
+                <input id="loginPwd_pwd" class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="用户姓名" name="password"/>
+            </div>
+            <div id="loginPwd_message_pwd" style="color: rgb(63, 19, 19);"></div>
+        </div>
+        <div class="form-actions">
+            <button type="button" id="back-btn" class="btn">
+                <i class="m-icon-swapleft"></i> 返回</button>
+            <button  id="submmit_btn_pwd" type="submit" class="btn blue pull-right">
+                提交 <i class="m-icon-swapright m-icon-white"></i>
+            </button>
+        </div>
+    </form>
+
+</div>
+<!--[if lt IE 9]>
+<script src="/zloan-manage/assets/global/plugins/respond.min.js"></script>
+<script src="/zloan-manage/assets/global/plugins/excanvas.min.js"></script>
+<![endif]-->
+<script src="/zloan-manage/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+<script src="/zloan-manage/assets/global/plugins/jquery-migrate.min.js" type="text/javascript"></script>
+<script src="/zloan-manage/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/zloan-manage/assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+<script src="/zloan-manage/assets/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+<script src="/zloan-manage/assets/global/plugins/jquery.cokie.min.js" type="text/javascript"></script>
+
+<script src="/zloan-manage/assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
+<script src="/zloan-manage/assets/global/plugins/backstretch/jquery.backstretch.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="/zloan-manage/assets/global/plugins/select2/select2.min.js"></script>
+<script type="text/javascript" src="/zloan-manage/js/jquery.cookie.js"></script>
+<script src="/zloan-manage/assets/global/scripts/metronic.js" type="text/javascript"></script>
+<script src="/zloan-manage/assets/admin/layout/scripts/layout.js" type="text/javascript"></script>
+<script src="/zloan-manage/assets/admin/layout/scripts/demo.js" type="text/javascript"></script>
+<script src="/zloan-manage/assets/admin/layout/scripts/login-soft.js" type="text/javascript"></script>
+<script>
+    jQuery(document).ready(function() {
+        Metronic.init(); // init metronic core components
+        Layout.init(); // init current layout
+        Login.init();
+        Demo.init();
+        $.backstretch([
+                "/zloan-manage/assets/admin/layout/bg/2.jpg"
+            ], {
+                fade: 2500,
+                duration: 3000
+            }
+        );
+    });
+</script>
+</body>
+</html>

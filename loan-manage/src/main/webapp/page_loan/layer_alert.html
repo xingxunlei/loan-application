@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>用户详情</title>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link
+            href="/zloan-manage/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"
+            type="text/css"/>
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <!-- for devextreme -->
+    <link rel="stylesheet" type="text/css" href="/zloan-manage/devextreme/css/dx.common.css"/>
+    <link rel="stylesheet" href="/zloan-manage/devextreme/css/dx.light.css"/>
+    <link rel="stylesheet" href="/zloan-manage/css/style.css"/>
+
+    <style type="text/css">
+        .userinfo_title {
+            height: 45px;
+            padding-top: 7px;
+            background-color: rgba(238, 238, 238, 1);
+            font-size: 20px;
+            font-family: '微软雅黑';
+        }
+    </style>
+    <script src="/zloan-manage/js/controllers/GeneralPageController.js" type="text/javascript"></script>
+    <script src="/zloan-manage/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+    <script src="/zloan-manage/devextreme/js/globalize.min.js"></script>
+    <script src="http://js.youmishanjie.com/dx.webappjs.js"></script>
+    <script src="/zloan-manage/devextreme/js/jszip.min.js"></script>
+    <script src="/zloan-manage/assets/global/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/zloan-manage/js/jquery.cookie.js"></script>
+    <script src="/zloan-manage/js/tableUtils.js"></script>
+    <!-- for devextreme -->
+    <script src="/zloan-manage/js_loan/layer_alert.js" type="text/javascript"></script>
+</head>
+<body>
+<div style="padding-bottom:100px;">
+    <div class="box box-default">
+        <div class="box-header with-border">
+            <h3 class="box-title" style="margin-top:0px;">查询条件</h3>
+        </div>
+        <div class="box-body" style="display: block;border-top:1px solid #eee;border-bottom:1px solid #eee;">
+            <div class="row" style="margin:10px 0 0 0;">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>姓名</label>
+                        <input type="text" id="name" class="form-control" placeholder="" readonly>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>身份证</label>
+                        <input type="text" id="cardNum" class="form-control" placeholder="" readonly>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>手机号</label>
+                        <input type="text" id="phone" class="form-control" placeholder="" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row" style="margin:10px 0 0 0 ;">
+        <div class="col-md-12">
+            <div class="nav-tabs-custom">
+                <div class="clearfix ">
+                    <ul class="nav nav-tabs clearfix" id="myTab">
+                        <li class="pull-right"><a href="#tab-6 " id="tab_black" data-toggle="tab">黑名单信息</a></li>
+                        <li class="pull-right"><a href="#tab-4 " id="tab_bank" data-toggle="tab">银行卡信息</a></li>
+                        <li class="pull-right"><a href="#tab-5 " id="tab_memo" data-toggle="tab">催收备注</a></li>
+                        <li class="pull-right"><a href="#tab-3 " id="tab_credit" data-toggle="tab">信用报告</a></li>
+                        <li class="pull-right"><a href="#tab-2 " id="tab_loan" data-toggle="tab">贷款信息</a></li>
+                        <li class="active pull-right"><a href="#tab-1" data-toggle="tab">客户信息</a></li>
+                        <li class="header pull-left" style="margin-top:10px;"><i class="fa fa-th"></i></li>
+                    </ul>
+                </div>
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab-6">
+                        <div class="row" style="margin-top: 20px">
+                            <div id="black_table"></div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane active" id="tab-1">
+                        <div>
+                            <i class="fa fa-user">&nbsp;个人信息</i>
+                            <div class="row" style="margin-top:10px;">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>姓名</label>
+                                        <input type="text" id="infoName" class="form-control" placeholder="" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>身份证</label>
+                                        <input type="text" id="infoCardNum" class="form-control" placeholder=""
+                                               readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>QQ号码</label>
+                                        <input type="text" id="infoQQNum" class="form-control" placeholder="" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>电子邮箱</label>
+                                        <input type="text" id="infoEmail" class="form-control" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>教育水平</label>
+                                        <input type="text" id="infoEducation" class="form-control" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>婚姻状况</label>
+                                        <input type="text" id="infoMarry" class="form-control" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>有无子女</label>
+                                        <input type="text" id="infoGetchild" class="form-control" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <i class="fa fa-trophy">&nbsp;职业信息</i>
+                            <div class="row" style="margin-top:10px;">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>职业</label>
+                                        <input type="text" id="workProfession" class="form-control" placeholder=""
+                                               readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>月收入</label>
+                                        <input type="text" id="workMonthlypay" class="form-control" placeholder=""
+                                               readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>单位名称</label>
+                                        <input type="text" id="workBusiness" class="form-control" placeholder=""
+                                               readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>单位所在省份</label>
+                                        <input type="text" id="workBusiProvince" class="form-control" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>单位电话</label>
+                                        <input type="text" id="workBusiPhone" class="form-control" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>单位详细地址</label>
+                                        <input type="text" id="workBusiAddress" class="form-control" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>单位所在市</label>
+                                        <input type="text" id="workBusiCity" class="form-control" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <i class="fa fa-sitemap">&nbsp;社会关系</i>
+                            <div class="row" style="margin-top:10px;">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>亲属</label>
+                                        <input type="text" id="slRelatives" class="form-control" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>亲属关系名字</label>
+                                        <input type="text" id="slRelativesName" class="form-control" placeholder=""
+                                               readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>亲属联系方式</label>
+                                        <input type="text" id="slRelativesPhone" class="form-control" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>社会关系</label>
+                                        <input type="text" id="slSociety" class="form-control" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>社会关系名字</label>
+                                        <input type="text" id="slSocietyName" class="form-control" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>社会联系方式</label>
+                                        <input type="text" id="slSocietyPhone" class="form-control" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <i class="fa fa-newspaper-o">&nbsp;身份证信息</i>
+                            <div class="row" style="margin-top: 20px; margin-bottom: 20px">
+                                <div id="imageZ" class="col-md-6 col-sm-6"
+                                     style="color: #828B94; text-align: center;">无身份证正面照片
+                                </div>
+                                <div id="imageF" class="col-md-6 col-sm-6"
+                                     style="color: #828B94; text-align: center;">无身份证反面照片
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab-2">
+                        <i class="fa fa-yen">&nbsp;贷款信息</i>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>产品类型</label>
+                                    <input id="productType" type="text" class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>贷款金额(合同金额)</label>
+                                    <input id="monthMoney" type="text" class="form-control" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>贷款期限</label>
+                                    <input id="productTem" type="text" class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>放款金额</label>
+                                    <input id="borrAmount" type="text" class="form-control" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>贷款状态</label>
+                                    <input id="borrStatus" type="text" class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>还款金额</label>
+                                    <input id="actRepayAmount" type="text" class="form-control" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>到期日期</label>
+                                    <input id="payDate" type="text" class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>是否人工审核</label>
+                                    <input id="isManual" type="text" class="form-control" readonly>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>电子合同</label>
+                                    <button id="contract"  class="form-control" onclick="getContract()" >查看电子合同</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>理由</label>
+                                    <textarea id="loanDscription" class="form-control" readonly></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <i class="fa fa-cc-visa">&nbsp;优惠券信息</i>
+                        <a href="javascript:void(0)" class="badge bg-blue" id="serchCoupon">查看优惠券信息</a>
+
+                        <div class="row" style="margin-top: 20px">
+                            <div id="loan_table_coupon"></div>
+                        </div>
+
+                        <hr>
+                        <i class="fa fa-yelp">&nbsp;逾期状况</i>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>逾期天数</label>
+                                    <input id="rpBedueDays" type="text" class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>剩余利息</label>
+                                    <input id="rpMonthInterest" type="text" class="form-control" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>剩余违约金</label>
+                                    <input id="rpPenalty" type="text" class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>已还款</label>
+                                    <input id="rpHasBeenPayment" type="text" class="form-control" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>剩余罚息</label>
+                                    <input id="rpPenaltyInterest" type="text" class="form-control" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>剩余还款总额</label>
+                                    <input id="rpSurplusTotalAmount" type="text" class="form-control" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>剩余本金</label>
+                                    <input id="rpMonthMoney" type="text" class="form-control" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <i class="fa fa-cc-visa">&nbsp;资金流水</i> <a href="javascript:void(0)" id="serchOrders" class="badge bg-blue">查看资金流水</a>
+
+                        <div class="col-md-12">
+                            <div id="orderTable" style="border: 0px solid #ccc;"></div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab-3">
+                        <div>
+                            <i class="fa fa-file">&nbsp;</i> <a href="javascript:void(0)" id="polyXinliCredit"
+                                                                class="badge bg-blue">查看聚信立报告</a>
+                            <a href="javascript:void(0)" id="polyXinliCreditExport"
+                               class="badge bg-blue">导出聚信立报告</a>
+                            <a href="javascript:void(0)" class="badge bg-red pull-right"
+                               id="creditInvestigation">查看征信报告</a>
+                            <div class="col-md-12">
+                                <div id="creditTable" style="border: 0px solid #ccc;"></div>
+                            </div>
+                        </div>
+
+                        <i class="fa fa-phone">&nbsp;</i> <a href="javascript:void(0)" id="modileContact"
+                                                             class="badge bg-blue">查看手机通信录</a>
+                        <a href="javascript:void(0)" id="modileContactExport"
+                           class="badge bg-blue">导出手机通信录</a>
+                        <div class="col-md-12">
+                            <div id="modileContactTable" style="border: 0px solid #ccc;"></div>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane" id="tab-4">
+                        <i class="fa fa-file">&nbsp;</i> <a href="javascript:void(0)" class="badge bg-blue">查看银行卡信息</a>
+                        <div class="col-md-12">
+                            <div id="bankTable" style="border: 0px solid #ccc;"></div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab-5">
+                        <i class="fa fa-file">&nbsp;</i> <a href="javascript:void(0)" class="badge bg-blue">查看催收备注</a>
+                        <div class="col-md-12">
+                            <div id="memo_tool_add"
+                                 style=" position: absolute; z-index: 1;left:90px; margin-top:-5px;"></div>
+                            <div id="memoTable" style="border: 0px solid #ccc;"></div>
+                        </div>
+                        <div class="modal fade" tabindex="-1" role="dialog" id="collectionMemo">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title">催收备注</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="remarkForm_layer" class="form-horizontal">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">合同号</label>
+                                                <div class="col-sm-10">
+                                                    <input type="hidden" name="contractSysno" id="contractKey">
+                                                    <input type="hidden" name="createUser" id="createUser">
+                                                    <input type="text" class="form-control" name="contractId"
+                                                           id="contractId" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">合同类型</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" name="contractType" readonly
+                                                           value="APP">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">合同类型</label>
+                                                <div class="col-sm-10">
+                                                    <select name="type" id="type" class="form-control">
+                                                        <option value="A">催收备注</option>
+                                                        <option value="B">提醒备注</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">备注内容</label>
+                                                <div class="col-sm-10">
+                                                    <textarea name="remark" id="remark" class="form-control"
+                                                              style="resize: none" rows="4"></textarea>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button type="button" id="btnRemark_layer" class="btn btn-primary">提交催收备注
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
+
+
+
+

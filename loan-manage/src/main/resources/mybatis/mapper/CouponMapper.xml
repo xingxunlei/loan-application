@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_manage.mapper.CouponMapper">
+    <resultMap id="BaseResultMap" type="com.loan_entity.manager.Coupon">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="coupon_name" property="couponName" jdbcType="VARCHAR"/>
+        <result column="product_id" property="productId" jdbcType="INTEGER"/>
+        <result column="duation" property="duation" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="amount" property="amount" jdbcType="DECIMAL"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="creation_date" property="creationDate" jdbcType="TIMESTAMP"/>
+        <result column="creation_user" property="creationUser" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="getAllCouponList" resultType="com.loan_entity.manager_vo.CouponVo">
+		SELECT
+		c.id,
+		c.coupon_name AS couponName,
+		c.product_id AS productId,
+		c.duation,
+		c.`status`,
+		c.amount,
+		c.update_date AS updateDate,
+		c.update_user AS
+		updateUser,
+		c.creation_date AS creationDate,
+		c.creation_user AS
+		creationUser,
+		r.user_name AS employName,
+		p.product_name AS
+		productName
+		FROM
+		ym_coupon AS c
+		LEFT JOIN ds_collectors_level_back AS r ON c.update_user
+		= r.user_sysno
+		LEFT JOIN ym_product AS p ON c.product_id = p.id
+		ORDER BY
+		c.id DESC
+
+
+	</select>
+    <select id="selectByName" parameterType="java.lang.String" resultType="com.loan_entity.manager.Coupon">
+		SELECT id,coupon_name AS couponName,product_id AS
+		productId,duation,STATUS,amount FROM ym_coupon WHERE coupon_name =
+		#{couponName}
+	</select>
+</mapper>

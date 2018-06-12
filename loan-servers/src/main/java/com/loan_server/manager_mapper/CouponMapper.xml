@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.manager_mapper.CouponMapper">
+	<resultMap id="BaseResultMap" type="com.loan_entity.manager.Coupon">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="coupon_name" property="couponName" jdbcType="VARCHAR" />
+		<result column="product_id" property="productId" jdbcType="INTEGER" />
+		<result column="duation" property="duation" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="amount" property="amount" jdbcType="DECIMAL" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+		<result column="creation_date" property="creationDate"
+			jdbcType="TIMESTAMP" />
+		<result column="creation_user" property="creationUser"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, coupon_name, product_id, duation, status, amount,
+		update_date,
+		update_user, creation_date,
+		creation_user
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from ym_coupon
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		ym_coupon
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.loan_entity.manager.Coupon">
+		insert into ym_coupon (id,
+		coupon_name, product_id,
+		duation, status, amount,
+		update_date,
+		update_user, creation_date,
+		creation_user)
+		values
+		(#{id,jdbcType=INTEGER}, #{couponName,jdbcType=VARCHAR},
+		#{productId,jdbcType=INTEGER},
+		#{duation,jdbcType=INTEGER},
+		#{status,jdbcType=VARCHAR}, #{amount,jdbcType=DECIMAL},
+		#{updateDate,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR},
+		#{creationDate,jdbcType=TIMESTAMP},
+		#{creationUser,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.loan_entity.manager.Coupon">
+		insert into ym_coupon
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="couponName != null">
+				coupon_name,
+			</if>
+			<if test="productId != null">
+				product_id,
+			</if>
+			<if test="duation != null">
+				duation,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="amount != null">
+				amount,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="updateUser != null">
+				update_user,
+			</if>
+			<if test="creationDate != null">
+				creation_date,
+			</if>
+			<if test="creationUser != null">
+				creation_user,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="couponName != null">
+				#{couponName,jdbcType=VARCHAR},
+			</if>
+			<if test="productId != null">
+				#{productId,jdbcType=INTEGER},
+			</if>
+			<if test="duation != null">
+				#{duation,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null">
+				#{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+				#{updateUser,jdbcType=VARCHAR},
+			</if>
+			<if test="creationDate != null">
+				#{creationDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creationUser != null">
+				#{creationUser,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.loan_entity.manager.Coupon">
+		update ym_coupon
+		<set>
+			<if test="couponName != null">
+				coupon_name = #{couponName,jdbcType=VARCHAR},
+			</if>
+			<if test="productId != null">
+				product_id = #{productId,jdbcType=INTEGER},
+			</if>
+			<if test="duation != null">
+				duation = #{duation,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null">
+				amount = #{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+				update_user = #{updateUser,jdbcType=VARCHAR},
+			</if>
+			<if test="creationDate != null">
+				creation_date = #{creationDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creationUser != null">
+				creation_user = #{creationUser,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.loan_entity.manager.Coupon">
+		update ym_coupon
+		set coupon_name = #{couponName,jdbcType=VARCHAR},
+		product_id =
+		#{productId,jdbcType=INTEGER},
+		duation = #{duation,jdbcType=INTEGER},
+		status = #{status,jdbcType=VARCHAR},
+		amount =
+		#{amount,jdbcType=DECIMAL},
+		update_date =
+		#{updateDate,jdbcType=TIMESTAMP},
+		update_user =
+		#{updateUser,jdbcType=VARCHAR},
+		creation_date =
+		#{creationDate,jdbcType=TIMESTAMP},
+		creation_user =
+		#{creationUser,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="getAllCouponList" resultType="com.loan_entity.manager_vo.CouponVo">
+		SELECT
+		c.id,
+		c.coupon_name AS couponName,
+		c.product_id AS productId,
+		c.duation,
+		c.`status`,
+		c.amount,
+		c.update_date AS updateDate,
+		c.update_user AS
+		updateUser,
+		c.creation_date AS creationDate,
+		c.creation_user AS
+		creationUser,
+		r.user_name AS employName,
+		p.product_name AS
+		productName
+		FROM
+		ym_coupon AS c
+		LEFT JOIN ds_collectors_level_back AS r ON c.update_user = r.user_sysno
+		LEFT JOIN ym_product AS p ON c.product_id = p.id
+		ORDER BY
+		c.id DESC
+	</select>
+	<select id="selectByName" parameterType="java.lang.String"
+		resultType="com.loan_entity.manager.Coupon">
+		SELECT id,coupon_name AS couponName,product_id AS
+		productId,duation,STATUS,amount FROM ym_coupon WHERE coupon_name =
+		#{couponName}
+	</select>
+</mapper>

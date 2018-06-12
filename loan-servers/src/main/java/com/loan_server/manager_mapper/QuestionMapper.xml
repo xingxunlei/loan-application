@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.manager_mapper.QuestionMapper">
+	<resultMap id="BaseResultMap" type="com.loan_entity.manager.Question">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="question_type" property="questionType"
+			jdbcType="VARCHAR" />
+		<result column="question_text" property="questionText"
+			jdbcType="VARCHAR" />
+		<result column="employ_num" property="employNum" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="status" property="status" jdbcType="CHAR" />
+		<result column="sync" property="sync" jdbcType="CHAR" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.loan_entity.manager.Question"
+		extends="BaseResultMap">
+		<result column="answer" property="answer" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, question_type, question_text, employ_num, create_time,
+		status, sync
+	</sql>
+	<sql id="Blob_Column_List">
+		answer
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from ym_question
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		ym_question
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.loan_entity.manager.Question">
+		insert into ym_question (id,
+		question_type, question_text,
+		employ_num, create_time, status,
+		sync,
+		answer)
+		values (#{id,jdbcType=INTEGER},
+		#{questionType,jdbcType=VARCHAR},
+		#{questionText,jdbcType=VARCHAR},
+		#{employNum,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+		#{status,jdbcType=CHAR},
+		#{sync,jdbcType=CHAR},
+		#{answer,jdbcType=LONGVARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.loan_entity.manager.Question">
+		insert into ym_question
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="questionType != null">
+				question_type,
+			</if>
+			<if test="questionText != null">
+				question_text,
+			</if>
+			<if test="employNum != null">
+				employ_num,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="sync != null">
+				sync,
+			</if>
+			<if test="answer != null">
+				answer,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="questionType != null">
+				#{questionType,jdbcType=VARCHAR},
+			</if>
+			<if test="questionText != null">
+				#{questionText,jdbcType=VARCHAR},
+			</if>
+			<if test="employNum != null">
+				#{employNum,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=CHAR},
+			</if>
+			<if test="sync != null">
+				#{sync,jdbcType=CHAR},
+			</if>
+			<if test="answer != null">
+				#{answer,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.loan_entity.manager.Question">
+		update ym_question
+		<set>
+			<if test="questionType != null">
+				question_type = #{questionType,jdbcType=VARCHAR},
+			</if>
+			<if test="questionText != null">
+				question_text = #{questionText,jdbcType=VARCHAR},
+			</if>
+			<if test="employNum != null">
+				employ_num = #{employNum,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=CHAR},
+			</if>
+			<if test="sync != null">
+				sync = #{sync,jdbcType=CHAR},
+			</if>
+			<if test="answer != null">
+				answer = #{answer,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.loan_entity.manager.Question">
+		update
+		ym_question
+		set question_type = #{questionType,jdbcType=VARCHAR},
+		question_text = #{questionText,jdbcType=VARCHAR},
+		employ_num =
+		#{employNum,jdbcType=VARCHAR},
+		create_time =
+		#{createTime,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=CHAR},
+		sync = #{sync,jdbcType=CHAR},
+		answer = #{answer,jdbcType=LONGVARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.loan_entity.manager.Question">
+		update ym_question
+		set question_type = #{questionType,jdbcType=VARCHAR},
+		question_text =
+		#{questionText,jdbcType=VARCHAR},
+		employ_num =
+		#{employNum,jdbcType=VARCHAR},
+		create_time =
+		#{createTime,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=CHAR},
+		sync = #{sync,jdbcType=CHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="selectAllQuestion" resultType="com.loan_entity.manager.Question">
+		SELECT
+		id,question_type AS questionType,question_text AS questionText,answer
+		FROM `ym_question` WHERE STATUS = 1
+	</select>
+	<select id="getAllQuestionList" resultType="com.loan_entity.manager_vo.QuestionVo">
+		SELECT
+		q.id,
+		q.question_type AS questionType,
+		q.question_text AS questionText,
+		q.answer,
+		q.employ_num AS employNum,
+		q.create_time AS createTime,
+		q.`status`,
+		q.update_date AS updateDate,
+		q.sync,
+		r.emplloyee_name AS employName
+		FROM
+		ym_question AS q
+		LEFT JOIN ym_riewer AS r ON q.employ_num =
+		r.employ_num
+		ORDER BY
+		q.id DESC
+	</select>
+</mapper>

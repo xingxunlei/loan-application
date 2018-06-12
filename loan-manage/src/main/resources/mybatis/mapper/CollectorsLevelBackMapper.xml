@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_manage.mapper.CollectorsLevelBackMapper">
+
+	<select id="queryCreateUserName" resultType="com.loan_entity.loan.CollectorsLevelBack" parameterType="map">
+		select user_sysno userSysno, user_name userName
+		from ds_collectors_level_back
+		<where>
+			<if test="collectionUser != null">
+				and user_name like #{collectionUser}
+			</if>
+		</where>
+	</select>
+
+	<select id="queryCollectionUserName" resultType="com.loan_entity.loan.CollectorsLevelBack" parameterType="map">
+		select user_sysno userSysno, user_name userName
+		from ds_collectors_level_back
+		<where>
+			<if test="collectionUser != null">
+				and user_name like #{collectionUser}
+			</if>
+		</where>
+	</select>
+
+	<insert id="insertList" parameterType="List">
+		INSERT INTO ds_collectors_level_back (user_sysno, user_name)
+		VALUES
+		<foreach collection ="list" item="i" index= "index" separator=",">
+			(
+			#{i.employee_num},
+			#{i.name}
+			)
+		</foreach>
+	</insert>
+
+	<delete id="delAll">
+		delete FROM ds_collectors_level_back where user_sysno != '9999'
+	</delete>
+</mapper>

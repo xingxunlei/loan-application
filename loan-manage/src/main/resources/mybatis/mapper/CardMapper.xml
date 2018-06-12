@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_manage.mapper.CardMapper">
+	<resultMap id="BaseResultMap" type="com.loan_entity.app.Card" >
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="per_id" property="perId" jdbcType="INTEGER" />
+		<result column="card_num" property="cardNum" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="VARCHAR" />
+		<result column="nation" property="nation" jdbcType="VARCHAR" />
+		<result column="birthday" property="birthday" jdbcType="DATE" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="office" property="office" jdbcType="VARCHAR" />
+		<result column="start_date" property="startDate" jdbcType="DATE" />
+		<result column="end_date" property="endDate" jdbcType="DATE" />
+		<result column="card_photoz" property="cardPhotoz" jdbcType="INTEGER" />
+		<result column="card_photof" property="cardPhotof" jdbcType="INTEGER" />
+		<result column="card_photod" property="cardPhotod" jdbcType="INTEGER" />
+		<result column="card_photov" property="cardPhotov" jdbcType="INTEGER" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="sync" property="sync" jdbcType="CHAR" />
+	</resultMap>
+	<sql id="Base_Column_List" >
+		id, per_id, card_num, name, sex, nation, birthday, address, office, start_date, end_date,
+		card_photoz, card_photof, card_photod, card_photov, update_date, sync
+	</sql>
+
+	<select id="quertCard" resultMap="BaseResultMap" parameterType="map">
+		select <include refid="Base_Column_List" />
+		from ym_card
+		<where>
+			<if test="name != null">
+				name like #{name}
+			</if>
+		</where>
+	</select>
+
+	<select id="queryRobot" resultType="map" parameterType="java.lang.Integer">
+		SELECT b.bank_num bankNum, p.phone, c.birthday, c.card_num cardNum, bl.borr_amount borrAmount, pt.term_value termValue
+		FROM ym_borrow_list bl , ym_card c, ym_person p, ym_product_term pt,ym_bank b
+		WHERE bl.per_id = p.id AND p.id = c.per_id AND p.id = b.per_id AND bl.prod_id = pt.product_id
+		AND bl.id = #{borrId} AND b.status = 1
+	</select>
+
+</mapper>

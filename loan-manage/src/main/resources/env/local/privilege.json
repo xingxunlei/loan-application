@@ -1,0 +1,51 @@
+[
+  {
+    "category": "1",
+    "privileges": [
+      "1",
+      "2"
+    ]
+  },
+  {
+    "category": "2",
+    "privileges": [
+      "2"
+    ]
+  },
+  {
+    "category": "3",
+    "privileges": [
+      "3"
+    ]
+  },
+  {
+    "category": "4",
+    "privileges": [
+      "4"
+    ]
+  },
+  {
+    "category": "6",
+    "privileges": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "10"
+    ]
+  },
+  {
+    "category": "10",
+    "privileges": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "10"
+    ]
+  }
+]

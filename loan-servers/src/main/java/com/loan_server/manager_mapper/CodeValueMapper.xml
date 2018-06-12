@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.manager_mapper.CodeValueMapper" >
+  <resultMap id="BaseResultMap" type="com.loan_entity.manager.CodeValue" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="code_type" property="codeType" jdbcType="VARCHAR" />
+    <result column="code_code" property="codeCode" jdbcType="VARCHAR" />
+    <result column="meaning" property="meaning" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="enabled_flag" property="enabledFlag" jdbcType="VARCHAR" />
+    <result column="sync" property="sync" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, code_type, code_code, meaning, description, enabled_flag, sync
+  </sql>
+   <select id="getCodeValueListByCode" resultMap="BaseResultMap" parameterType="String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ym_code_value
+     where code_type = #{code_type}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ym_code_value
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getMeaningByTypeCode" resultType="String" parameterType="String" >
+    select meaning
+    from ym_code_value
+    where code_type = #{0}
+    and code_code = ${1}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ym_code_value
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.loan_entity.manager.CodeValue" >
+    insert into ym_code_value (id, code_type, code_code, 
+      meaning, description, enabled_flag, 
+      sync)
+    values (#{id,jdbcType=INTEGER}, #{codeType,jdbcType=VARCHAR}, #{codeCode,jdbcType=VARCHAR}, 
+      #{meaning,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{enabledFlag,jdbcType=VARCHAR}, 
+      #{sync,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.loan_entity.manager.CodeValue" >
+    insert into ym_code_value
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="codeType != null" >
+        code_type,
+      </if>
+      <if test="codeCode != null" >
+        code_code,
+      </if>
+      <if test="meaning != null" >
+        meaning,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="enabledFlag != null" >
+        enabled_flag,
+      </if>
+      <if test="sync != null" >
+        sync,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="codeType != null" >
+        #{codeType,jdbcType=VARCHAR},
+      </if>
+      <if test="codeCode != null" >
+        #{codeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="meaning != null" >
+        #{meaning,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="enabledFlag != null" >
+        #{enabledFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="sync != null" >
+        #{sync,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.loan_entity.manager.CodeValue" >
+    update ym_code_value
+    <set >
+      <if test="codeType != null" >
+        code_type = #{codeType,jdbcType=VARCHAR},
+      </if>
+      <if test="codeCode != null" >
+        code_code = #{codeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="meaning != null" >
+        meaning = #{meaning,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="enabledFlag != null" >
+        enabled_flag = #{enabledFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="sync != null" >
+        sync = #{sync,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.loan_entity.manager.CodeValue" >
+    update ym_code_value
+    set code_type = #{codeType,jdbcType=VARCHAR},
+      code_code = #{codeCode,jdbcType=VARCHAR},
+      meaning = #{meaning,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      enabled_flag = #{enabledFlag,jdbcType=VARCHAR},
+      sync = #{sync,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="getSourceByDesc" resultType="java.lang.String">
+    /*CodeValueMapper.getSourceByDesc*/
+    SELECT code_code FROM ym_code_value WHERE description = #{description}
+  </select>
+
+  <select id="getCodeByType" resultType="String" parameterType="String" >
+    select code_code
+    from ym_code_value
+    where code_type = #{codeType}
+  </select>
+</mapper>

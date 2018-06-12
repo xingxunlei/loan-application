@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_manage.mapper.CompanyOrderMapper">
+    <resultMap id="AllColumnMap" type="com.loan_entity.manager.LoanCompanyOrder">
+        <result column="id" property="id"/>
+        <result column="order_id" property="orderId"/>
+        <result column="company_id" property="companyId"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_date" property="createDate"/>
+    </resultMap>
+
+</mapper>
+

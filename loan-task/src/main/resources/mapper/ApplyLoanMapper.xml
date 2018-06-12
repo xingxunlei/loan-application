@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jhh.dao.ApplyLoanMapper">
+
+	<resultMap id="BaseResultMap" type="com.jhh.model.ApplyLoanVo">
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="askborr_date" property="apply_time" jdbcType="VARCHAR" />
+		<result column="maximum_amount" property="apply_money" jdbcType="INTEGER" />
+		<result column="term_value" property="apply_period" jdbcType="INTEGER" />
+		<result column="borr_num" property="order_id" jdbcType="VARCHAR" />
+
+	</resultMap>
+	<select id="getBorrowListByPerId" resultMap="BaseResultMap" parameterType="String">
+		/*ApplyLoanMapper.getBorrowListByPerId*/
+		SELECT b.borr_num,b.askborr_date,a.phone,t.maximum_amount,t.term_value
+		FROM ym_borrow_list b,ym_person a,ym_product_term t where
+		b.borr_status IN ('BS008','BS009') AND a.id = b.per_id AND b.prod_id = t.product_id
+		<foreach collection="source" item="source" open="AND a.source IN(" close=")" separator=",">
+			#{source}
+		</foreach>
+		AND b.update_date > date_sub(now(), interval 10 minute)
+	</select>
+
+</mapper>

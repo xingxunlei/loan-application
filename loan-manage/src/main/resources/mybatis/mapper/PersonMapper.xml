@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_manage.mapper.PersonMapper">
+	<resultMap id="BaseResultMap" type="com.loan_entity.app.Person">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="guid" property="guid" jdbcType="VARCHAR" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="check_date" property="checkDate" jdbcType="DATE" />
+		<result column="blacklist" property="blacklist" jdbcType="VARCHAR" />
+		<result column="phone_business" property="phoneBusiness" jdbcType="VARCHAR" />
+		<result column="phone_service" property="phoneService" jdbcType="VARCHAR" />
+		<result column="bpm_id" property="bpmId" jdbcType="INTEGER" />
+		<result column="grade" property="grade" jdbcType="INTEGER" />
+		<result column="is_login" property="isLogin" jdbcType="INTEGER" />
+		<result column="token_id" property="tokenId" jdbcType="VARCHAR" />
+		<result column="source" property="source" jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="sync" property="sync" jdbcType="CHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="BaseResultMap_Private" type="com.loan_entity.manager_vo.PrivateVo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="per_id" property="per_id" jdbcType="INTEGER" />
+		<result column="qq_num" property="qq_num" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="usuallyaddress" property="usuallyaddress"
+			jdbcType="VARCHAR" />
+		<result column="education" property="education" jdbcType="VARCHAR" />
+		<result column="marry" property="marry" jdbcType="VARCHAR" />
+		<result column="getchild" property="getchild" jdbcType="VARCHAR" />
+		<result column="profession" property="profession" jdbcType="VARCHAR" />
+		<result column="monthlypay" property="monthlypay" jdbcType="VARCHAR" />
+		<result column="business" property="business" jdbcType="VARCHAR" />
+		<result column="busi_province" property="busi_province"
+			jdbcType="VARCHAR" />
+		<result column="busi_city" property="busi_city" jdbcType="VARCHAR" />
+		<result column="busi_address" property="busi_address" jdbcType="VARCHAR" />
+		<result column="busi_phone" property="busi_phone" jdbcType="VARCHAR" />
+		<result column="relatives" property="relatives" jdbcType="VARCHAR" />
+		<result column="relatives_name" property="relatives_name"
+			jdbcType="VARCHAR" />
+		<result column="rela_phone" property="rela_phone" jdbcType="VARCHAR" />
+		<result column="society" property="society" jdbcType="VARCHAR" />
+		<result column="soci_phone" property="soci_phone" jdbcType="VARCHAR" />
+		<result column="society_name" property="society_name" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="card_num" property="card_num" jdbcType="VARCHAR" />
+		<result column="relatives_value" property="relatives_value"
+			jdbcType="VARCHAR" />
+		<result column="society_value" property="society_value"
+			jdbcType="VARCHAR" />
+
+		<result column="source" property="source" jdbcType="VARCHAR" />
+		<result column="source_value" property="source_value" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
+		<result column="blacklist" property="blacklist" jdbcType="VARCHAR" />
+		<result column="create_date" property="create_date" jdbcType="TIMESTAMP" />
+
+
+	</resultMap>
+
+	<select id="selectPersonId" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT person.id FROM ym_person person
+			LEFT JOIN ym_card card ON card.per_id = person.id
+		WHERE 1=1
+		<if test="phone != null">
+			AND person.phone = #{phone}
+		</if>
+		<if test="idCard != null">
+			AND card.card_num = #{idCard}
+		</if>
+		<if test="name != null">
+			AND card.name = #{name}
+		</if>
+	</select>
+
+	<select id="getPersonByPhone" parameterType="java.lang.String"
+		resultType="com.loan_entity.app.Person">
+		SELECT id,guid,username,PASSWORD,phone,check_date AS
+		checkDate,blacklist,phone_business AS phoneBusiness,phone_service AS
+		phoneService,bpm_id AS bpmId,grade,is_login AS isLogin FROM
+		ym_person
+		WHERE phone = #{phone}
+	</select>
+
+	<select id="selectPersonByBlackListNull" resultMap="BaseResultMap">
+		SELECT * FROM ym_person WHERE blacklist is NULL
+	</select>
+
+	<select id="selectPersonByBlackListNullCount" resultType="java.lang.Integer">
+		SELECT count(*) FROM ym_person WHERE blacklist is NULL
+	</select>
+
+	<select id="selectPersonById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT * from ym_person WHERE id=#{0}
+	</select>
+
+	<update id="updatePersonBlackList" parameterType="java.util.List">
+		UPDATE ym_person SET blacklist='N' WHERE id in
+		<foreach item="item" index="index" collection="personList" open="(" separator="," close=")">
+			#{item,jdbcType=INTEGER}
+		</foreach>
+		AND blacklist is null
+	</update>
+
+	<select id="getPersonInfoByBorr" parameterType="java.lang.String"
+		resultType="com.loan_entity.app.PersonMode">
+		SELECT
+		*
+		FROM
+		personInfoMode AS v
+		WHERE
+		v.perId=(SELECT l.per_id FROM ym_borrow_list as l WHERE l.id = #{brroid,jdbcType=INTEGER})
+	</select>
+	
+	
+	<select id="queryUserInfo" resultMap="BaseResultMap_Private" parameterType="java.lang.Integer">
+		SELECT
+		p.phone,
+		p.blacklist,
+		p.source,
+		p.create_date,
+		c.card_num,
+		c.`name`,
+		c.birthday,
+		c.address,
+		r.id,
+		r.per_id,
+		r.qq_num,
+		r.email,
+		r.usuallyaddress,
+		r.education,
+		r.marry,
+		r.getchild,
+		r.profession,
+		r.monthlypay,
+		r.business,
+		r.busi_province,
+		r.busi_city,
+		r.busi_address,
+		r.busi_phone,
+		r.relatives,
+		r.relatives_name,
+		r.rela_phone,
+		r.society,
+		r.soci_phone,
+		r.society_name,
+		r.update_date,
+		r.sync,
+		q.meaning AS
+		source_value,
+		v.meaning AS relatives_value,
+		w.meaning AS society_value
+		FROM
+		ym_person AS p
+		LEFT JOIN ym_card AS c ON p.id = c.per_id
+		LEFT JOIN
+		ym_private AS r ON p.id = r.per_id
+		LEFT JOIN ym_code_value AS q ON
+		p.source = q.code_code AND q.code_type =
+		'register_source'
+		LEFT JOIN
+		ym_code_value AS v ON r.relatives = v.code_code AND v.code_type
+		=
+		'relatives'
+		LEFT JOIN ym_code_value AS w ON r.society = w.code_code AND
+		w.code_type =
+		'society'
+		where p.id = #{perId}
+	</select>
+	
+	
+	<select id="queryCardPicById" resultType="com.loan_entity.manager_vo.CardPicInfoVo"
+		parameterType="java.lang.Integer">
+		SELECT
+		c.per_id AS perId,
+		z.image_type AS imageTypeZ,
+		z.image_format AS imageFormatZ,
+		z.image AS imageZ,
+		f.image_type AS
+		imageTypeF,
+		f.image_format AS imageFormatF,
+		f.image AS imageF,
+		c.id AS
+		id,
+		z.image_url AS image_urlZ,
+		f.image_url AS image_urlF
+		FROM
+		ym_card AS c
+		INNER JOIN ym_image AS z ON c.card_photoz = z.id
+		INNER
+		JOIN ym_image AS
+		f ON c.card_photof = f.id
+		WHERE c.per_id =
+		#{_parameter} AND c.id =
+		(SELECT MAX(c.id) FROM ym_card AS
+		t WHERE
+		t.per_id = #{_parameter})
+
+	</select>
+
+
+	<select id="getReviewVoBlackList" resultType="com.loan_entity.manager_vo.ReviewVo"
+			parameterType="java.lang.Integer">
+		SELECT
+		  r.id,
+		  (SELECT cv.meaning FROM ym_code_value cv WHERE cv.code_type = 'review_type' AND  cv.code_code = r.review_type) meaning,
+		  r.reason,
+		  (SELECT user_name FROM ds_collectors_level_back WHERE user_sysno = r.employ_num) emplloyeeName,
+		  r.create_date createDate
+		FROM
+		  ym_review AS r
+		WHERE
+   		 r.borr_id = #{perId} and review_type != 1
+		ORDER BY r.id DESC
+	</select>
+</mapper>

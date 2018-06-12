@@ -1,0 +1,278 @@
+<style>
+	.wblMd .wblBackground{
+		left:0px;
+		height:132px;
+	}
+	.wblMd .dx-datagrid-header-panel{
+		left:20px;
+		width:97%;
+		top:65px;
+	}
+	.wblMd .dx-datagrid-headers{
+		left:20px;
+		width:97%;
+		top:120px;
+	}
+
+	.wblMd  .dx-datagrid-rowsview{
+		height: 400px !important;
+	}
+</style>
+
+<!-- BEGIN PAGE HEADER-->
+
+<div class="page-bar" style="margin-bottom: 10px;">
+	<ul class="page-breadcrumb">
+		<li><i class="fa fa-home"></i> <a href="#/dashboard.html">首页</a>
+			<i class="fa fa-angle-right"></i></li>
+		<li><a href="#/lookup_type_manage.html">快速编码</a></li>
+	</ul>
+</div>
+<!-- END PAGE HEADER-->
+<!-- BEGIN MAIN CONTENT -->
+<div class="row"  style="min-height:200px;background:url('/zloan-manage/assets/admin/layout/img/loading_mylike.gif') no-repeat center center;">
+	<div class="col-md-12 wblCheck ">
+		<!-- BEGIN EXAMPLE TABLE PORTLET-->
+		<div class="wblBackground"></div>
+		<div class="wblTool">
+			<div id="tool_add" style=" position: absolute; z-index: 1;width:20%;"></div>
+			<div id="tool_edit" style=" position: absolute; z-index: 1;left:60px;width:20%;"></div>
+			<div id="tool_del" style=" position: absolute; z-index: 1;left:105px;width:20%;"></div>
+			<div id="tool_find" style=" position: absolute; z-index: 1;left:150px;width:20%;"></div>
+			<div id="tool_sync" style=" position: absolute; z-index: 1;left:330px;width:50%;"></div>
+		</div>
+		<div class="wblFillDiv"></div>
+		<div id="userTable" style="border: 0px solid #ccc;"></div>
+	</div>
+</div>
+<!-- END MAIN CONTENT -->
+
+<div id="window_add" class="container"
+	style=" position: absolute; z-index: 99999;overflow:auto;">
+	<div
+		style=" display:none; position: absolute; z-index: 1;width: 100%;height: 100%;"></div>
+	<div class="row" style="margin-top:20px">
+		<div class="col-md-12">
+			<div class="dx-field">
+				<div class="dx-field-label">代码</div>
+				<div class="dx-field-value">
+					<div id="w_lookuptype"></div>
+
+				</div>
+			</div>
+			<div class="dx-field">
+				<div class="dx-field-label">含义</div>
+				<div class="dx-field-value">
+					<div id="w_lookuptypemeaning"></div>
+				</div>
+			</div>
+			<div class="dx-field">
+				<div class="dx-field-label">说明</div>
+				<div class="dx-field-value">
+					<div id="w_description"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top: 30px">
+		<div class="col-md-12">
+			<div class="dx-field-label"></div>
+			<div id="submitadd_ga"></div>
+		</div>
+	</div>
+</div>
+
+<div id="window_edit" class="container"
+	style=" position: absolute; z-index: 99999;overflow:auto;">
+	<div
+		style=" display:none; position: absolute; z-index: 1;width: 100%;height: 100%;"></div>
+	<div class="row" style="margin-top:20px">
+		<div class="col-md-12">
+			<div class="dx-field">
+				<div class="dx-field-label">代码</div>
+				<div class="dx-field-value">
+					<div id="u_w_lookuptype"></div>
+					
+				</div>
+			</div>
+			<div class="dx-field">
+				<div class="dx-field-label">含义</div>
+				<div class="dx-field-value">
+					<div id="u_w_lookuptypemeaning"></div>
+				</div>
+			</div>
+			<div class="dx-field">
+				<div class="dx-field-label">说明</div>
+				<div class="dx-field-value">
+					<div id="u_w_description"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top: 30px">
+		<div class="col-md-12">
+			<div class="dx-field-label"></div>
+			<div id="submitedit_ga"></div>
+		</div>
+	</div>
+</div>
+
+<div id="window_del" class="container"
+	style=" position: absolute; z-index: 99999;overflow:auto;">
+	<div
+		style=" display:none; position: absolute; z-index: 1;width: 100%;height: 100%;"></div>
+	
+	<div class="row" style="margin-top: 30px">
+		<div class="col-md-12">
+			<div class="dx-field-label">确定删除这些数据？</div>
+			<div class="dx-field-value">
+					<div id="showdelnames_ga"></div>
+				</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top: 30px">
+		<div class="col-md-12">
+			<div class="dx-field-label"></div>
+			<div id="submit_del_ga"></div>
+		</div>
+	</div>
+</div>
+
+
+<div id="window_find" class="container"
+	style="position: absolute; z-index: 99999;overflow:auto;display:none;">
+	
+	<div class="row">
+		<div class="col-md-12 wblMd">
+			<!-- BEGIN EXAMPLE TABLE PORTLET-->
+			<div class="wblBackground"></div>
+			<div class="wblFillDiv"></div>
+			<div style="position:fixed;top:65px;left:20px;z-index:10000;width:100%;">
+				<div id="tool_add_value" style=" position: absolute; z-index: 1;" style="width:50%;"></div>
+				<div id="tool_edit_value" style=" position: absolute; z-index: 1;left:60px" style="width:50%;"></div>
+				<div id="tool_del_value" style=" position: absolute; z-index: 1;left:105px" style="width:50%;"></div>
+			</div>
+
+			
+			<div id="userTable_value" style="border: 0px solid #ccc;"></div>
+		</div>
+	</div>
+</div>
+
+<div id="window_add_value" class="container"
+	style=" position: absolute; z-index: 99999;overflow:auto;">
+	<div
+		style=" display:none; position: absolute; z-index: 1;width: 100%;height: 100%;"></div>
+	<div class="row" style="margin-top:20px">
+		<div class="col-md-12">
+			<div class="dx-field">
+				<div class="dx-field-label">代码</div>
+				<div class="dx-field-value">
+					<div id="w_lookupcode_value"></div>
+					
+				</div>
+			</div>
+			<div class="dx-field">
+				<div class="dx-field-label">含义</div>
+				<div class="dx-field-value">
+					<div id="w_lookupcodemeaning_value"></div>
+				</div>
+			</div>
+			<div class="dx-field">
+				<div class="dx-field-label">说明</div>
+				<div class="dx-field-value">
+					<div id="w_description_value"></div>
+				</div>
+			</div>
+			<div class="dx-field">
+				<div class="dx-field-label">状态</div>
+				<div class="dx-field-value">
+					<div id="w_checks_value"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top: 30px">
+		<div class="col-md-12">
+			<div class="dx-field-label"></div>
+			<div id="submitadd_ga_value"></div>
+		</div>
+	</div>
+</div>
+
+<div id="window_edit_value" class="container"
+	style=" position: absolute; z-index: 99999;overflow:auto;">
+	<div
+		style=" display:none; position: absolute; z-index: 1;width: 100%;height: 100%;"></div>
+	<div class="row" style="margin-top:20px">
+		<div class="col-md-12">
+			<div class="dx-field">
+				<div class="dx-field-label">代码</div>
+				<div class="dx-field-value">
+					<div id="u_w_lookupcode_value"></div>
+					
+				</div>
+			</div>
+			<div class="dx-field">
+				<div class="dx-field-label">含义</div>
+				<div class="dx-field-value">
+					<div id="u_w_lookupcodemeaning_value"></div>
+				</div>
+			</div>
+			<div class="dx-field">
+				<div class="dx-field-label">说明</div>
+				<div class="dx-field-value">
+					<div id="u_w_description_value"></div>
+				</div>
+			</div>
+			<div class="dx-field">
+				<div class="dx-field-label">状态</div>
+				<div class="dx-field-value">
+					<div id="u_w_checks_value"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top: 30px">
+		<div class="col-md-12">
+			<div class="dx-field-label"></div>
+			<div id="submitedit_ga_value"></div>
+		</div>
+	</div>
+</div>
+
+<div id="window_del_value" class="container"
+	style=" position: absolute; z-index: 99999;overflow:auto;">
+	<div
+		style=" display:none; position: absolute; z-index: 1;width: 100%;height: 100%;"></div>
+	
+	<div class="row" style="margin-top: 30px">
+		<div class="col-md-12">
+			<div class="dx-field-label">确定删除这些数据？</div>
+			<div class="dx-field-value">
+					<div id="showdelnames_ga_value"></div>
+				</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top: 30px">
+		<div class="col-md-12">
+			<div class="dx-field-label"></div>
+			<div id="submit_del_ga_value"></div>
+		</div>
+	</div>
+</div>
+
+<!-- BEGIN MAIN JS -->
+<script>
+	lookup_type_manage();
+</script>
+<!-- END MAIN JS -->
+
+
+
+
+
+
+
+
+

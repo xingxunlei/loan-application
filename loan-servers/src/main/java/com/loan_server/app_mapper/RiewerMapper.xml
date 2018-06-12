@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.app_mapper.RiewerMapper" >
+  <resultMap id="BaseResultMap" type="com.loan_entity.app.Riewer" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="employ_num" property="employNum" jdbcType="VARCHAR" />
+    <result column="emplloyee_name" property="emplloyeeName" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="creation_date" property="creationDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, employ_num, emplloyee_name, status, creation_date, update_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ym_riewer
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ym_riewer
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.loan_entity.app.Riewer" >
+    insert into ym_riewer (id, employ_num, emplloyee_name, 
+      status, creation_date, update_date
+      )
+    values (#{id,jdbcType=INTEGER}, #{employNum,jdbcType=VARCHAR}, #{emplloyeeName,jdbcType=VARCHAR}, 
+      #{status,jdbcType=CHAR}, #{creationDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.loan_entity.app.Riewer" >
+    insert into ym_riewer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="employNum != null" >
+        employ_num,
+      </if>
+      <if test="emplloyeeName != null" >
+        emplloyee_name,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="creationDate != null" >
+        creation_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="employNum != null" >
+        #{employNum,jdbcType=VARCHAR},
+      </if>
+      <if test="emplloyeeName != null" >
+        #{emplloyeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="creationDate != null" >
+        #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.loan_entity.app.Riewer" >
+    update ym_riewer
+    <set >
+      <if test="employNum != null" >
+        employ_num = #{employNum,jdbcType=VARCHAR},
+      </if>
+      <if test="emplloyeeName != null" >
+        emplloyee_name = #{emplloyeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="creationDate != null" >
+        creation_date = #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.loan_entity.app.Riewer" >
+    update ym_riewer
+    set employ_num = #{employNum,jdbcType=VARCHAR},
+      emplloyee_name = #{emplloyeeName,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      creation_date = #{creationDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 查询所有审核人的员工编号 -->
+  <select id="selectEmployNum" resultType="string">
+  	SELECT employ_num FROM ym_riewer WHERE status = 'y' ORDER BY id
+  </select>
+</mapper>

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.manager_mapper.ReviewMapper">
+	<resultMap id="BaseResultMap" type="com.loan_entity.manager.Review">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="borr_id" property="borrId" jdbcType="INTEGER" />
+		<result column="review_type" property="reviewType" jdbcType="VARCHAR" />
+		<result column="reason" property="reason" jdbcType="VARCHAR" />
+		<result column="employ_num" property="employNum" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="sync" property="sync" jdbcType="CHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, borr_id, review_type, reason, employ_num, status,
+		create_date, sync
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from ym_review
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		ym_review
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.loan_entity.manager.Review">
+		insert into ym_review (id,
+		borr_id, review_type,
+		reason, employ_num, status,
+		create_date, sync)
+		values (#{id,jdbcType=INTEGER}, #{borrId,jdbcType=INTEGER},
+		#{reviewType,jdbcType=VARCHAR},
+		#{reason,jdbcType=VARCHAR},
+		#{employNum,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
+		#{createDate,jdbcType=TIMESTAMP}, #{sync,jdbcType=CHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.loan_entity.manager.Review">
+		insert into ym_review
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="borrId != null">
+				borr_id,
+			</if>
+			<if test="reviewType != null">
+				review_type,
+			</if>
+			<if test="reason != null">
+				reason,
+			</if>
+			<if test="employNum != null">
+				employ_num,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="sync != null">
+				sync,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="borrId != null">
+				#{borrId,jdbcType=INTEGER},
+			</if>
+			<if test="reviewType != null">
+				#{reviewType,jdbcType=VARCHAR},
+			</if>
+			<if test="reason != null">
+				#{reason,jdbcType=VARCHAR},
+			</if>
+			<if test="employNum != null">
+				#{employNum,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="sync != null">
+				#{sync,jdbcType=CHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.loan_entity.manager.Review">
+		update ym_review
+		<set>
+			<if test="borrId != null">
+				borr_id = #{borrId,jdbcType=INTEGER},
+			</if>
+			<if test="reviewType != null">
+				review_type = #{reviewType,jdbcType=VARCHAR},
+			</if>
+			<if test="reason != null">
+				reason = #{reason,jdbcType=VARCHAR},
+			</if>
+			<if test="employNum != null">
+				employ_num = #{employNum,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="sync != null">
+				sync = #{sync,jdbcType=CHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.loan_entity.manager.Review">
+		update ym_review
+		set borr_id = #{borrId,jdbcType=INTEGER},
+		review_type =
+		#{reviewType,jdbcType=VARCHAR},
+		reason = #{reason,jdbcType=VARCHAR},
+		employ_num = #{employNum,jdbcType=VARCHAR},
+		status =
+		#{status,jdbcType=VARCHAR},
+		create_date =
+		#{createDate,jdbcType=TIMESTAMP},
+		sync = #{sync,jdbcType=CHAR}
+		where id
+		= #{id,jdbcType=INTEGER}
+	</update>
+	<update id="blackListStatus" parameterType="java.lang.String">
+		UPDATE ym_person p
+		SET p.blacklist = 'Y'
+		WHERE
+		p.id = (
+		SELECT
+		l.per_id
+		FROM
+		ym_borrow_list l
+		WHERE
+		l.id = #{brro_id,jdbcType=INTEGER}
+		LIMIT 1
+		)
+	</update>
+	<!-- 获取审核表记录总数 -->
+	<select id="reviewSum" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM ym_review
+	</select>
+	<select id="getReviewVoBlackList" resultType="com.loan_entity.manager_vo.ReviewVo"
+		parameterType="java.lang.Integer">
+		SELECT
+		r.id,
+		r.borr_id as borrId,
+		r.review_type AS reviewType,
+		r.reason,
+		r.employ_num AS employNum,
+		r.`status`,
+		r.create_date AS createDate,
+		r.update_date AS updateDate,
+		r.sync,
+		i.user_name AS emplloyeeName,
+		v.meaning
+		FROM
+		ym_review AS r
+		LEFT JOIN ds_collectors_level_back AS i ON r.employ_num = i.user_sysno
+		INNER JOIN ym_code_value AS v ON r.review_type = v.code_code
+		AND v.code_type = "review_type"
+		WHERE
+		(r.borr_id = #{himid,jdbcType=INTEGER}
+		AND (
+		r.review_type = "2"
+		OR r.review_type = "3"
+		))
+		ORDER BY r.id DESC
+	</select>
+
+	<!-- 根据合同id查询是否有审核人 -->
+	<select id="selectReview" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		SELECT COUNT(1) FROM ym_review
+		WHERE borr_id = #{borrId,jdbcType=INTEGER}
+		AND review_type = 1
+	</select>
+
+	<!-- 根据合同号查审核 -->
+	<select id="selectByBorrId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT id AS id ,borr_id AS borrId, review_type AS reviewType, employ_num AS employNum
+		FROM ym_review
+		WHERE borr_id = #{borrId,jdbcType=INTEGER}
+		AND review_type = 1
+	</select>
+
+
+</mapper>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>系统用户</title>
+</head>
+<script>
+    userTablesInit();
+</script>
+<body>
+<div class="page-bar" style="margin-bottom: 10px;">
+    <ul class="page-breadcrumb">
+        <li><i class="fa fa-home"></i> <a href="#/dashboard.html">首页</a>
+            <i class="fa fa-angle-right"></i></li>
+        <li><a href="#/userTables.html">用户管理</a></li>
+    </ul>
+    <p style="float:right;line-height:36px;margin:0;padding-right:100px;" class="text-danger"></p>
+</div>
+<div class="row" style="min-height:200px;">
+    <div class="col-md-12 wblMd">
+        <div class="wblBackground"></div>
+        <div class="wblFillDiv"></div>
+        <div id="systemUserTables"></div>
+    </div>
+</div>
+<!-- 以下是弹出模态框 -->
+<div class="modal fade" id="editSystemUserInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="padding: 10px;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: 5px;padding-right: 15px;"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="editSystemUserInfoTitle"></h4>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <form class="form-horizontal" id="edituser-form">
+                    <div class="form-group">
+                        <label for="userSysno" class="col-sm-2 control-label">工号<span style="color: red">*</span></label>
+                        <div class="col-sm-4">
+                            <input type="hidden" name="id" class="form-control" id="userId">
+                            <input type="text" name="userSysno" class="form-control" id="userSysno" readonly placeholder="员工工号">
+                        </div>
+                        <label for="userName" class="col-sm-2 control-label">姓名<span style="color: red">*</span></label>
+                        <div class="col-sm-4">
+                            <input type="text" name="userName" class="form-control" id="userName" placeholder="员工姓名">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="userSysno" class="col-sm-2 control-label">电话号码<span style="color: red">*</span></label>
+                        <div class="col-sm-4">
+                            <input type="text" name="phone" class="form-control" id="phone" placeholder="用于获取短信验证码">
+                        </div>
+                        <label for="userName" class="col-sm-2 control-label">人员状态<span style="color: red">*</span></label>
+                        <div class="col-sm-4">
+                            <select name="status" id="status" class="form-control">
+                                <option value="A">启用</option>
+                                <option value="B">禁用</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="userSysno" class="col-sm-2 control-label">用户组<span style="color: red">*</span></label>
+                        <div class="col-sm-4">
+                            <select name="userGroupId" id="userGroupId" class="form-control">
+
+                            </select>
+                        </div>
+                        <label for="userName" class="col-sm-2 control-label">人员类型<span style="color: red">*</span></label>
+                        <div class="col-sm-4">
+                            <select name="levelType" id="levelType" class="form-control">
+                                <option value="1">公司催收</option>
+                                <option value="2">外包催收</option>
+                                <option value="3">风控人员</option>
+                                <option value="4">运营管理</option>
+                                <option value="5">客服人员</option>
+                                <option value="6">研发人员</option>
+                                <option value="10">系统管理</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+·                        <label for="userSysno" class="col-sm-2 control-label">管理级别<span style="color: red">*</span></label>
+                        <div class="col-sm-4">
+                            <select name="isManage" id="isManage" class="form-control">
+                                <option value="0">普通</option>
+                                <option value="3">高级</option>
+                                <option value="6">主管</option>
+                                <option value="9">总监</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="btnEditUserInfo">提交操作</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

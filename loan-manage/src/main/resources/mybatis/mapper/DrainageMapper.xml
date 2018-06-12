@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_manage.mapper.DrainageMapper">
+
+
+	<select id="queryDrainages" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select * from ym_drainage
+		<where>
+			<if test="drainageStatus != null and drainageStatus != ''">
+				drainage_status = #{drainageStatus}
+			</if>
+			<if test="drainageType != null and drainageType != ''">
+				and drainage_type = #{drainageType}
+			</if>
+			<if test="drainageName != null">
+				and drainage_name like '%${drainageName}%'
+			</if>
+		</where>
+
+	</select>
+   	<insert id="insertDrainage" parameterType="java.util.HashMap">
+		insert into ym_drainage
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="drainage_name != null">
+				drainage_name,
+			</if>
+			<if test="drainage_img != null">
+				drainage_img,
+			</if>
+			<if test="drainage_title != null">
+				drainage_title,
+			</if>
+			<if test="drainage_des != null">
+				drainage_des,
+			</if>
+			<if test="drainage_type != null">
+				drainage_type,
+			</if>
+			<if test="drainage_url != null">
+				drainage_url,
+			</if>
+			<if test="drainage_backurl != null">
+				drainage_backurl,
+			</if>
+			<if test="drainage_status != null">
+				drainage_status,
+			</if>
+			<if test="creation_date != null">
+				creation_date,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="drainage_name != null">
+				#{drainage_name},
+			</if>
+			<if test="drainage_img != null">
+				#{drainage_img},
+			</if>
+			<if test="drainage_title != null">
+				#{drainage_title},
+			</if>
+			<if test="drainage_des != null">
+				#{drainage_des},
+			</if>
+			<if test="drainage_type != null">
+				#{drainage_type},
+			</if>
+			<if test="drainage_url != null">
+				#{drainage_url},
+			</if>
+			<if test="drainage_backurl != null">
+				#{drainage_backurl},
+			</if>
+			<if test="drainage_status != null">
+				#{drainage_status},
+			</if>
+			<if test="creation_date != null">
+				#{creation_date},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateDrainage"  parameterType="java.util.HashMap">
+		update ym_drainage
+		<set>
+			<if test="drainage_name != null">
+				drainage_name = #{drainage_name},
+			</if>
+			<if test="drainage_img != null">
+				drainage_img = #{drainage_img,jdbcType=VARCHAR},
+			</if>
+			<if test="drainage_title != null">
+				drainage_title = #{drainage_title,jdbcType=VARCHAR},
+			</if>
+			<if test="drainage_des != null">
+				drainage_des = #{drainage_des,jdbcType=VARCHAR},
+			</if>
+			<if test="drainage_type != null">
+				drainage_type = #{drainage_type,jdbcType=VARCHAR},
+			</if>
+			<if test="drainage_url != null">
+				drainage_url = #{drainage_url,jdbcType=VARCHAR},
+			</if>
+			<if test="drainage_backurl != null">
+				drainage_backurl = #{drainage_backurl,jdbcType=VARCHAR},
+			</if>
+			<if test="drainage_status != null">
+				drainage_status = #{drainage_status,jdbcType=VARCHAR},
+			</if>
+			<if test="update_date != null">
+				update_date = #{update_date,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<delete id="deleteDrainageById" >
+		 delete from ym_drainage where id IN
+		 <trim prefix="(" suffix=")">
+			 ${_parameter}
+		 </trim>
+	</delete>
+	<select id="queryById" resultType="java.util.HashMap">
+		select * from ym_drainage where id = #{_parameter}
+	</select>
+</mapper>

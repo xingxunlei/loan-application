@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.manager_mapper.MsgTemplateMapper">
+	<resultMap id="BaseResultMap" type="com.loan_entity.manager.MsgTemplate">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="employ_num" property="employNum" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="CHAR" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="sync" property="sync" jdbcType="CHAR" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.loan_entity.manager.MsgTemplate"
+		extends="BaseResultMap">
+		<result column="content" property="content" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, title, employ_num, status, update_date, create_time,
+		sync
+	</sql>
+	<sql id="Blob_Column_List">
+		content
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from ym_msg_template
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		ym_msg_template
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.loan_entity.manager.MsgTemplate">
+		insert into ym_msg_template
+		(id, title, employ_num,
+		status, update_date, create_time,
+		sync, content)
+		values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
+		#{employNum,jdbcType=VARCHAR},
+		#{status,jdbcType=CHAR},
+		#{updateDate,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP},
+		#{sync,jdbcType=CHAR}, #{content,jdbcType=LONGVARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.loan_entity.manager.MsgTemplate">
+		insert into ym_msg_template
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="employNum != null">
+				employ_num,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="sync != null">
+				sync,
+			</if>
+			<if test="content != null">
+				content,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="employNum != null">
+				#{employNum,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=CHAR},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="sync != null">
+				#{sync,jdbcType=CHAR},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.loan_entity.manager.MsgTemplate">
+		update ym_msg_template
+		<set>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="employNum != null">
+				employ_num = #{employNum,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=CHAR},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="sync != null">
+				sync = #{sync,jdbcType=CHAR},
+			</if>
+			<if test="content != null">
+				content = #{content,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.loan_entity.manager.MsgTemplate">
+		update
+		ym_msg_template
+		set title = #{title,jdbcType=VARCHAR},
+		employ_num =
+		#{employNum,jdbcType=VARCHAR},
+		status = #{status,jdbcType=CHAR},
+		update_date = #{updateDate,jdbcType=TIMESTAMP},
+		create_time =
+		#{createTime,jdbcType=TIMESTAMP},
+		sync = #{sync,jdbcType=CHAR},
+		content
+		= #{content,jdbcType=LONGVARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.loan_entity.manager.MsgTemplate">
+		update
+		ym_msg_template
+		set title = #{title,jdbcType=VARCHAR},
+		employ_num =
+		#{employNum,jdbcType=VARCHAR},
+		status = #{status,jdbcType=CHAR},
+		update_date = #{updateDate,jdbcType=TIMESTAMP},
+		create_time =
+		#{createTime,jdbcType=TIMESTAMP},
+		sync = #{sync,jdbcType=CHAR}
+		where id
+		= #{id,jdbcType=INTEGER}
+	</update>
+	<select id="getAllMsgTemplateList" resultType="com.loan_entity.manager_vo.MsgTemplateVo">
+		SELECT
+		t.id,
+		t.title,
+		t.content,
+		t.employ_num AS employNum,
+		t.`status`,
+		t.update_date AS updateDate,
+		t.create_time AS createTime,
+		t.sync,
+		r.emplloyee_name AS employName
+		FROM
+		ym_msg_template AS t
+		LEFT JOIN ym_riewer AS r ON t.employ_num = r.employ_num
+		ORDER BY
+		t.id DESC
+	</select>
+</mapper>

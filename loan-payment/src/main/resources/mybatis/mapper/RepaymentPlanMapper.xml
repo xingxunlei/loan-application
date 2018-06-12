@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan.payment.mapper.RepaymentPlanMapper">
+	<resultMap id="BaseResultMap" type="com.loan_entity.manager.RepaymentPlan">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="guid" property="guid" jdbcType="VARCHAR" />
+		<result column="serial_no" property="serialNo" jdbcType="VARCHAR" />
+		<result column="contract_id" property="contractId" jdbcType="INTEGER" />
+		<result column="contract_type" property="contractType"
+			jdbcType="VARCHAR" />
+		<result column="term" property="term" jdbcType="INTEGER" />
+		<result column="repay_date" property="repayDate" jdbcType="VARCHAR" />
+		<result column="month_quota" property="monthQuota" jdbcType="DECIMAL" />
+		<result column="month_money" property="monthMoney" jdbcType="DECIMAL" />
+		<result column="month_interest" property="monthInterest"
+			jdbcType="DECIMAL" />
+		<result column="penalty" property="penalty" jdbcType="DECIMAL" />
+		<result column="penalty_interest" property="penaltyInterest"
+			jdbcType="DECIMAL" />
+		<result column="is_settle" property="isSettle" jdbcType="INTEGER" />
+		<result column="surplus_quota" property="surplusQuota"
+			jdbcType="DECIMAL" />
+		<result column="surplus_money" property="surplusMoney"
+			jdbcType="DECIMAL" />
+		<result column="surplus_interest" property="surplusInterest"
+			jdbcType="DECIMAL" />
+		<result column="surplus_penalty" property="surplusPenalty"
+			jdbcType="DECIMAL" />
+		<result column="surplus_penalty_Interes" property="surplusPenaltyInteres"
+			jdbcType="DECIMAL" />
+		<result column="extension" property="extension" jdbcType="INTEGER" />
+		<result column="creation_date" property="creationDate"
+			jdbcType="TIMESTAMP" />
+		<result column="creation_user" property="creationUser"
+			jdbcType="INTEGER" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="update_user" property="updateUser" jdbcType="INTEGER" />
+		<result column="sync" property="sync" jdbcType="CHAR" />
+		<result column="version" property="vresion" jdbcType="INTEGER" />
+	</resultMap>
+
+	<select id="selectOnePlanByContractId" parameterType="java.lang.Integer"
+		resultType="com.loan_entity.manager.RepaymentPlan">
+		SELECT id, guid, serial_no AS serialNo, contract_id AS
+		contractId,
+		contract_type AS contractType, term, repay_date AS repayDate, month_quota AS
+		monthQuota,
+		month_money AS monthMoney, month_interest AS monthInterest, penalty,
+		penalty_interest AS penaltyInterest,
+		is_settle AS isSettle, surplus_quota AS surplusQuota, surplus_money AS
+		surplusMoney, surplus_interest AS surplusInterest,
+		surplus_penalty AS surplusPenalty, surplus_penalty_Interes AS surplusPenaltyInteres,
+		extension,
+		creation_date AS creationDate, creation_user AS creationUser, update_date AS
+		updateDate, update_user AS updateUser,version AS version,
+		sync FROM ym_repayment_plan
+		where contract_id = #{contractId}
+	</select>
+	<update id="updateByBrroNum" parameterType="com.loan_entity.manager_vo.RepaymentPlanVo">
+		update ym_repayment_plan
+		<set>
+			<if test="guid != null">
+				guid = #{guid,jdbcType=VARCHAR},
+			</if>
+			<if test="serialNo != null">
+				serial_no = #{serialNo,jdbcType=VARCHAR},
+			</if>
+			<if test="contractType != null">
+				contract_type = #{contractType,jdbcType=VARCHAR},
+			</if>
+			<if test="term != null">
+				term = #{term,jdbcType=INTEGER},
+			</if>
+			<if test="repayDate != null">
+				repay_date = #{repayDate,jdbcType=VARCHAR},
+			</if>
+			<if test="monthQuota != null">
+				month_quota = #{monthQuota,jdbcType=DECIMAL},
+			</if>
+			<if test="monthMoney != null">
+				month_money = #{monthMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="monthInterest != null">
+				month_interest = #{monthInterest,jdbcType=DECIMAL},
+			</if>
+			<if test="penalty != null">
+				penalty = #{penalty,jdbcType=DECIMAL},
+			</if>
+			<if test="penaltyInterest != null">
+				penalty_interest = #{penaltyInterest,jdbcType=DECIMAL},
+			</if>
+			<if test="isSettle != null">
+				is_settle = #{isSettle,jdbcType=INTEGER},
+			</if>
+			<if test="surplusQuota != null">
+				surplus_quota = #{surplusQuota,jdbcType=DECIMAL},
+			</if>
+			<if test="surplusMoney != null">
+				surplus_money = #{surplusMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="surplusInterest != null">
+				surplus_interest = #{surplusInterest,jdbcType=DECIMAL},
+			</if>
+			<if test="surplusPenalty != null">
+				surplus_penalty = #{surplusPenalty,jdbcType=DECIMAL},
+			</if>
+			<if test="surplusPenaltyInteres != null">
+				surplus_penalty_Interes =
+				#{surplusPenaltyInteres,jdbcType=DECIMAL},
+			</if>
+			<if test="extension != null">
+				extension = #{extension,jdbcType=INTEGER},
+			</if>
+			<if test="creationDate != null">
+				creation_date = #{creationDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creationUser != null">
+				creation_user = #{creationUser,jdbcType=INTEGER},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+				update_user = #{updateUser,jdbcType=INTEGER},
+			</if>
+			<if test="sync != null">
+				sync = #{sync,jdbcType=CHAR},
+			</if>
+			version = version + 1
+		</set>
+		where contract_id =(SELECT id FROM ym_borrow_list WHERE
+		ym_borrow_list.borr_num = #{borrNum,jdbcType=VARCHAR})
+		AND version = #{version}
+	</update>
+
+	<select id="selectAlsoRepay" resultType="java.lang.Double"
+			parameterType="java.lang.String">
+		SELECT
+			(surplus_money+
+			surplus_interest+
+			surplus_penalty+
+			surplus_penalty_Interes)
+			AS total
+		FROM ym_repayment_plan
+		WHERE contract_id =#{borrId}
+	</select>
+
+
+</mapper>

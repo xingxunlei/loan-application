@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>悠米闪借-融之家</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="vue">
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <style>
+    	.expandBox{
+    		width:100%;
+    	}
+    	.rongBanner{
+    		width:100%;
+    		height:10.5rem;
+    		background:url(images/appImg/rongBanner.png) no-repeat;
+    		background-size:cover;
+    		-webkit-background-size:cover;
+    	}
+    	.rongImg{
+    		width:100%;
+    		height:10rem;
+    		background:url(images/appImg/rongImg.png) no-repeat;
+    		background-size:cover;
+    		-webkit-background-size:cover;
+    	}
+    	.rongTips{
+    		width:100%;
+    		height:6.5rem;
+    		background:url(images/appImg/rongTips.png) no-repeat;
+    		background-size:cover;
+    		-webkit-background-size:cover;
+    	}
+    	.rongBtn{
+    		width:100%;
+    		height:6.4rem;
+    		background:url(images/appImg/rongBg.png) no-repeat;
+    		background-size:cover;
+    		-webkit-background-size:cover;
+    	}
+    	.RongDownload{
+    		display: block;
+    		width:15.075rem;
+    		height:2.3rem;
+    		background:url(images/appImg/btnBg.png) no-repeat;
+    		text-indent: -9999px;
+    		background-size:cover;
+    		-webkit-background-size:cover;
+    		margin:0 auto;
+    	}
+    </style>
+    <script>
+    	
+		var oHtml = document.documentElement;
+		 getSize();
+		function getSize(){
+			// 获取屏幕的宽度
+			var ascreen=oHtml.clientWidth;
+			if (ascreen<=319) {
+				oHtml.style.fontSize = '20px';
+			} else if(ascreen>=750){
+				oHtml.style.fontSize = '40px';
+			}else{
+				oHtml.style.fontSize=ascreen/18.75+"px";
+			};		
+		}
+		// 当窗口发生改变的时候调用
+		window.onresize = function(){
+			getSize();
+		}
+    </script>
+  </head>
+  <body>
+  	<div class="expandBox">
+  		<div class="rongBanner"></div>
+  		<div class="rongImg"></div>
+  		<div class="rongTips"></div>
+  		<div class="rongBtn">
+  			<a href="javascript:;" class="RongDownload">下载领钱</a>
+  		</div>
+  	</div>
+  </body>
+</html>
+<script type="text/javascript">
+	
+	window.onload = function(){
+		var btn = document.querySelector(".RongDownload");
+		btn.onclick = function(){
+			if(navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {
+	            	//苹果
+	        	window.location = "https://itunes.apple.com/us/app/%E6%82%A0%E7%B1%B3%E9%97%AA%E5%80%9F/id1209391620?l=zh&ls=1&mt=8";
+	            
+	    } else if(navigator.userAgent.match(/android/i)) {
+	        	//安卓
+	            window.location.href = "http://www.youmishanjie.com/download/app-release-2.0.2.apk";
+	       
+	    }
+		}
+		
+	}
+	
+</script>

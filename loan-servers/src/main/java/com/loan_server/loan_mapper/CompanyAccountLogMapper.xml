@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.loan_mapper.CompanyAccountLogMapper" >
+  <resultMap id="BaseResultMap" type="com.loan_entity.loan.CompanyAccountLog" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="company_id" property="companyId" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="operation_type" property="operationType" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="no_use_money" property="noUseMoney" jdbcType="DECIMAL" />
+    <result column="withdraw_money" property="withdrawMoney" jdbcType="DECIMAL" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="addtime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+    <result column="sync" property="sync" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, company_id, order_id, operation_type, amount, no_use_money, withdraw_money, remark, 
+    addtime, deleted, sync
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ym_company_account_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ym_company_account_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.loan_entity.loan.CompanyAccountLog" >
+    insert into ym_company_account_log (id, company_id, order_id, 
+      operation_type, amount, no_use_money, 
+      withdraw_money, remark, addtime, 
+      deleted, sync)
+    values (#{id,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, 
+      #{operationType,jdbcType=VARCHAR}, #{amount,jdbcType=DECIMAL}, #{noUseMoney,jdbcType=DECIMAL}, 
+      #{withdrawMoney,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, #{addtime,jdbcType=TIMESTAMP}, 
+      #{deleted,jdbcType=INTEGER}, #{sync,jdbcType=CHAR})
+  </insert>
+   
+  <insert id="insertSelective" parameterType="com.loan_entity.loan.CompanyAccountLog" >
+    insert into ym_company_account_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="operationType != null" >
+        operation_type,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="noUseMoney != null" >
+        no_use_money,
+      </if>
+      <if test="withdrawMoney != null" >
+        withdraw_money,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="addtime != null" >
+        addtime,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="sync != null" >
+        sync,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="operationType != null" >
+        #{operationType,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="noUseMoney != null" >
+        #{noUseMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="withdrawMoney != null" >
+        #{withdrawMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="sync != null" >
+        #{sync,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.loan_entity.loan.CompanyAccountLog" >
+    update ym_company_account_log
+    <set >
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="operationType != null" >
+        operation_type = #{operationType,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="noUseMoney != null" >
+        no_use_money = #{noUseMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="withdrawMoney != null" >
+        withdraw_money = #{withdrawMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        addtime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="sync != null" >
+        sync = #{sync,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.loan_entity.loan.CompanyAccountLog" >
+    update ym_company_account_log
+    set company_id = #{companyId,jdbcType=INTEGER},
+      order_id = #{orderId,jdbcType=INTEGER},
+      operation_type = #{operationType,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=DECIMAL},
+      no_use_money = #{noUseMoney,jdbcType=DECIMAL},
+      withdraw_money = #{withdrawMoney,jdbcType=DECIMAL},
+      remark = #{remark,jdbcType=VARCHAR},
+      addtime = #{addtime,jdbcType=TIMESTAMP},
+      deleted = #{deleted,jdbcType=INTEGER},
+      sync = #{sync,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

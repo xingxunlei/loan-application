@@ -1,0 +1,81 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+
+    <context:component-scan base-package="com.loan_manage.controller"></context:component-scan>
+    <!--<bean id="propertyConfigurer"-->
+          <!--class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
+        <!--<property name="locations">-->
+            <!--<list>-->
+                <!--<value>classpath:system.properties</value>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+
+    <mvc:annotation-driven>
+        <!--     解决返回String时乱码-->
+        <mvc:message-converters register-defaults="true">
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <bean class="org.springframework.http.MediaType">
+                            <constructor-arg value="text" />
+                            <constructor-arg value="plain" />
+                            <constructor-arg value="UTF-8" />
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+            <!--<ref bean="jsonConverter" />-->
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!--<bean id="jsonConverter"-->
+          <!--class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">-->
+        <!--<property name="supportedMediaTypes">-->
+            <!--<list>-->
+                <!--<value>application/json;charset=UTF-8</value>-->
+            <!--</list>-->
+        <!--</property>-->
+        <!--<property name="objectMapper">-->
+            <!--<bean class="com.fasterxml.jackson.databind.ObjectMapper">-->
+                <!--<property name="serializerProvider">-->
+                    <!--<bean class="com.fasterxml.jackson.databind.ser.DefaultSerializerProvider.Impl">-->
+                        <!--<property name="nullValueSerializer">-->
+                            <!--<bean class="com.loan_manage.utils.GomeSearchJsonSerializer"></bean>-->
+                        <!--</property>-->
+                    <!--</bean>-->
+                <!--</property>-->
+            <!--</bean>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <!--<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
+    <!--<bean id="multipartResolver" class="com.loan_manage.utils.CommonsMultipartResolverExt">-->
+        <!--<property name="defaultEncoding" value="utf-8"></property>-->
+        <!--<property name="maxUploadSize" value="10485760000"></property>-->
+        <!--<property name="maxInMemorySize" value="40960"></property>-->
+    <!--</bean>-->
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <mvc:resources mapping="/assets/**" location="/assets/"/>
+    <mvc:resources mapping="/css/**" location="/css/"/>
+    <mvc:resources mapping="/js/**" location="/js/"/>
+    <mvc:resources mapping="/tpl/**" location="/tpl/"/>
+    <mvc:resources mapping="/devextreme/**" location="/devextreme/"/>
+
+
+</beans>

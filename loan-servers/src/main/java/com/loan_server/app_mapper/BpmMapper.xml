@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.app_mapper.BpmMapper" >
+  <resultMap id="BaseResultMap" type="com.loan_entity.app.Bpm" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="node_name" property="nodeName" jdbcType="VARCHAR" />
+    <result column="parent_nodeid" property="parentNodeid" jdbcType="INTEGER" />
+    <result column="sync" property="sync" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, node_name, parent_nodeid, sync
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ym_bpm
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 根据父节点id查询 -->
+  <select id="selectByParent" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" /> 
+    FROM ym_bpm     
+    WHERE parent_nodeid=#{parent_nodeid,jdbcType=INTEGER}   
+  </select>
+   
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ym_bpm
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.loan_entity.app.Bpm" >
+    insert into ym_bpm (id, node_name, parent_nodeid, 
+      sync)
+    values (#{id,jdbcType=INTEGER}, #{nodeName,jdbcType=VARCHAR}, #{parentNodeid,jdbcType=INTEGER}, 
+      #{sync,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.loan_entity.app.Bpm" >
+    insert into ym_bpm
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="nodeName != null" >
+        node_name,
+      </if>
+      <if test="parentNodeid != null" >
+        parent_nodeid,
+      </if>
+      <if test="sync != null" >
+        sync,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="nodeName != null" >
+        #{nodeName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentNodeid != null" >
+        #{parentNodeid,jdbcType=INTEGER},
+      </if>
+      <if test="sync != null" >
+        #{sync,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.loan_entity.app.Bpm" >
+    update ym_bpm
+    <set >
+      <if test="nodeName != null" >
+        node_name = #{nodeName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentNodeid != null" >
+        parent_nodeid = #{parentNodeid,jdbcType=INTEGER},
+      </if>
+      <if test="sync != null" >
+        sync = #{sync,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.loan_entity.app.Bpm" >
+    update ym_bpm
+    set node_name = #{nodeName,jdbcType=VARCHAR},
+      parent_nodeid = #{parentNodeid,jdbcType=INTEGER},
+      sync = #{sync,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

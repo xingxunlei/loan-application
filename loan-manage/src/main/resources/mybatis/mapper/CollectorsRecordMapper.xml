@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_manage.mapper.CollectorsRecordMapper">
+    <!--auto generated Code-->
+    <resultMap id="AllColumnMap" type="com.loan_entity.manager.CollectorsRecord">
+        <result column="id" property="id"/>
+        <result column="contract_id" property="contractId"/>
+        <result column="bedue_name" property="bedueUser"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <insert id="batchInsertCollectorsRecord" parameterType="java.util.List">
+        INSERT INTO ds_collectors_record(contract_id,bedue_user,create_user,create_time)
+        VALUES
+        <foreach collection ="list" item="i" index= "index" separator=",">
+        (
+            #{i.contractId},
+            #{i.bedueUser},
+            #{i.createUser},
+            #{i.createTime}
+        )
+        </foreach>
+    </insert>
+</mapper>
+

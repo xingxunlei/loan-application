@@ -1,0 +1,314 @@
+@charset "utf-8";
+
+/* 禁用iPhone中Safari的字号自动调整 */
+html {
+	-webkit-text-size-adjust: 100%;
+	-ms-text-size-adjust: 100%;
+}
+
+/* 去除iPhone中默认的input样式 */
+input[type="submit"], input[type="reset"], input[type="button"] {
+	-webkit-appearance: none;
+	resize: none;
+}
+
+/* 取消链接高亮  */
+body, div, ul, li, ol, h1, h2, h3, h4, h5, h6, input, textarea, select, p, dl, dt, dd, a, img, button, form, table, th, tr, td, tbody, article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+/* 设置HTML5元素为块 */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+
+/* 图片自适应 */
+img {
+	/* width: 100%; */
+	height: auto;
+	/* width: auto\9; ie8 */
+	-ms-interpolation-mode: bicubic;/*为了照顾ie图片缩放失真*/
+}
+
+/* 初始化 */
+body, div, ul, li, ol, h1, h2, h3, h4, h5, h6, input, textarea, select, p, dl, dt, dd, a, img, button, form,  article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+body {
+	font: 12px Microsoft YaHei, '宋体' Tahoma, Arial, sans-serif;
+	color: #555;
+	background-color: #F7F7F7;
+}
+em, i {
+	font-style: normal;
+}
+strong {
+	font-weight: normal;
+}
+.clearfix:after {
+	content: "";
+	display: block;
+	visibility: hidden;
+	height: 0;
+	clear: both;
+}
+.clearfix {
+	zoom: 1;
+}
+a {
+	text-decoration: none;
+	color: #969696;
+	font-family: '宋体', Microsoft YaHei, Tahoma, Arial, sans-serif;
+}
+/* a:hover {
+	color: #FED503;
+	text-decoration: none;
+} */
+ul, ol {
+	list-style: none;
+}
+h1, h2, h3, h4, h5, h6 {
+	font-size: 100%;
+	font-family: Microsoft YaHei;
+}
+img {
+	border: none;
+}
+
+html{
+	font-size:40px;
+	min-width: 319px;
+	max-width:750px;
+	margin:0 auto;
+}
+.main{
+	width:100%;
+	height:33.35rem;
+	background:url(images/register_bg.png) no-repeat;
+	-webkit-background-size:cover;
+	-o-background-size:cover;
+	-moz-background-size:cover;
+	-ms-background-size:cover;
+	background-size:cover;
+	padding-top:1.6rem;
+	box-sizing: border-box;
+}
+.logoImg{
+	width:6.5rem;
+	height:8rem;
+	margin:0 auto;
+	background:url(images/logo.png) no-repeat;
+	-webkit-background-size:cover;
+	-o-background-size:cover;
+	-moz-background-size:cover;
+	-ms-background-size:cover;
+	background-size:cover;
+}
+.regInfo{
+	font-size:0.75rem;
+	color:#fffc00;
+	text-align:center;
+	margin-top:1.65rem;
+}
+.warp{
+	margin-top:1.7rem;
+}
+.inputBox{
+	margin-bottom:0.3rem;
+}
+.inputBox label{
+	width:6rem;
+	text-align:right;
+	float:left;
+	line-height:1.75rem;
+	font-size:0.7rem;
+	color:#fff;
+}
+.inputBox .shortInput,.inputBox .longInput{
+	width:7rem;
+	height:1.75rem;
+	background:#403b89;
+	border-radius: 4px;
+	outline:none;
+	color:#fff;
+	font-size:0.7rem;
+	margin-left:0.2rem;
+}
+.inputBox .inputBtn{
+	width:3.75rem;
+	height:1.75rem;
+	border-radius: 4px;
+	font-size:0.65rem;
+	background:#ffce54;
+	color:#403a88;
+	cursor:pointer;
+	outline: none;
+}
+.inputBox .longInput{
+	width:10.9rem;
+}
+.warpcheck{
+	padding-left:6.15rem;
+	margin-top:0.55rem;;
+}
+.warpcheck input{
+	width:0.7rem;
+	height:0.7rem;
+}
+.warpcheck a{
+	font-size:0.6rem;
+	color:#fff;
+	vertical-align:top;
+}
+.goBtn{
+	display:block;
+	width:8.4rem;
+	height:1.86rem;
+	background:url(images/gobtn_bg.png) no-repeat;
+	-webkit-background-size:cover;
+	-o-background-size:cover;
+	-moz-background-size:cover;
+	-ms-background-size:cover;
+	background-size:cover;
+	margin-top:1.4rem;
+	position:absolute;
+	left:50%;
+	-webkit-transform:translateX(-50%);
+	-moz-transform:translateX(-50%);
+	-ms-transform:translateX(-50%);
+	-o-transform:translateX(-50%);
+	transform:translateX(-50%);
+	text-indent: -9999px;;
+}
+.layerBox{
+	position:fixed;
+	width:100%;
+	height:100%;
+	top:0;
+	left:0;
+	background:rgba(0,0,0,0.65);
+	display:none;
+}
+.layerMain{
+	width:12.5rem;
+	height:7.65rem;
+	border-radius:4px;
+	background:#fff;
+	position:absolute;
+	left:50%;
+	top:50%;
+	-webkit-transform:translate(-50%,-50%);
+	-moz-transform:translate(-50%,-50%);
+	-ms-transform:translate(-50%,-50%);
+	-o-transform:translate(-50%,-50%);
+	transform:translate(-50%,-50%);
+}
+.layerHd{
+	height:1.5rem;
+	border-bottom:1px solid #ccc;
+}
+.layerHd p{
+	color:#1e82d2;
+	text-align:center;
+	font-size:0.9rem;
+	line-height:1.5rem;
+}
+.layerHd i{
+	width:1.25rem;
+	height:1.25rem;
+	display:block;
+	background: url(images/closeBtn.png) no-repeat;
+	-webkit-background-size:cover;
+	-o-background-size:cover;
+	-moz-background-size:cover;
+	-ms-background-size:cover;
+	background-size:cover;
+	position:absolute;
+	top:0;
+	right:0.5rem;
+	cursor:pointer;
+}
+.layerInfo{
+	padding:1.2rem 0;
+}
+.layerInfo p{
+	color:#1e82d2;
+	font-size:0.75rem;
+	text-align:center;
+}
+.larerBtn{
+	display:block;
+	width:5.75rem;
+	height:2rem;
+	background:url(images/layerBtn.png) no-repeat;
+	-webkit-background-size:cover;
+	-o-background-size:cover;
+	-moz-background-size:cover;
+	-ms-background-size:cover;
+	background-size:cover;
+	text-indent:-9999px;
+	position:absolute;
+	left:50%;
+	-webkit-transform:translateX(-50%);
+	-moz-transform:translateX(-50%);
+	-ms-transform:translateX(-50%);
+	-o-transform:translateX(-50%);
+	transform:translateX(-50%);
+}
+.regSuc{
+	width:100%;
+	height:33.35rem;
+	background:url(images/regSuc_bg.png) no-repeat;
+	-webkit-background-size:cover;
+	-o-background-size:cover;
+	-moz-background-size:cover;
+	-ms-background-size:cover;
+	background-size:cover;
+	padding-top:4rem;
+	box-sizing: border-box;
+}
+.sucInfo{
+	width:9.2rem;
+	height:1.1rem;
+	background:url(images/successInfo.png) no-repeat;
+	-webkit-background-size:cover;
+	-o-background-size:cover;
+	-moz-background-size:cover;
+	-ms-background-size:cover;
+	background-size:cover;
+	margin:2.5rem auto 2rem;	
+}
+.suceBtn{
+	display:block;
+	width:8.25rem;
+	height:1.85rem;
+	background: url(images/sussessBtn.png) no-repeat;
+	-webkit-background-size:cover;
+	-o-background-size:cover;
+	-moz-background-size:cover;
+	-ms-background-size:cover;
+	background-size:cover;
+	text-indent:-999px;
+	margin:0 auto;
+}
+.imgBox{
+	margin-top:1.5rem;
+}
+.imgEr{
+	width:8rem;
+	height:8rem;
+	margin:0 auto;
+}
+.imgEr img{
+	width:100%;
+	height:100%;
+	
+}
+.imgBox p{
+	text-align:center;
+	color:#fff;
+	font-size:0.6rem;
+	line-height:0.9rem;
+}

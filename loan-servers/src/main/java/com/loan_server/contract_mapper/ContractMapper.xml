@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.contract_mapper.ContractMapper">
+
+    <insert id="insertContract" parameterType="com.loan_entity.contract.Contract">
+        INSERT INTO ym_contract (borr_id, borr_num, product_id, status, result_json,create_date)
+        SELECT #{borrId},#{borrNum},#{productId},#{status},#{resultJson},#{createDate}
+        FROM DUAL WHERE NOT EXISTS(SELECT id FROM ym_contract WHERE borr_id = #{borrId} and product_id = #{productId});
+    </insert>
+
+</mapper>
+

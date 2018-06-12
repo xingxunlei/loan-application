@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.manager_mapper.RepaymentPlanMapper">
+	<resultMap id="BaseResultMap" type="com.loan_entity.manager.RepaymentPlan" >
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="guid" property="guid" jdbcType="VARCHAR" />
+		<result column="serial_no" property="serialNo" jdbcType="VARCHAR" />
+		<result column="contract_id" property="contractId" jdbcType="INTEGER" />
+		<result column="contract_type" property="contractType" jdbcType="VARCHAR" />
+		<result column="term" property="term" jdbcType="INTEGER" />
+		<result column="repay_date" property="repayDate" jdbcType="VARCHAR" />
+		<result column="repay_date_time" property="repayDateTime" jdbcType="TIMESTAMP" />
+		<result column="month_quota" property="monthQuota" jdbcType="DECIMAL" />
+		<result column="month_money" property="monthMoney" jdbcType="DECIMAL" />
+		<result column="month_interest" property="monthInterest" jdbcType="DECIMAL" />
+		<result column="penalty" property="penalty" jdbcType="DECIMAL" />
+		<result column="penalty_interest" property="penaltyInterest" jdbcType="DECIMAL" />
+		<result column="is_settle" property="isSettle" jdbcType="INTEGER" />
+		<result column="surplus_quota" property="surplusQuota" jdbcType="DECIMAL" />
+		<result column="surplus_money" property="surplusMoney" jdbcType="DECIMAL" />
+		<result column="surplus_interest" property="surplusInterest" jdbcType="DECIMAL" />
+		<result column="surplus_penalty" property="surplusPenalty" jdbcType="DECIMAL" />
+		<result column="surplus_penalty_Interes" property="surplusPenaltyInteres" jdbcType="DECIMAL" />
+		<result column="extension" property="extension" jdbcType="INTEGER" />
+		<result column="creation_date" property="creationDate" jdbcType="TIMESTAMP" />
+		<result column="creation_user" property="creationUser" jdbcType="INTEGER" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="update_user" property="updateUser" jdbcType="INTEGER" />
+		<result column="sync" property="sync" jdbcType="CHAR" />
+		<result column="version" property="version" jdbcType="INTEGER" />
+		<result column="rundate" property="rundate" jdbcType="VARCHAR" />
+		<result column="is_run" property="isRun" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List" >
+		id, guid, serial_no, contract_id, contract_type, term, repay_date, repay_date_time,
+		month_quota, month_money, month_interest, penalty, penalty_interest, is_settle, surplus_quota,
+		surplus_money, surplus_interest, surplus_penalty, surplus_penalty_Interes, extension,
+		creation_date, creation_user, update_date, update_user, sync, version, rundate, is_run
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from ym_repayment_plan
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		ym_repayment_plan
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.loan_entity.manager.RepaymentPlan" >
+		insert into ym_repayment_plan (id, guid, serial_no,
+		contract_id, contract_type, term,
+		repay_date, repay_date_time, month_quota,
+		month_money, month_interest, penalty,
+		penalty_interest, is_settle, surplus_quota,
+		surplus_money, surplus_interest, surplus_penalty,
+		surplus_penalty_Interes, extension, creation_date,
+		creation_user, update_date, update_user,
+		sync, version, rundate,
+		is_run)
+		values (#{id,jdbcType=INTEGER}, #{guid,jdbcType=VARCHAR}, #{serialNo,jdbcType=VARCHAR},
+		#{contractId,jdbcType=INTEGER}, #{contractType,jdbcType=VARCHAR}, #{term,jdbcType=INTEGER},
+		#{repayDate,jdbcType=VARCHAR}, #{repayDateTime,jdbcType=TIMESTAMP}, #{monthQuota,jdbcType=DECIMAL},
+		#{monthMoney,jdbcType=DECIMAL}, #{monthInterest,jdbcType=DECIMAL}, #{penalty,jdbcType=DECIMAL},
+		#{penaltyInterest,jdbcType=DECIMAL}, #{isSettle,jdbcType=INTEGER}, #{surplusQuota,jdbcType=DECIMAL},
+		#{surplusMoney,jdbcType=DECIMAL}, #{surplusInterest,jdbcType=DECIMAL}, #{surplusPenalty,jdbcType=DECIMAL},
+		#{surplusPenaltyInteres,jdbcType=DECIMAL}, #{extension,jdbcType=INTEGER}, #{creationDate,jdbcType=TIMESTAMP},
+		#{creationUser,jdbcType=INTEGER}, #{updateDate,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=INTEGER},
+		#{sync,jdbcType=CHAR}, #{version,jdbcType=INTEGER}, #{rundate,jdbcType=VARCHAR},
+		#{isRun,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.loan_entity.manager.RepaymentPlan" >
+		insert into ym_repayment_plan
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+				id,
+			</if>
+			<if test="guid != null" >
+				guid,
+			</if>
+			<if test="serialNo != null" >
+				serial_no,
+			</if>
+			<if test="contractId != null" >
+				contract_id,
+			</if>
+			<if test="contractType != null" >
+				contract_type,
+			</if>
+			<if test="term != null" >
+				term,
+			</if>
+			<if test="repayDate != null" >
+				repay_date,
+			</if>
+			<if test="repayDateTime != null" >
+				repay_date_time,
+			</if>
+			<if test="monthQuota != null" >
+				month_quota,
+			</if>
+			<if test="monthMoney != null" >
+				month_money,
+			</if>
+			<if test="monthInterest != null" >
+				month_interest,
+			</if>
+			<if test="penalty != null" >
+				penalty,
+			</if>
+			<if test="penaltyInterest != null" >
+				penalty_interest,
+			</if>
+			<if test="isSettle != null" >
+				is_settle,
+			</if>
+			<if test="surplusQuota != null" >
+				surplus_quota,
+			</if>
+			<if test="surplusMoney != null" >
+				surplus_money,
+			</if>
+			<if test="surplusInterest != null" >
+				surplus_interest,
+			</if>
+			<if test="surplusPenalty != null" >
+				surplus_penalty,
+			</if>
+			<if test="surplusPenaltyInteres != null" >
+				surplus_penalty_Interes,
+			</if>
+			<if test="extension != null" >
+				extension,
+			</if>
+			<if test="creationDate != null" >
+				creation_date,
+			</if>
+			<if test="creationUser != null" >
+				creation_user,
+			</if>
+			<if test="updateDate != null" >
+				update_date,
+			</if>
+			<if test="updateUser != null" >
+				update_user,
+			</if>
+			<if test="sync != null" >
+				sync,
+			</if>
+			<if test="version != null" >
+				version,
+			</if>
+			<if test="rundate != null" >
+				rundate,
+			</if>
+			<if test="isRun != null" >
+				is_run,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="guid != null" >
+				#{guid,jdbcType=VARCHAR},
+			</if>
+			<if test="serialNo != null" >
+				#{serialNo,jdbcType=VARCHAR},
+			</if>
+			<if test="contractId != null" >
+				#{contractId,jdbcType=INTEGER},
+			</if>
+			<if test="contractType != null" >
+				#{contractType,jdbcType=VARCHAR},
+			</if>
+			<if test="term != null" >
+				#{term,jdbcType=INTEGER},
+			</if>
+			<if test="repayDate != null" >
+				#{repayDate,jdbcType=VARCHAR},
+			</if>
+			<if test="repayDateTime != null" >
+				#{repayDateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="monthQuota != null" >
+				#{monthQuota,jdbcType=DECIMAL},
+			</if>
+			<if test="monthMoney != null" >
+				#{monthMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="monthInterest != null" >
+				#{monthInterest,jdbcType=DECIMAL},
+			</if>
+			<if test="penalty != null" >
+				#{penalty,jdbcType=DECIMAL},
+			</if>
+			<if test="penaltyInterest != null" >
+				#{penaltyInterest,jdbcType=DECIMAL},
+			</if>
+			<if test="isSettle != null" >
+				#{isSettle,jdbcType=INTEGER},
+			</if>
+			<if test="surplusQuota != null" >
+				#{surplusQuota,jdbcType=DECIMAL},
+			</if>
+			<if test="surplusMoney != null" >
+				#{surplusMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="surplusInterest != null" >
+				#{surplusInterest,jdbcType=DECIMAL},
+			</if>
+			<if test="surplusPenalty != null" >
+				#{surplusPenalty,jdbcType=DECIMAL},
+			</if>
+			<if test="surplusPenaltyInteres != null" >
+				#{surplusPenaltyInteres,jdbcType=DECIMAL},
+			</if>
+			<if test="extension != null" >
+				#{extension,jdbcType=INTEGER},
+			</if>
+			<if test="creationDate != null" >
+				#{creationDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creationUser != null" >
+				#{creationUser,jdbcType=INTEGER},
+			</if>
+			<if test="updateDate != null" >
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null" >
+				#{updateUser,jdbcType=INTEGER},
+			</if>
+			<if test="sync != null" >
+				#{sync,jdbcType=CHAR},
+			</if>
+			<if test="version != null" >
+				#{version,jdbcType=INTEGER},
+			</if>
+			<if test="rundate != null" >
+				#{rundate,jdbcType=VARCHAR},
+			</if>
+			<if test="isRun != null" >
+				#{isRun,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.loan_entity.manager.RepaymentPlan">
+		update ym_repayment_plan
+		<set>
+			<if test="guid != null">
+				guid = #{guid,jdbcType=VARCHAR},
+			</if>
+			<if test="serialNo != null">
+				serial_no = #{serialNo,jdbcType=VARCHAR},
+			</if>
+			<if test="contractId != null">
+				contract_id = #{contractId,jdbcType=INTEGER},
+			</if>
+			<if test="contractType != null">
+				contract_type = #{contractType,jdbcType=VARCHAR},
+			</if>
+			<if test="term != null">
+				term = #{term,jdbcType=INTEGER},
+			</if>
+			<if test="repayDate != null">
+				repay_date = #{repayDate,jdbcType=VARCHAR},
+			</if>
+			<if test="monthQuota != null">
+				month_quota = #{monthQuota,jdbcType=DECIMAL},
+			</if>
+			<if test="monthMoney != null">
+				month_money = #{monthMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="monthInterest != null">
+				month_interest = #{monthInterest,jdbcType=DECIMAL},
+			</if>
+			<if test="penalty != null">
+				penalty = #{penalty,jdbcType=DECIMAL},
+			</if>
+			<if test="penaltyInterest != null">
+				penalty_interest = #{penaltyInterest,jdbcType=DECIMAL},
+			</if>
+			<if test="isSettle != null">
+				is_settle = #{isSettle,jdbcType=INTEGER},
+			</if>
+			<if test="surplusQuota != null">
+				surplus_quota = #{surplusQuota,jdbcType=DECIMAL},
+			</if>
+			<if test="surplusMoney != null">
+				surplus_money = #{surplusMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="surplusInterest != null">
+				surplus_interest = #{surplusInterest,jdbcType=DECIMAL},
+			</if>
+			<if test="surplusPenalty != null">
+				surplus_penalty = #{surplusPenalty,jdbcType=DECIMAL},
+			</if>
+			<if test="surplusPenaltyInteres != null">
+				surplus_penalty_Interes =
+				#{surplusPenaltyInteres,jdbcType=DECIMAL},
+			</if>
+			<if test="extension != null">
+				extension = #{extension,jdbcType=INTEGER},
+			</if>
+			<if test="creationDate != null">
+				creation_date = #{creationDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creationUser != null">
+				creation_user = #{creationUser,jdbcType=INTEGER},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+				update_user = #{updateUser,jdbcType=INTEGER},
+			</if>
+			<if test="sync != null">
+				sync = #{sync,jdbcType=CHAR},
+			</if>
+			version = version + 1
+		</set>
+		where id = #{id,jdbcType=INTEGER} AND version = #{version}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.loan_entity.manager.RepaymentPlan">
+		update
+		ym_repayment_plan
+		set guid = #{guid,jdbcType=VARCHAR},
+		serial_no =
+		#{serialNo,jdbcType=VARCHAR},
+		contract_id =
+		#{contractId,jdbcType=INTEGER},
+		contract_type =
+		#{contractType,jdbcType=VARCHAR},
+		term = #{term,jdbcType=INTEGER},
+		repay_date = #{repayDate,jdbcType=VARCHAR},
+		month_quota =
+		#{monthQuota,jdbcType=DECIMAL},
+		month_money =
+		#{monthMoney,jdbcType=DECIMAL},
+		month_interest =
+		#{monthInterest,jdbcType=DECIMAL},
+		penalty =
+		#{penalty,jdbcType=DECIMAL},
+		penalty_interest =
+		#{penaltyInterest,jdbcType=DECIMAL},
+		is_settle =
+		#{isSettle,jdbcType=INTEGER},
+		surplus_quota =
+		#{surplusQuota,jdbcType=DECIMAL},
+		surplus_money =
+		#{surplusMoney,jdbcType=DECIMAL},
+		surplus_interest =
+		#{surplusInterest,jdbcType=DECIMAL},
+		surplus_penalty =
+		#{surplusPenalty,jdbcType=DECIMAL},
+		surplus_penalty_Interes =
+		#{surplusPenaltyInteres,jdbcType=DECIMAL},
+		extension =
+		#{extension,jdbcType=INTEGER},
+		creation_date =
+		#{creationDate,jdbcType=TIMESTAMP},
+		creation_user =
+		#{creationUser,jdbcType=INTEGER},
+		update_date =
+		#{updateDate,jdbcType=TIMESTAMP},
+		update_user =
+		#{updateUser,jdbcType=INTEGER},
+		sync = #{sync,jdbcType=CHAR},
+		version = version + 1,
+		where id =
+		#{id,jdbcType=INTEGER}
+		and version = #{version}
+	</update>
+	<select id="selectOnePlanByContractId" parameterType="java.lang.Integer"
+		resultType="com.loan_entity.manager.RepaymentPlan">
+		SELECT id, guid, serial_no AS serialNo, contract_id AS
+		contractId,
+		contract_type AS contractType, term, repay_date AS repayDate, month_quota AS
+		monthQuota,
+		month_money AS monthMoney, month_interest AS monthInterest, penalty,
+		penalty_interest AS penaltyInterest,
+		is_settle AS isSettle, surplus_quota AS surplusQuota, surplus_money AS
+		surplusMoney, surplus_interest AS surplusInterest,
+		surplus_penalty AS surplusPenalty, surplus_penalty_Interes AS surplusPenaltyInteres,
+		extension,
+		creation_date AS creationDate, creation_user AS creationUser, update_date AS
+		updateDate, update_user AS updateUser,version AS version,
+		sync FROM ym_repayment_plan
+		where contract_id = #{contractId}
+	</select>
+	<update id="updateByBrroNum" parameterType="com.loan_entity.manager_vo.RepaymentPlanVo">
+		update ym_repayment_plan
+		<set>
+			<if test="guid != null">
+				guid = #{guid,jdbcType=VARCHAR},
+			</if>
+			<if test="serialNo != null">
+				serial_no = #{serialNo,jdbcType=VARCHAR},
+			</if>
+			<if test="contractType != null">
+				contract_type = #{contractType,jdbcType=VARCHAR},
+			</if>
+			<if test="term != null">
+				term = #{term,jdbcType=INTEGER},
+			</if>
+			<if test="repayDate != null">
+				repay_date = #{repayDate,jdbcType=VARCHAR},
+			</if>
+			<if test="monthQuota != null">
+				month_quota = #{monthQuota,jdbcType=DECIMAL},
+			</if>
+			<if test="monthMoney != null">
+				month_money = #{monthMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="monthInterest != null">
+				month_interest = #{monthInterest,jdbcType=DECIMAL},
+			</if>
+			<if test="penalty != null">
+				penalty = #{penalty,jdbcType=DECIMAL},
+			</if>
+			<if test="penaltyInterest != null">
+				penalty_interest = #{penaltyInterest,jdbcType=DECIMAL},
+			</if>
+			<if test="isSettle != null">
+				is_settle = #{isSettle,jdbcType=INTEGER},
+			</if>
+			<if test="surplusQuota != null">
+				surplus_quota = #{surplusQuota,jdbcType=DECIMAL},
+			</if>
+			<if test="surplusMoney != null">
+				surplus_money = #{surplusMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="surplusInterest != null">
+				surplus_interest = #{surplusInterest,jdbcType=DECIMAL},
+			</if>
+			<if test="surplusPenalty != null">
+				surplus_penalty = #{surplusPenalty,jdbcType=DECIMAL},
+			</if>
+			<if test="surplusPenaltyInteres != null">
+				surplus_penalty_Interes =
+				#{surplusPenaltyInteres,jdbcType=DECIMAL},
+			</if>
+			<if test="extension != null">
+				extension = #{extension,jdbcType=INTEGER},
+			</if>
+			<if test="creationDate != null">
+				creation_date = #{creationDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creationUser != null">
+				creation_user = #{creationUser,jdbcType=INTEGER},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+				update_user = #{updateUser,jdbcType=INTEGER},
+			</if>
+			<if test="sync != null">
+				sync = #{sync,jdbcType=CHAR},
+			</if>
+			version = version + 1
+		</set>
+		where contract_id =(SELECT id FROM ym_borrow_list WHERE
+		ym_borrow_list.borr_num = #{borrNum,jdbcType=VARCHAR})
+		AND version = #{version}
+	</update>
+
+	<select id="selectAlsoRepay" resultType="java.lang.Double"
+			parameterType="java.lang.String">
+		SELECT
+			(surplus_money+
+			surplus_interest+
+			surplus_penalty+
+			surplus_penalty_Interes)
+			AS total
+		FROM ym_repayment_plan
+		WHERE contract_id =#{borrId}
+	</select>
+
+	<select id="selectCanPay" resultType="java.lang.Double" parameterType="java.lang.String">
+		select IFNULL((p.surplus_money+p.surplus_interest+p.surplus_penalty+p.surplus_penalty_Interes),0)-IFNULL(SUM(o.opt_amount),0)
+		from ym_repayment_plan p LEFT JOIN ym_order o
+		on p.contract_id = o.conctact_id
+		and o.rl_state = 'p'
+		and o.type not in  ('1','3')
+		where p.contract_id = #{borrId}
+	</select>
+
+
+</mapper>

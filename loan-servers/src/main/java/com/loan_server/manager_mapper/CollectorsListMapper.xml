@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.manager_mapper.CollectorsListMapper">
+    <!--auto generated Code-->
+    <resultMap id="AllColumnMap" type="com.loan_entity.loan.CollectorsList">
+        <result column="id" property="id"/>
+        <result column="guid" property="guid"/>
+        <result column="contract_sysno" property="contractSysno"/>
+        <result column="contract_id" property="contractId"/>
+        <result column="contract_type" property="contractType"/>
+        <result column="bedue_user_sysno" property="bedueUserSysno"/>
+        <result column="bedue_name" property="bedueName"/>
+        <result column="acqu_mode" property="acquMode"/>
+        <result column="obtain_time" property="obtainTime"/>
+        <result column="operator" property="operator"/>
+        <result column="bedue_level" property="bedueLevel"/>
+        <result column="user_group_id" property="userGroupId"/>
+        <result column="status" property="status"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_date" property="createDate"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_date" property="updateDate"/>
+    </resultMap>
+
+    <resultMap id="CollectorsInfoMap" type="com.loan_entity.loan.CollectorsVo">
+        <result column="contract_id" property="contractId"/>
+        <result column="bedue_user_sysno" property="bedueUserSysno"/>
+        <result column="bedue_name" property="bedueName"/>
+        <result column="update_date" property="updateDate"/>
+    </resultMap>
+
+    <update id="updateCollectorsList" parameterType="java.lang.Integer">
+      UPDATE ds_collectors_list SET
+      status = 'B',
+      update_date = now()
+      WHERE  contract_sysno = #{borrId}
+    </update>
+
+    <select id="selectCollectUserByBorrId" parameterType="java.lang.Integer" resultType="java.lang.String">
+        SELECT bedue_user_sysno
+        FROM ds_collectors_list
+        WHERE contract_sysno = #{borrId}
+    </select>
+
+
+</mapper>
+

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_manage.mapper.MsgTemplateMapper">
+    <resultMap id="BaseResultMap" type="com.loan_entity.manager.MsgTemplate">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="employ_num" property="employNum" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="CHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="sync" property="sync" jdbcType="CHAR"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.loan_entity.manager.MsgTemplate" extends="BaseResultMap">
+        <result column="content" property="content" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <select id="getAllMsgTemplateList" resultType="com.loan_entity.manager_vo.MsgTemplateVo">
+		SELECT
+		t.id,
+		t.title,
+		t.content,
+		t.employ_num AS employNum,
+		t.`status`,
+		t.update_date AS updateDate,
+		t.create_time AS createTime,
+		t.sync,
+		r.emplloyee_name AS employName
+		FROM
+		ym_msg_template AS t
+		LEFT JOIN ym_riewer AS r ON t.employ_num = r.employ_num
+		ORDER BY
+		t.id DESC
+	</select>
+</mapper>

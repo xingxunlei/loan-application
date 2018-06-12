@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.app_mapper.BorrowManualMapper" >
+  <resultMap id="BaseResultMap" type="com.loan_entity.app.BorrowManual" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="borr_id" property="borrId" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="contact_num" property="contactNum" jdbcType="INTEGER" />
+    <result column="is_manual" property="isManual" jdbcType="INTEGER" />
+    <result column="creation_date" property="creationDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, borr_id, description, contact_num, is_manual
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from ym_borrow_manual
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ym_borrow_manual
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.loan_entity.app.BorrowManual" >
+    insert into ym_borrow_manual (id, borr_id, description,
+    contact_num, is_manual)
+    values (#{id,jdbcType=INTEGER}, #{borrId,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR},
+    #{contactNum,jdbcType=INTEGER}, #{isManual,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.loan_entity.app.BorrowManual" >
+    insert into ym_borrow_manual
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="borrId != null" >
+        borr_id,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="contactNum != null" >
+        contact_num,
+      </if>
+      <if test="isManual != null" >
+        is_manual,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="borrId != null" >
+        #{borrId,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="contactNum != null" >
+        #{contactNum,jdbcType=INTEGER},
+      </if>
+      <if test="isManual != null" >
+        #{isManual,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.loan_entity.app.BorrowManual" >
+    update ym_borrow_manual
+    <set >
+      <if test="borrId != null" >
+        borr_id = #{borrId,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="contactNum != null" >
+        contact_num = #{contactNum,jdbcType=INTEGER},
+      </if>
+      <if test="isManual != null" >
+        is_manual = #{isManual,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.loan_entity.app.BorrowManual" >
+    update ym_borrow_manual
+    set borr_id = #{borrId,jdbcType=INTEGER},
+    description = #{description,jdbcType=VARCHAR},
+    contact_num = #{contactNum,jdbcType=INTEGER},
+    is_manual = #{isManual,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByBorrId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+      *
+    from ym_borrow_manual
+    where borr_id = #{borrId,jdbcType=INTEGER}
+    order by id desc limit 1
+  </select>
+</mapper>

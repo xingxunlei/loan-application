@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自动放款</title>
+    <style>
+        .autoLoan{
+            padding:20px 0 0 20px;
+        }
+        .switch{
+            width:60px;
+            height:20px;
+            background:#E4E4E4;
+            margin:0 auto;
+            border-radius:10px !important;
+            border:1px solid #a4a4a4;
+            position:relative;
+            cursor: pointer;
+        }
+        .switchBtn{
+            display:block;
+            width:20px;
+            height:18px;
+            border-radius:50% !important;
+            background:#B5B5B5;
+            position:absolute;
+            left:0px;
+        }
+        .currentSwitch{
+            background:#3C8CBB;
+        }
+        .currentSwitch .switchBtn{
+            background:#fff;
+            left:38px;
+        }
+        .asterisk{
+            color:red;
+            font-size:16px;
+            vertical-align: middle;
+            padding:0;
+            display:inline-block;
+        }
+
+        .displayNone{
+            display:none;
+        }
+        .displayBlock{
+            display:inline-block;
+        }
+        input{
+            text-align: center;
+        }
+        button{
+            border-radius:3px !important;
+        }
+    </style>
+</head>
+<script>
+    autoLoanInit();
+</script>
+<body>
+<div class="page-bar" style="margin-bottom: 10px;">
+    <ul class="page-breadcrumb">
+        <li><i class="fa fa-home"></i> <a href="#/dashboard.html">首页</a>
+            <i class="fa fa-angle-right"></i></li>
+        <li><a href="#/autoLoan.html">自动放款</a></li>
+    </ul>
+    <p style="float:right;line-height:36px;margin:0;padding-right:100px;" class="text-danger"></p>
+</div>
+<div class="autoLoan">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="col-sm-3">
+                <div class="clearfix">
+                    <div class="clearfix" style="float:left;">
+                        <div class="switch"  data="1" id="last_order_switch">
+                            <span class="switchBtn"></span>
+                        </div>
+                    </div>
+                    <p style="float:left;margin-left:15px;"><span>上单状态</span></p>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="col-sm-3">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" id="normal_order_switch" value="normal_order_switch"> <span>正常结清</span>
+                    </label>
+                </div>
+                <div class="col-sm-5">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" id="overdue_order_switch" value="overdue_order_switch">
+                        <p style="display:inline-block;" class="pText"><span>逾期 <b class="redText"><span id="overdue_order_day">3</span></b><input type="text"  class="displayNone" style="width:50px;" maxlength="1"/> 天结清</span></p>
+                        <button class="btn-sm btn btn-primary clickBtn" style="padding:1px 5px;margin-left:5px;" data-toggle="modal" data-target="#reviseLog">修改</button>
+                    </label>
+                </div>
+                <div class="col-sm-4" style="display: none">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" id="none_loan_switch" value="none_loan_switch">  <span>无借款</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top:20px;">
+        <div class="col-sm-12">
+            <div class="col-sm-3">
+                <div class="clearfix">
+                    <div class="clearfix" style="float:left;">
+                        <div class="switch"  data="1" id="time_switch">
+                            <span class="switchBtn"></span>
+                        </div>
+                    </div>
+                    <p style="float:left;margin-left:15px;"><span>自动放款时间</span></p>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <input type="text" class="input-sm col-sm-4" style="border: 1px solid #ccc;" id="start_time">
+                    <span class=" col-sm-1" style="padding-top:5px;">--</span>
+                    <input type="text" class="input-sm col-sm-4" style="border: 1px solid #ccc;" id="end_time">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top:20px;">
+        <div class="col-sm-12">
+            <div class="col-sm-3">
+                <div class="clearfix">
+                    <div class="clearfix" style="float:left;">
+                        <div class="switch"  data="1" id="concurrency_switch">
+                            <span class="switchBtn"></span>
+                        </div>
+                    </div>
+                    <div style="float:left;margin-left:15px;" class="contText"><p>并发限制 <b class="redText"><span id="concurrency_limit">20</span></b> <input type="text" class="displayNone" style="width:50px;" maxlength="3"/></span> 次/分</p></div>
+                </div>
+            </div>
+            <div class="col-sm-1">
+                <button class="btn-sm btn btn-primary reviseBtn" style="padding:1px 5px;margin-left:5px;" data-toggle="modal" data-target="#reviseInfo">修改</button>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top:20px;">
+        <div class="col-sm-12">
+            <div class="col-sm-3">
+                <div class="clearfix">
+                    <div class="clearfix" style="float:left;">
+                        <div class="switch"  data="1" id="amount_switch">
+                            <span class="switchBtn"></span>
+                        </div>
+                    </div>
+                    <div style="float:left;margin-left:15px;" class="contText"><p>放款金额 <b class="redText"><span id="amount_limit">500</span></b> <input type="text" class="displayNone" style="width:50px;" maxlength="5"/></span> 万</p></div>
+                </div>
+            </div>
+            <div class="col-sm-1">
+                <button class="btn-sm btn btn-primary reviseBtn" data-toggle="modal" data-target="#reviseInfo" style="padding:1px 5px;margin-left:5px;">修改</button>
+            </div>
+            <div class="col-sm-3" id="amountDiv">
+                <p>已放款金额 <b class="redText"><span id="loan_amount">0</span></b> 万</p>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top:20px;">
+        <div class="col-sm-12">
+            <div class="col-sm-3">
+                <div class="clearfix">
+                    <div class="clearfix" style="float:left;">
+                        <div class="switch"  data="1" id="status">
+                            <span class="switchBtn"></span>
+                        </div>
+                    </div>
+                    <p style="float:left;margin-left:15px;"><span>自动放款</span></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!--后面两个修改的弹窗-->
+<div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"  id="reviseInfo">
+    <div class="modal-dialog " style="margin-top:200px;  border-radius:10px !important;">
+        <div class="modal-content" style=" border-radius:10px !important;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title text-center">提 示</h4>
+            </div>
+            <div class="modal-body">
+                <p style="margin:20px 0;text-align:center;" class="reviseText"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btnSure">确定</button>
+                <button type="button" class="btn btn-default " data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--修改的弹窗-->
+
+<!--第一个修改的弹窗-->
+<div class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"  id="reviseLog">
+    <div class="modal-dialog " style="margin-top:200px;">
+        <div class="modal-content" style=" border-radius:10px !important;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title text-center">提 示</h4>
+            </div>
+            <div class="modal-body">
+                <p style="margin:20px 0;text-align:center;" class="reviseText"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary clickSure">确定</button>
+                <button type="button" class="btn btn-default " data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--修改的弹窗-->
+
+</body>
+</html>

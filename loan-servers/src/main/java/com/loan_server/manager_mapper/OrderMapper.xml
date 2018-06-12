@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.manager_mapper.OrderMapper">
+	<resultMap id="BaseResultMap" type="com.loan_entity.manager.Order">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="guid" property="guid" jdbcType="VARCHAR" />
+		<result column="borr_num" property="borrNum" jdbcType="VARCHAR" />
+		<result column="p_id" property="pId" jdbcType="INTEGER" />
+		<result column="serial_no" property="serialNo" jdbcType="VARCHAR" />
+		<result column="company_id" property="companyId" jdbcType="INTEGER" />
+		<result column="per_id" property="perId" jdbcType="INTEGER" />
+		<result column="bank_id" property="bankId" jdbcType="INTEGER" />
+		<result column="conctact_id" property="conctactId" jdbcType="INTEGER" />
+		<result column="opt_amount" property="optAmount" jdbcType="DECIMAL" />
+		<result column="act_amount" property="actAmount" jdbcType="DECIMAL" />
+		<result column="rl_date" property="rlDate" jdbcType="TIMESTAMP" />
+		<result column="rl_remark" property="rlRemark" jdbcType="VARCHAR" />
+		<result column="rl_state" property="rlState" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="reason" property="reason" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="CHAR" />
+		<result column="creation_date" property="creationDate"
+			jdbcType="TIMESTAMP" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="sync" property="sync" jdbcType="CHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, guid, p_id, serial_no, company_id, per_id, bank_id, conctact_id,
+		opt_amount,
+		act_amount, rl_date, rl_remark, rl_state, type, reason, status, creation_date,
+		update_date,
+		sync
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from ym_order
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<!-- 根据订单号查询订单 -->
+	<select id="selectBySerial" resultMap="BaseResultMap"
+		parameterType="String">
+		select
+		<include refid="Base_Column_List" />
+		from ym_order
+		where serial_no = #{0}
+	</select>
+
+	<!-- 根据pid查询订单 -->
+	<select id="selectByPid" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from ym_order
+		where p_id = #{0}
+	</select>
+
+	<!-- 查询订单状态为state,订单类型为type(代收)的数据，订单创建时间<任务运行的时间-30分钟 -->
+	<select id="selectOrders" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM ym_order
+		WHERE rl_state = #{0}
+		AND type = #{1}
+		and status='y'
+		AND creation_date &lt;CURRENT_TIMESTAMP - INTERVAL #{2} MINUTE
+	</select>
+
+	<select id="selectByGuid" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from ym_order
+		where guid = #{0}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from ym_order
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.loan_entity.manager.Order"  keyProperty="id" useGeneratedKeys="true" >
+		insert into ym_order (id, guid, p_id,
+		serial_no, company_id, per_id,
+		bank_id, conctact_id, opt_amount,
+		act_amount, rl_date, rl_remark,
+		rl_state, type, reason,
+		status, creation_date, update_date,
+		sync)
+		values (#{id,jdbcType=INTEGER}, #{guid,jdbcType=VARCHAR},
+		#{pId,jdbcType=INTEGER},
+		#{serialNo,jdbcType=VARCHAR}, #{companyId,jdbcType=INTEGER}, #{perId,jdbcType=INTEGER},
+		#{bankId,jdbcType=INTEGER}, #{conctactId,jdbcType=INTEGER},
+		#{optAmount,jdbcType=DECIMAL},
+		#{actAmount,jdbcType=DECIMAL}, #{rlDate,jdbcType=TIMESTAMP}, #{rlRemark,jdbcType=VARCHAR},
+		#{rlState,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR},
+		#{reason,jdbcType=VARCHAR},
+		#{status,jdbcType=CHAR}, #{creationDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP},
+		#{sync,jdbcType=CHAR})
+	</insert>
+	<insert id="insertSelective" useGeneratedKeys="true"
+		keyProperty="id" parameterType="com.loan_entity.manager.Order">
+		insert into ym_order
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="guid != null">
+				guid,
+			</if>
+			<if test="pId != null">
+				p_id,
+			</if>
+			<if test="serialNo != null">
+				serial_no,
+			</if>
+			<if test="companyId != null">
+				company_id,
+			</if>
+			<if test="perId != null">
+				per_id,
+			</if>
+			<if test="bankId != null">
+				bank_id,
+			</if>
+			<if test="conctactId != null">
+				conctact_id,
+			</if>
+			<if test="optAmount != null">
+				opt_amount,
+			</if>
+			<if test="actAmount != null">
+				act_amount,
+			</if>
+			<if test="rlDate != null">
+				rl_date,
+			</if>
+			<if test="rlRemark != null">
+				rl_remark,
+			</if>
+			<if test="rlState != null">
+				rl_state,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="reason != null">
+				reason,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="creationDate != null">
+				creation_date,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="sync != null">
+				sync,
+			</if>
+			<if test="createUser != null and createUser != ''">
+				create_user,
+			</if>
+			<if test="collectionUser != null and collectionUser != ''">
+				collection_user,
+			</if>
+			<if test="deductionsType != null and deductionsType != ''">
+				deductions_type,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="guid != null">
+				#{guid,jdbcType=VARCHAR},
+			</if>
+			<if test="pId != null">
+				#{pId,jdbcType=INTEGER},
+			</if>
+			<if test="serialNo != null">
+				#{serialNo,jdbcType=VARCHAR},
+			</if>
+			<if test="companyId != null">
+				#{companyId,jdbcType=INTEGER},
+			</if>
+			<if test="perId != null">
+				#{perId,jdbcType=INTEGER},
+			</if>
+			<if test="bankId != null">
+				#{bankId,jdbcType=INTEGER},
+			</if>
+			<if test="conctactId != null">
+				#{conctactId,jdbcType=INTEGER},
+			</if>
+			<if test="optAmount != null">
+				#{optAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="actAmount != null">
+				#{actAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="rlDate != null">
+				#{rlDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="rlRemark != null">
+				#{rlRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="rlState != null">
+				#{rlState,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="reason != null">
+				#{reason,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=CHAR},
+			</if>
+			<if test="creationDate != null">
+				#{creationDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="sync != null">
+				#{sync,jdbcType=CHAR},
+			</if>
+			<if test="createUser != null and createUser !=''" >
+				#{createUser,jdbcType=VARCHAR},
+			</if>
+			<if test="collectionUser != null and collectionUser !=''">
+				#{collectionUser,jdbcType=VARCHAR},
+			</if>
+			<if test="deductionsType != null and deductionsType !=''">
+				#{deductionsType,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.loan_entity.manager.Order">
+		update ym_order
+		<set>
+			<if test="guid != null">
+				guid = #{guid,jdbcType=VARCHAR},
+			</if>
+			<if test="pId != null">
+				p_id = #{pId,jdbcType=INTEGER},
+			</if>
+			<if test="serialNo != null">
+				serial_no = #{serialNo,jdbcType=VARCHAR},
+			</if>
+			<if test="companyId != null">
+				company_id = #{companyId,jdbcType=INTEGER},
+			</if>
+			<if test="perId != null">
+				per_id = #{perId,jdbcType=INTEGER},
+			</if>
+			<if test="bankId != null">
+				bank_id = #{bankId,jdbcType=INTEGER},
+			</if>
+			<if test="conctactId != null">
+				conctact_id = #{conctactId,jdbcType=INTEGER},
+			</if>
+			<if test="optAmount != null">
+				opt_amount = #{optAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="actAmount != null">
+				act_amount = #{actAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="rlDate != null">
+				rl_date = #{rlDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="rlRemark != null">
+				rl_remark = #{rlRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="rlState != null">
+				rl_state = #{rlState,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="reason != null">
+				reason = #{reason,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=CHAR},
+			</if>
+			<if test="creationDate != null">
+				creation_date = #{creationDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="sync != null">
+				sync = #{sync,jdbcType=CHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.loan_entity.manager.Order">
+		update ym_order
+		set guid = #{guid,jdbcType=VARCHAR},
+		p_id = #{pId,jdbcType=INTEGER},
+		serial_no = #{serialNo,jdbcType=VARCHAR},
+		company_id = #{companyId,jdbcType=INTEGER},
+		per_id = #{perId,jdbcType=INTEGER},
+		bank_id = #{bankId,jdbcType=INTEGER},
+		conctact_id = #{conctactId,jdbcType=INTEGER},
+		opt_amount = #{optAmount,jdbcType=DECIMAL},
+		act_amount = #{actAmount,jdbcType=DECIMAL},
+		rl_date = #{rlDate,jdbcType=TIMESTAMP},
+		rl_remark = #{rlRemark,jdbcType=VARCHAR},
+		rl_state = #{rlState,jdbcType=VARCHAR},
+		type = #{type,jdbcType=VARCHAR},
+		reason = #{reason,jdbcType=VARCHAR},
+		status = #{status,jdbcType=CHAR},
+		creation_date = #{creationDate,jdbcType=TIMESTAMP},
+		update_date = #{updateDate,jdbcType=TIMESTAMP},
+		sync = #{sync,jdbcType=CHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="selectBorrNumById" resultType="java.lang.String"
+		parameterType="java.lang.Integer">
+		SELECT borr_num FROM `ym_borrow_list` WHERE id = #{conctactId}
+	</select>
+	<update id="updateOrder">
+		UPDATE ym_order SET
+		rl_state = 'f',rl_remark=#{1} WHERE
+		id = #{0}
+	</update>
+	<select id="selectByConStatusTime" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM ym_order 
+		WHERE conctact_id = #{0} 
+		AND rl_state = #{1} 
+		AND type = #{2} 
+		AND DATE_ADD(update_date,INTERVAL 2 HOUR)&gt;NOW()
+	</select>
+	
+	<select id="selectPayOrders" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from ym_order
+		where conctact_id = #{0}
+		and rl_state = #{1}
+		and type not in  ('1','3')
+	</select>
+	
+	
+	<select id="getOrdersByArgs" parameterType="Map" resultMap="BaseResultMap">
+		SELECT 
+		  o.id,
+		  bl.borr_num,
+		  guid,
+		  p_id,
+		  serial_no,
+		  company_id,
+		  o.per_id,
+		  bank_id,
+		  conctact_id,
+		  opt_amount,
+		  act_amount,
+		  rl_date,
+		  IFNULL(rl_remark,reason) reason,
+		  rl_state,
+		  TYPE,
+		  reason,
+		  STATUS,
+		  o.creation_date,
+		  o.update_date,
+		  o.sync 
+		FROM
+		  ym_order o LEFT JOIN ym_borrow_list bl ON bl.id = conctact_id
+		<where>
+			<if test="guid != null">
+			and	guid = #{guid,jdbcType=VARCHAR}
+			</if>
+			<if test="pId != null">
+			and	p_id = #{pId,jdbcType=INTEGER}
+			</if>
+			<if test="serialNo != null">
+			and	serial_no = #{serialNo,jdbcType=VARCHAR}
+			</if>
+			<if test="companyId != null">
+			and	company_id = #{companyId,jdbcType=INTEGER}
+			</if>
+			<if test="perId != null">
+			and	o.per_id = #{perId,jdbcType=INTEGER}
+			</if>
+			<if test="bankId != null">
+			and	bank_id = #{bankId,jdbcType=INTEGER}
+			</if>
+			<if test="conctactId != null">
+			and	conctact_id = #{conctactId,jdbcType=INTEGER}
+			</if>
+			<if test="optAmount != null">
+			and	opt_amount = #{optAmount,jdbcType=DECIMAL}
+			</if>
+			<if test="actAmount != null">
+			and	act_amount = #{actAmount,jdbcType=DECIMAL}
+			</if>
+			<if test="rlDate != null">
+			and	rl_date = #{rlDate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="rlRemark != null">
+			and	rl_remark = #{rlRemark,jdbcType=VARCHAR}
+			</if>
+			<if test="rlState != null">
+			and	rl_state = #{rlState,jdbcType=VARCHAR}
+			</if>
+			<if test="type_s != null">
+			and	
+			<foreach item="item" index="index" collection="type_s" open="(" close=")"
+               separator="or">
+               type = #{item,jdbcType=VARCHAR}
+        	</foreach>
+			</if>
+			<if test="reason != null">
+			and	reason = #{reason,jdbcType=VARCHAR}
+			</if>
+			<if test="status_s != null">
+			and	
+			<foreach item="item" index="index" collection="status_s" open="(" close=")"
+               separator="or">
+         	status = #{item,jdbcType=CHAR}
+        	</foreach>
+        	
+			</if>
+			<if test="creationDate != null">
+			and	creation_date = #{creationDate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="updateDate != null">
+			and	update_date = #{updateDate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="sync != null">
+			and	sync = #{sync,jdbcType=CHAR}
+			</if>
+		</where>
+	
+	</select>
+
+</mapper>

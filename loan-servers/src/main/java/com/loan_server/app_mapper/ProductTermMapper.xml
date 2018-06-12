@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.app_mapper.ProductTermMapper" >
+  <resultMap id="BaseResultMap" type="com.loan_entity.app.ProductTerm" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="guid" property="guid" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="tem_name" property="temName" jdbcType="VARCHAR" />
+    <result column="term_value" property="termValue" jdbcType="INTEGER" />
+    <result column="maximum_amount" property="maximumAmount" jdbcType="DECIMAL" />
+    <result column="maximum_interest_rate" property="maximumInterestRate" jdbcType="DECIMAL" />
+    <result column="minimum_interest_rate" property="minimumInterestRate" jdbcType="DECIMAL" />
+    <result column="monthly_rate" property="monthlyRate" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="SMALLINT" />
+    <result column="creation_date" property="creationDate" jdbcType="TIMESTAMP" />
+    <result column="creation_user" property="creationUser" jdbcType="INTEGER" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, guid, product_id, tem_name, term_value, maximum_amount, maximum_interest_rate, 
+    minimum_interest_rate, monthly_rate, status, creation_date, creation_user, update_date, 
+    update_user
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ym_product_term
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 根据产品ID查询期数表 -->
+  <select id="selectByProductId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ym_product_term
+    where product_id = #{product_id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 查询所有产品金额 -->
+  <select id="findProductMoney" resultType="java.lang.Long" >
+    select DISTINCT(maximum_amount)   
+    from ym_product_term WHERE status = 1
+  </select>
+  
+  <!-- 根据金额查询天数 -->
+  <select id="findProductDay" resultType="java.lang.Integer" parameterType="java.lang.Long" >
+    SELECT term_value 
+    FROM ym_product_term 
+    where maximum_amount=#{money} 
+    AND status = 1
+    ORDER BY term_value
+  </select>
+  
+  <!-- 根据金额和天数查询产品ID -->
+  <select id="findProductId" resultType="java.lang.Integer" >
+    SELECT product_id 
+    FROM ym_product_term 
+    WHERE maximum_amount=#{0}
+    AND term_value=#{1}
+    AND status = 1
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ym_product_term
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.loan_entity.app.ProductTerm" >
+    insert into ym_product_term (id, guid, product_id, 
+      tem_name, term_value, maximum_amount, 
+      maximum_interest_rate, minimum_interest_rate, 
+      monthly_rate, status, creation_date, 
+      creation_user, update_date, update_user
+      )
+    values (#{id,jdbcType=INTEGER}, #{guid,jdbcType=VARCHAR}, #{productId,jdbcType=INTEGER}, 
+      #{temName,jdbcType=VARCHAR}, #{termValue,jdbcType=INTEGER}, #{maximumAmount,jdbcType=DECIMAL}, 
+      #{maximumInterestRate,jdbcType=DECIMAL}, #{minimumInterestRate,jdbcType=DECIMAL}, 
+      #{monthlyRate,jdbcType=DECIMAL}, #{status,jdbcType=SMALLINT}, #{creationDate,jdbcType=TIMESTAMP}, 
+      #{creationUser,jdbcType=INTEGER}, #{updateDate,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.loan_entity.app.ProductTerm" >
+    insert into ym_product_term
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="guid != null" >
+        guid,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="temName != null" >
+        tem_name,
+      </if>
+      <if test="termValue != null" >
+        term_value,
+      </if>
+      <if test="maximumAmount != null" >
+        maximum_amount,
+      </if>
+      <if test="maximumInterestRate != null" >
+        maximum_interest_rate,
+      </if>
+      <if test="minimumInterestRate != null" >
+        minimum_interest_rate,
+      </if>
+      <if test="monthlyRate != null" >
+        monthly_rate,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="creationDate != null" >
+        creation_date,
+      </if>
+      <if test="creationUser != null" >
+        creation_user,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="guid != null" >
+        #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="temName != null" >
+        #{temName,jdbcType=VARCHAR},
+      </if>
+      <if test="termValue != null" >
+        #{termValue,jdbcType=INTEGER},
+      </if>
+      <if test="maximumAmount != null" >
+        #{maximumAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="maximumInterestRate != null" >
+        #{maximumInterestRate,jdbcType=DECIMAL},
+      </if>
+      <if test="minimumInterestRate != null" >
+        #{minimumInterestRate,jdbcType=DECIMAL},
+      </if>
+      <if test="monthlyRate != null" >
+        #{monthlyRate,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="creationDate != null" >
+        #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creationUser != null" >
+        #{creationUser,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.loan_entity.app.ProductTerm" >
+    update ym_product_term
+    <set >
+      <if test="guid != null" >
+        guid = #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="temName != null" >
+        tem_name = #{temName,jdbcType=VARCHAR},
+      </if>
+      <if test="termValue != null" >
+        term_value = #{termValue,jdbcType=INTEGER},
+      </if>
+      <if test="maximumAmount != null" >
+        maximum_amount = #{maximumAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="maximumInterestRate != null" >
+        maximum_interest_rate = #{maximumInterestRate,jdbcType=DECIMAL},
+      </if>
+      <if test="minimumInterestRate != null" >
+        minimum_interest_rate = #{minimumInterestRate,jdbcType=DECIMAL},
+      </if>
+      <if test="monthlyRate != null" >
+        monthly_rate = #{monthlyRate,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="creationDate != null" >
+        creation_date = #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creationUser != null" >
+        creation_user = #{creationUser,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.loan_entity.app.ProductTerm" >
+    update ym_product_term
+    set guid = #{guid,jdbcType=VARCHAR},
+      product_id = #{productId,jdbcType=INTEGER},
+      tem_name = #{temName,jdbcType=VARCHAR},
+      term_value = #{termValue,jdbcType=INTEGER},
+      maximum_amount = #{maximumAmount,jdbcType=DECIMAL},
+      maximum_interest_rate = #{maximumInterestRate,jdbcType=DECIMAL},
+      minimum_interest_rate = #{minimumInterestRate,jdbcType=DECIMAL},
+      monthly_rate = #{monthlyRate,jdbcType=DECIMAL},
+      status = #{status,jdbcType=SMALLINT},
+      creation_date = #{creationDate,jdbcType=TIMESTAMP},
+      creation_user = #{creationUser,jdbcType=INTEGER},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

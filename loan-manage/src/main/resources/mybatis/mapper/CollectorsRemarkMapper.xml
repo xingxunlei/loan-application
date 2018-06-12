@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_manage.mapper.CollectorsRemarkMapper">
+
+    <select id="selectRemarkInfo" parameterType="java.util.Map" resultType="com.loan_entity.manager.CollectorsRemark">
+        SELECT id, contract_sysno contractSysno,contract_id contractId,contract_type contractType,type,
+        remark,STATUS,create_date createDate,update_user updateUser,update_date updateDate,create_user,
+        (SELECT user_name FROM ds_collectors_level WHERE  user_sysno = cr.create_user) createUser
+         FROM ds_collectors_remark cr where contract_sysno = #{contractSysno}
+        <if test="selector == 'createDate' and desc != ''">
+            ORDER BY create_date  ${desc}
+        </if>
+        <if test="selector == null">
+            ORDER BY create_date DESC
+        </if>
+    </select>
+
+</mapper>
+

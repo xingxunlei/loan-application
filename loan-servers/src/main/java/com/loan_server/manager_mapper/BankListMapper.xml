@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.manager_mapper.BankListMapper" >
+  <resultMap id="BaseResultMap" type="com.loan_entity.manager.BankList" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="order_limit" property="orderLimit" jdbcType="DECIMAL" />
+    <result column="day_limit" property="dayLimit" jdbcType="DECIMAL" />
+    <result column="support" property="support" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, bank_name, type, order_limit, day_limit, support
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ym_bank_list
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 根据状态查询所有银行列表 -->
+  <select id="selectBySupport" resultMap="BaseResultMap" parameterType="String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ym_bank_list
+    where support = #{0}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ym_bank_list
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.loan_entity.manager.BankList" >
+    insert into ym_bank_list (id, bank_name, type, 
+      order_limit, day_limit, support
+      )
+    values (#{id,jdbcType=INTEGER}, #{bankName,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{orderLimit,jdbcType=DECIMAL}, #{dayLimit,jdbcType=DECIMAL}, #{support,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.loan_entity.manager.BankList" >
+    insert into ym_bank_list
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="bankName != null" >
+        bank_name,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="orderLimit != null" >
+        order_limit,
+      </if>
+      <if test="dayLimit != null" >
+        day_limit,
+      </if>
+      <if test="support != null" >
+        support,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="orderLimit != null" >
+        #{orderLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="dayLimit != null" >
+        #{dayLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="support != null" >
+        #{support,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.loan_entity.manager.BankList" >
+    update ym_bank_list
+    <set >
+      <if test="bankName != null" >
+        bank_name = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="orderLimit != null" >
+        order_limit = #{orderLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="dayLimit != null" >
+        day_limit = #{dayLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="support != null" >
+        support = #{support,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.loan_entity.manager.BankList" >
+    update ym_bank_list
+    set bank_name = #{bankName,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      order_limit = #{orderLimit,jdbcType=DECIMAL},
+      day_limit = #{dayLimit,jdbcType=DECIMAL},
+      support = #{support,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jhh.dao.BaiKeLuReportMapper">
+	<select id="getShenHe" resultType="com.jhh.model.BaiKeLuReport">
+		select count(*) as `count`,date(str_to_date(sucess_time,'%Y-%m-%d_%H:%i:%s')) as `day` from ym_order_robot where state in (2,3,5)
+		<if test="startdate != null">
+		and date(str_to_date(sucess_time,'%Y-%m-%d_%H:%i:%s')) > #{startdate}
+		</if> 
+		group by date(str_to_date(sucess_time,'%Y-%m-%d_%H:%i:%s')) order by `day` desc
+		<if test="limit > 0">
+			limit #{limit}
+		</if>
+	</select>
+	<select id="getTiShi" resultType="com.jhh.model.BaiKeLuReport">
+		<!-- select count(*) as `count`,date(planrepay_date) as `day` from ym_borrow_list where borr_status='BS004' group by date(planrepay_date) order by `day` desc; -->
+		SELECT count(*) as count, DATE_FORMAT(b.pay_date,'%Y-%m-%d') AS `day` FROM ym_borrow_list b,ym_repayment_plan r,ym_person p WHERE b.per_id = p.id AND r.contract_id = b.id and b.borr_status = 'BS005' AND DATEDIFF(NOW(),b.planrepay_date)=2 group by `day`;
+		<if test="limit > 0">
+			limit #{limit}
+		</if>
+	</select>
+</mapper>

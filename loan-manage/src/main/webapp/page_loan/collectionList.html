@@ -1,0 +1,184 @@
+<style>
+    .table-condensed tfoot {
+        display: none;
+    }
+</style>
+<div class="page-bar" style="margin-bottom: 10px;">
+    <ul class="page-breadcrumb">
+        <li><i class="fa fa-home"></i> <a href="#/dashboard.html">首页</a>
+            <i class="fa fa-angle-right"></i></li>
+        <li><a href="#/collectionList.html">催收队列</a></li>
+    </ul>
+    <p style="float:right;line-height:36px;margin:0;padding-right:100px;" class="text-danger">注意：提交扣款为真实扣款，其对接第三方支付接口！！</p>
+</div>
+<div class="row"
+     style="min-height:200px;background:url('/zloan-manage/assets/admin/layout/img/loading_mylike.gif') no-repeat center center;">
+    <div class="col-md-12 wblMd">
+        <!--<div id="tool_view" style="margin:0 0 20px 0;"></div>
+        <div id="tool_remark" style=" position: absolute; z-index: 1; left:120px;"></div>
+        <div id="tool_reduce" style=" position: absolute; z-index: 1; left:250px;"></div>-->
+        <div class="wblBackground"></div>
+        <div class="wblFillDiv"></div>
+        <div id="collectionListTable"></div>
+    </div>
+</div>
+<div class="modal fade" id="whiteBlackList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="padding: 10px;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: 5px;padding-right: 5px;"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="whiteBlackListTitle"></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="form-whiteBlackList">
+                    <div class="form-group">
+                        <input type="hidden" name="contractId" id="whiteBlackListContractId" />
+                        <input type="hidden" name="userId" id="whiteBlackListUserId" />
+                        <input type="hidden" name="type" id="whiteBlackListType" />
+                        <label class="col-sm-2 control-label">备注</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" name="reason" id="reason" rows="6" style="resize: none;"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="btnWhiteBlackList">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="collectionRemark">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">催收备注</h4>
+            </div>
+            <div class="modal-body">
+                <form id="remarkForm" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">合同号</label>
+                        <div class="col-sm-10">
+                            <input type="hidden" name="contractSysno" id="contractKey">
+                            <input type="hidden" name="createUser" id="createUser">
+                            <input type="text" class="form-control" name="contractId" id="contractId" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">合同类型</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="contractType" readonly value="APP">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">合同类型</label>
+                        <div class="col-sm-10">
+                            <select name="type" id="type" class="form-control">
+                                <option value="A">催收备注</option>
+                                <option value="B">提醒备注</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">备注内容</label>
+                        <div class="col-sm-10">
+                            <textarea name="remark" id="remark" class="form-control" style="resize: none" rows="4"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" id="btnRemark" class="btn btn-primary">提交催收备注</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="collectionReduce">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">提交扣款</h4>
+            </div>
+            <div class="modal-body">
+                <form id="reduce" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">姓名</label>
+                        <div class="col-sm-4">
+                            <input type="hidden" id="createUser_ask" name="createUser" class="form-control">
+                            <input type="hidden" id="askUrl" name="askUrl" class="form-control">
+                            <input type="hidden" id="perId" name="perId" class="form-control">
+                            <input type="text" id="name" name="name" class="form-control" readonly>
+                        </div>
+                        <label class="col-sm-2 control-label">身份证</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="idCardNo" name="idCardNo" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">合同号</label>
+                        <div class="col-sm-4">
+                            <input type="hidden" id="borrowId" name="borrId" value="">
+                            <input type="text" id="borrNum" name="borrNum" class="form-control" readonly>
+                        </div>
+                        <label class="col-sm-2 control-label">扣款方式</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" value="代收还款" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">银行名称</label>
+                        <div class="col-sm-4">
+                            <select name="bankId" id="bankId" class="form-control">
+                            </select>
+                        </div>
+                        <label class="col-sm-2 control-label">银行卡号</label>
+                        <div class="col-sm-4">
+                            <input type="hidden" id="bankInfoId" name="bankInfoId" class="form-control">
+                            <input type="text" id="bankNum" name="bankNum" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    <label class="col-sm-2 control-label">预留手机号</label>
+                    <div class="col-sm-4">
+                        <input type="text" id="phone" name="phone" class="form-control">
+                    </div>
+                    <label class="col-sm-2 control-label">剩余还款金额</label>
+                    <div class="col-sm-4">
+                        <input type="text" id="surplusTotalAmount" name="surplusTotalAmount" class="form-control" readonly>
+                    </div>
+                </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">输入金额</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="optAmount" onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')" name="optAmount" class="form-control">
+                        </div>
+                        <label class="col-sm-2 control-label">备注</label>
+                        <div class="col-sm-4">
+                            <textarea name="description" id="description" class="form-control" style="resize: none" rows="3"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" id="btnReduce" class="btn btn-primary">提交扣款</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    collectionList();
+</script>
+
+
+
+
+
+
+
+
+

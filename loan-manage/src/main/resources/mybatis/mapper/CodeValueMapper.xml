@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_manage.mapper.CodeValueMapper" >
+  <resultMap id="BaseResultMap" type="com.loan_entity.manager.CodeValue" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="code_type" property="codeType" jdbcType="VARCHAR" />
+    <result column="code_code" property="codeCode" jdbcType="VARCHAR" />
+    <result column="meaning" property="meaning" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="enabled_flag" property="enabledFlag" jdbcType="VARCHAR" />
+    <result column="sync" property="sync" jdbcType="CHAR" />
+  </resultMap>
+
+   <select id="getCodeValueListByCode" resultMap="BaseResultMap" parameterType="String" >
+    select 
+      id, code_type, code_code, meaning, description, enabled_flag, sync
+    from ym_code_value
+     where code_type = #{code_type}
+  </select>
+
+  
+  <select id="getMeaningByTypeCode" resultType="String" parameterType="String" >
+    select meaning
+    from ym_code_value
+    where code_type = #{0}
+    and code_code = ${1}
+  </select>
+</mapper>

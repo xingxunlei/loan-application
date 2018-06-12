@@ -1,0 +1,109 @@
+<style>
+    .table-condensed tfoot {
+        display: none;
+    }
+
+    .wblTimeDiv {
+        position: fixed;
+        top: 60px;
+    }
+
+    #tool_find {
+        width: 100px;
+    }
+</style>
+<!-- BEGIN PAGE HEADER-->
+
+<div class="page-bar" style="margin-bottom: 10px;">
+    <ul class="page-breadcrumb">
+        <li><i class="fa fa-home"></i> <a href="#/dashboard.html">首页</a>
+            <i class="fa fa-angle-right"></i></li>
+        <li><a href="#/manualAuditReport.html">人工审核报表</a></li>
+    </ul>
+</div>
+<!-- END PAGE HEADER-->
+<!-- BEGIN MAIN CONTENT -->
+
+<div class="row" style="border-bottom:1px solid #eee;">
+    <!-- -- -->
+    <div style="position:fixed;top:110px;z-index:1001;" class="col-md-10">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>日期 从</label>
+                <input type="text" class="form-control" placeholder="" readonly id="datetimeStart">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>日期 到</label>
+                <input type="text" class="form-control" readonly id="datetimeEnd">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label>审核人员</label>
+                <select id="employName" class="form-control">
+                    <option value="" default>全部</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="  wbl">
+
+    <!-- BEGIN MAIN CONTENT -->
+    <div class="row"
+         style="min-height:200px;">
+        <div class="col-md-12 wblMd">
+            <div class="wblBackground"></div>
+
+            <div style="position:fixed;z-index:1001;top:185px;width:23%;">
+                <div id="tool_find"></div>
+                <!--<div id="tool_export" style=" position: absolute; z-index: 1; left:120px;width:30%;"></div>-->
+                <!--<div id="tool_refresh"></div>-->
+            </div>
+            <div class="wblFillDiv"></div>
+            <div id="userTable" style="border: 0px solid #ccc;"></div>
+        </div>
+    </div>
+
+</div>
+</div>
+
+
+<!-- END MAIN CONTENT -->
+
+
+<!-- BEGIN MAIN JS -->
+<script type="text/javascript">
+    //时间插件代码
+
+    $("#datetimeStart").datetimepicker({
+        format: 'yyyy-mm-dd 00:00:00',
+        minView: 'month',
+        language: 'zh-CN',
+        autoclose: true,
+        maxView: 'decade',
+    }).on("click", function () {
+        $("#datetimeStart").datetimepicker("setEndDate", $("#datetimeEnd").val())
+    });
+    $("#datetimeEnd").datetimepicker({
+        format: 'yyyy-mm-dd 23:59:59',
+        minView: 'month',
+        language: 'zh-CN',
+        autoclose: true,
+    }).on("click", function () {
+        $("#datetimeEnd").datetimepicker("setStartDate", $("#datetimeStart").val())
+    });
+    manualAuditReport();
+</script>
+<!-- END MAIN JS -->
+
+
+
+
+
+
+
+
+

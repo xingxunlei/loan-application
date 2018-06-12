@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.app_mapper.BpmNodeMapper" >
+  <resultMap id="BaseResultMap" type="com.loan_entity.app.BpmNode" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="per_id" property="perId" jdbcType="INTEGER" />
+    <result column="bpm_id" property="bpmId" jdbcType="INTEGER" />
+    <result column="node_id" property="nodeId" jdbcType="INTEGER" />
+    <result column="node_status" property="nodeStatus" jdbcType="VARCHAR" />
+    <result column="node_date" property="nodeDate" jdbcType="TIMESTAMP" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="sync" property="sync" jdbcType="CHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, per_id, bpm_id, node_id, node_status, node_date, description, sync, update_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ym_bpm_node
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ym_bpm_node
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.loan_entity.app.BpmNode" >
+    insert into ym_bpm_node (id, per_id, bpm_id, 
+      node_id, node_status, node_date, 
+      description, sync, update_date
+      )
+    values (#{id,jdbcType=INTEGER}, #{perId,jdbcType=INTEGER}, #{bpmId,jdbcType=INTEGER}, 
+      #{nodeId,jdbcType=INTEGER}, #{nodeStatus,jdbcType=VARCHAR}, #{nodeDate,jdbcType=TIMESTAMP}, 
+      #{description,jdbcType=VARCHAR}, #{sync,jdbcType=CHAR}, #{updateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.loan_entity.app.BpmNode" >
+    insert into ym_bpm_node
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="perId != null" >
+        per_id,
+      </if>
+      <if test="bpmId != null" >
+        bpm_id,
+      </if>
+      <if test="nodeId != null" >
+        node_id,
+      </if>
+      <if test="nodeStatus != null" >
+        node_status,
+      </if>
+      <if test="nodeDate != null" >
+        node_date,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="sync != null" >
+        sync,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="perId != null" >
+        #{perId,jdbcType=INTEGER},
+      </if>
+      <if test="bpmId != null" >
+        #{bpmId,jdbcType=INTEGER},
+      </if>
+      <if test="nodeId != null" >
+        #{nodeId,jdbcType=INTEGER},
+      </if>
+      <if test="nodeStatus != null" >
+        #{nodeStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeDate != null" >
+        #{nodeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="sync != null" >
+        #{sync,jdbcType=CHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.loan_entity.app.BpmNode" >
+    update ym_bpm_node
+    <set >
+      <if test="perId != null" >
+        per_id = #{perId,jdbcType=INTEGER},
+      </if>
+      <if test="bpmId != null" >
+        bpm_id = #{bpmId,jdbcType=INTEGER},
+      </if>
+      <if test="nodeId != null" >
+        node_id = #{nodeId,jdbcType=INTEGER},
+      </if>
+      <if test="nodeStatus != null" >
+        node_status = #{nodeStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeDate != null" >
+        node_date = #{nodeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="sync != null" >
+        sync = #{sync,jdbcType=CHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.loan_entity.app.BpmNode" >
+    update ym_bpm_node
+    set per_id = #{perId,jdbcType=INTEGER},
+      bpm_id = #{bpmId,jdbcType=INTEGER},
+      node_id = #{nodeId,jdbcType=INTEGER},
+      node_status = #{nodeStatus,jdbcType=VARCHAR},
+      node_date = #{nodeDate,jdbcType=TIMESTAMP},
+      description = #{description,jdbcType=VARCHAR},
+      sync = #{sync,jdbcType=CHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 查询当前流程下指定状态下，最大的node_id -->
+  <select id="getNodeId" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+    SELECT MAX(node_id) 
+    FROM ym_bpm_node 
+    WHERE bpm_id=#{bpm_id,jdbcType=INTEGER}
+    AND node_status IN ('NS002','NS004')
+  </select>
+  
+  <!-- 查询当前流程下，当前node_id对应的最新明细 -->
+  <select id="selectByNode_id" resultMap="BaseResultMap">
+    select *   
+    from ym_bpm_node 
+    where bpm_id = #{0}
+    and node_id = #{1}
+    order by id DESC LIMIT 1
+  </select>
+   
+  <select id="selectByPerNode" resultMap="BaseResultMap">
+	SELECT * 
+	FROM ym_bpm_node 
+	WHERE per_id = #{0}  
+	AND node_id = #{1}
+	ORDER BY id DESC LIMIT 1
+  </select>
+  
+  <!-- 删除当前流程下某一节点 -->
+  <delete id="deleteByBpmNode" parameterType="java.lang.Integer" >
+    delete from ym_bpm_node
+    where node_id = #{1} AND (case when bpm_id IS NULL then per_id = (SELECT id FROM ym_person where phone=#{0})
+	when bpm_id IS NOT NULL then bpm_id = (SELECT max(bpm_id) FROM ym_person where phone=#{0})
+	end)  
+  </delete>
+
+  <select id="selectAllNodes" parameterType="java.util.ArrayList" resultMap="BaseResultMap">
+   SELECT * FROM 
+   ym_bpm_node 
+   WHERE id in (
+      <foreach item="bmpId" index="index" collection="list"
+               separator=","> #{bmpId}
+      </foreach>
+    )
+    ORDER BY node_id
+  </select>
+
+  <select id="selectMaxNodeId"  resultType="string">
+    SELECT MAX(id)
+    from ym_bpm_node
+    WHERE ${param1} = #{param2}
+    GROUP BY node_id
+  </select>
+
+</mapper>

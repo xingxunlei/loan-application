@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_manage.mapper.ReviewMapper">
+    <select id="getReviewVoBlackList" resultType="com.loan_entity.manager_vo.ReviewVo"
+            parameterType="java.lang.Integer">
+        SELECT
+        r.id,
+        r.borr_id as borrId,
+        r.review_type AS reviewType,
+        r.reason,
+        r.employ_num AS employNum,
+        r.`status`,
+        r.create_date AS createDate,
+        r.update_date AS updateDate,
+        r.sync,
+        i.user_name AS emplloyeeName,
+        v.meaning
+        FROM
+        ym_review AS r
+        LEFT JOIN ds_collectors_level_back AS i ON r.employ_num = i.user_sysno
+        INNER JOIN ym_code_value AS v ON r.review_type = v.code_code
+        AND v.code_type = "review_type"
+        WHERE
+        (r.borr_id = #{himid,jdbcType=INTEGER}
+        AND (
+        r.review_type = "2"
+        OR r.review_type = "3"
+        ))
+        ORDER BY r.id DESC
+    </select>
+</mapper>

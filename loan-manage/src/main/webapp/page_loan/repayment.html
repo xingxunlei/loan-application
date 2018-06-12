@@ -1,0 +1,79 @@
+
+
+<!-- BEGIN PAGE HEADER-->
+
+<div class="page-bar" style="margin-bottom: 10px;">
+	<ul class="page-breadcrumb">
+		<li><i class="fa fa-home"></i> <a href="#/dashboard.html">首页</a>
+			<i class="fa fa-angle-right"></i></li>
+		<li><a href="#/repayment.html">还款流水</a></li>
+	</ul>
+</div>
+<!-- END PAGE HEADER-->
+
+<!-- BEGIN MAIN CONTENT -->
+<div class="row"  style="min-height:200px;background:url('/zloan-manage/assets/admin/layout/img/loading_mylike.gif') no-repeat center center;">
+	<div class="col-md-12 wblMd">
+		<!-- BEGIN EXAMPLE TABLE PORTLET-->
+		<div class="wblBackground"></div>
+		<div class="wblFillDiv"></div>
+		<a id="download" target="_blank" class="hide"><span id="downloadBtn">下载文件</span></a>
+		<div id="userTable" style="border: 0px solid #ccc;"></div>
+	</div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="queryDialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="showMessageTitle">查询中</h4>
+			</div>
+			<div class="modal-body">
+				<h4 id="showMessage"></h4>
+				<div class="progress">
+					<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+						<span class="sr-only">100% Complete</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="whiteBlackList" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header" style="padding: 10px;">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: 5px;padding-right: 5px;"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="whiteBlackListTitle"></h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal" id="form-whiteBlackList">
+					<div class="form-group">
+						<input type="hidden" name="contractId" id="whiteBlackListContractId" />
+						<input type="hidden" name="userId" id="whiteBlackListUserId" />
+						<input type="hidden" name="type" id="whiteBlackListType" />
+						<label class="col-sm-2 control-label">备注</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" name="reason" id="reason" rows="6" style="resize: none;"></textarea>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button type="button" class="btn btn-primary" id="btnWhiteBlackList">保存</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+repayment();
+</script>
+
+
+
+
+
+
+
+
+

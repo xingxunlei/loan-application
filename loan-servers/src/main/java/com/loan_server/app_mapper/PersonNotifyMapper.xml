@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.app_mapper.PersonNotifyMapper" >
+
+    <resultMap id="BaseResultMap" type="com.loan_entity.app.PersonNotify" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="per_id" property="perId" jdbcType="INTEGER" />
+        <result column="notify_id" property="notifyId" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="INTEGER" />
+        <result column="creation_date" property="creationDate"
+                jdbcType="TIMESTAMP" />
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <select id="selectByPersonId" resultMap="BaseResultMap"
+            parameterType="java.lang.Integer">
+        select
+         id AS id,
+         per_id AS perId,
+         notify_id AS notifyId,
+         status AS status,
+         creation_date AS creationDate,
+         update_date AS updateDate
+         from ym_per_notify
+        where per_id = #{perId,jdbcType=INTEGER}
+    </select>
+
+    <update id="update" parameterType="com.loan_entity.app.PersonNotify" >
+        update ym_per_notify
+        set status = #{status,jdbcType=INTEGER}
+        <if test="notifyId != null">
+            , notify_id = #{notifyId,jdbcType=VARCHAR}
+        </if>
+        where per_id = #{perId,jdbcType=INTEGER}
+    </update>
+
+    <update id="resetStatusByNotifyId" parameterType="java.lang.String" >
+        update ym_per_notify
+        set status = 0
+        where notify_id = #{notifyId,jdbcType=VARCHAR}
+    </update>
+
+    <insert id="insert" parameterType="com.loan_entity.app.PersonNotify" >
+        insert into ym_per_notify (per_id,notify_id,status,creation_date)
+        values (#{perId,jdbcType=INTEGER},
+        #{notifyId,jdbcType=VARCHAR},
+        #{status,jdbcType=INTEGER},
+        now())
+    </insert>
+
+</mapper>

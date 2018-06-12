@@ -1,0 +1,1705 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_manage.mapper.RepayPlanMapper">
+
+    <cache flushInterval="5000" size="1000000" readOnly="true"/>
+
+    <resultMap id="RepayPlanVoMap" type="com.loan_entity.manager_vo.RepayPlanVo">
+        <result column="borr_num" property="borrNum"/>
+        <result column="borr_id" property="borrId"/>
+        <result column="days" property="days"/>
+        <result column="customer_id" property="customerId"/>
+        <result column="customer_name" property="customerName"/>
+        <result column="customer_id_value" property="customerIdValue"/>
+        <result column="customer_mobile" property="customerMobile"/>
+        <result column="contract_type" property="contractType"/>
+        <result column="product_id" property="productId"/>
+        <result column="product_name" property="productName"/>
+        <result column="amount" property="amount"/>
+        <result column="month_interest" property="monthInterest"/>
+        <result column="penalty" property="penalty"/>
+        <result column="penalty_interest" property="penaltyInterest"/>
+        <result column="sum_amount" property="sumAmount"/>
+        <result column="surplus_total_amount" property="surplusTotalAmount"/>
+        <result column="repay_date" property="repayDate"/>
+        <result column="state" property="state"/>
+    </resultMap>
+    <resultMap id="DebitInfoMap" type="com.loan_entity.manager_vo.DebitInfoVo">
+        <result column="borr_num" property="borrNum"/>
+        <result column="mobile" property="mobile"/>
+        <result column="username" property="username"/>
+        <result column="id_card" property="idCard"/>
+        <result column="per_id" property="perId"/>
+        <result column="bank_id" property="bankId"/>
+        <result column="bank_name" property="bankName"/>
+        <result column="bank_num" property="bankNum"/>
+        <result column="phone" property="phone"/>
+        <result column="amount" property="amount"/>
+        <result column="remark" property="remark"/>
+        <result column="debit_type" property="debitType"/>
+        <result column="debit_state" property="debitState"/>
+        <result column="reason" property="reason"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+    <resultMap id="LoanManagementMap" type="com.loan_entity.manager_vo.LoanManagementVo">
+        <result column="bedue_days" property="bedueDays"/>
+        <result column="customer_name" property="customerName"/>
+        <result column="customer_id" property="customerId"/>
+        <result column="customer_id_value" property="customerIdValue"/>
+        <result column="customer_mobile" property="customerMobile"/>
+        <result column="product_id" property="productId"/>
+        <result column="product_name" property="productName"/>
+        <result column="amount" property="amount"/>
+        <result column="total_interest" property="totalInterest"/>
+        <result column="penalty" property="penalty"/>
+        <result column="penalty_interest" property="penaltyInterest"/>
+        <result column="sum_amount" property="sumAmount"/>
+        <result column="surplus_total_amount" property="surplusTotalAmount"/>
+        <result column="end_date_string" property="endDateString"/>
+        <result column="settle_date_string" property="settleDateString"/>
+        <result column="state_string" property="stateString"/>
+        <result column="auditer" property="auditer"/>
+        <result column="last_call_date_string" property="lastCallDateString"/>
+        <result column="contract_i_d" property="contractID"/>
+        <result column="contract_key" property="contractKey"/>
+        <result column="loan_amount" property="loanAmount"/>
+        <result column="repay_amount" property="repayAmount"/>
+        <result column="order_string" property="orderString"/>
+        <result column="black_list" property="blackList"/>
+        <result column="bd_status" property="bdStatus"/>
+        <result column="reason" property="reason"/>
+    </resultMap>
+    <resultMap id="ReceiptUsersMap" type="com.loan_entity.loan.ReceiptUsers">
+        <result property="id" column="id"/>
+        <result property="userSysno" column="userSysno"/>
+        <result property="userName" column="userName"/>
+        <result property="productSysno" column="productSysno"/>
+        <result property="bedueLevel" column="bedueLevel"/>
+        <result property="status" column="status"/>
+        <result property="level_type" column="levelType"/>
+        <result property="is_manage" column="isManage"/>
+    </resultMap>
+    <resultMap id="CollectorsListVoMap" type="com.loan_entity.manager.CollectorsListVo">
+        <result column="contract_key" property="contractKey"/>
+        <result column="bedue_days" property="bedueDays"/>
+        <result column="customer_id" property="customerId"/>
+        <result column="customer_name" property="customerName"/>
+        <result column="customer_id_value" property="customerIdValue"/>
+        <result column="customer_mobile" property="customerMobile"/>
+        <result column="product_id" property="productId"/>
+        <result column="product_name" property="productName"/>
+        <result column="amount" property="amount"/>
+        <result column="total_interest" property="totalInterest"/>
+        <result column="penalty" property="penalty"/>
+        <result column="penalty_interest" property="penaltyInterest"/>
+        <result column="sum_amount" property="sumAmount"/>
+        <result column="surplus_total_amount" property="surplusTotalAmount"/>
+        <result column="end_date" property="endDate"/>
+        <result column="settle_date" property="settleDate"/>
+        <result column="state_string" property="stateString"/>
+        <result column="auditer" property="auditer"/>
+        <result column="last_call_date" property="lastCallDate"/>
+        <result column="contract_id" property="contractId"/>
+        <result column="loan_amount" property="loanAmount"/>
+        <result column="repay_amount" property="repayAmount"/>
+        <result column="black_list" property="blackList"/>
+    </resultMap>
+    <resultMap id="LoansRemarkVMap" type="com.loan_manage.entity.LoansRemarkVo">
+        <result column="bedue_days" property="bedueDays"/>
+        <result column="customer_name" property="customerName"/>
+        <result column="customer_id" property="customerId"/>
+        <result column="customer_id_value" property="customerIdValue"/>
+        <result column="customer_mobile" property="customerMobile"/>
+        <result column="product_id" property="productId"/>
+        <result column="product_name" property="productName"/>
+        <result column="amount" property="amount"/>
+        <result column="total_interest" property="totalInterest"/>
+        <result column="penalty" property="penalty"/>
+        <result column="penalty_interest" property="penaltyInterest"/>
+        <result column="sum_amount" property="sumAmount"/>
+        <result column="surplus_total_amount" property="surplusTotalAmount"/>
+        <result column="end_date_string" property="endDateString"/>
+        <result column="settle_date_string" property="settleDateString"/>
+        <result column="state_string" property="stateString"/>
+        <result column="auditer" property="auditer"/>
+        <result column="last_call_date_string" property="lastCallDateString"/>
+        <result column="contract_i_d" property="contractID"/>
+        <result column="contract_key" property="contractKey"/>
+        <result column="loan_amount" property="loanAmount"/>
+        <result column="repay_amount" property="repayAmount"/>
+        <result column="remark" property="remark"/>
+        <result column="last_call" property="lastCall"/>
+        <result column="call_name" property="callName"/>
+    </resultMap>
+
+    <select id="selectRepaymentPlan" parameterType="java.util.Map" resultMap="RepayPlanVoMap">
+        SELECT
+          borrow.borr_num AS borr_num,
+          CASE WHEN borrow.borr_status = 'BS004' THEN 0
+            WHEN borrow.borr_status = 'BS005' THEN to_days(curdate()) - to_days(repayment.repay_date)
+            ELSE  0 END AS days,
+          borrow.per_id AS customer_id,
+          borrow.prod_id AS product_id,
+          repayment.month_money AS amount,
+          repayment.month_interest AS month_interest,
+          repayment.penalty AS penalty,
+          repayment.penalty_interest AS penalty_interest,
+          repayment.month_money + repayment.month_interest + repayment.penalty + repayment.penalty_interest AS sum_amount,
+          repayment.surplus_money + repayment.surplus_interest + repayment.surplus_penalty + repayment.surplus_penalty_Interes AS surplus_total_amount,
+          repayment.repay_date AS repay_date,
+          borrow.borr_status AS state,
+          borrow.id AS borr_id
+        FROM ym_repayment_plan repayment
+        INNER JOIN ym_borrow_list borrow ON borrow.id = repayment.contract_id
+        WHERE borrow.borr_status IN ('BS004', 'BS005')
+        <if test="repayDate_start != null">
+            and to_days(repayment.repay_date) &gt;= to_days(#{repayDate_start})
+        </if>
+        <if test="repayDate_end != null">
+            and to_days(repayment.repay_date) &lt; to_days(#{repayDate_end})
+        </if>
+        <if test="customerId != null and customerId != ''">
+            and borrow.per_id in (${customerId})
+        </if>
+        <if test="borrNum != null">
+            and borrow.borr_num = ${borrNum}
+        </if>
+        <if test="productName != null">
+            and borrow.prod_id = ${productName}
+        </if>
+        <if test="state != null">
+            AND borrow.borr_status = #{state}
+        </if>
+        <if test="days != null">
+            AND (
+            CASE WHEN borrow.borr_status = 'BS004' THEN 0
+            WHEN borrow.borr_status = 'BS005' THEN to_days(curdate()) - to_days(repayment.repay_date)
+            ELSE  0 END
+            ) = #{days}
+        </if>
+        <if test="selector == 'days' and desc != ''">
+            order by days ${desc}
+        </if>
+        <if test="selector == 'repayDate' and desc != ''">
+            order by repay_date ${desc}
+        </if>
+        <if test="selector == null and desc == null">
+            order by (
+            CASE WHEN borrow.borr_status = 'BS004' THEN 0
+            WHEN borrow.borr_status = 'BS005' THEN to_days(curdate()) - to_days(repayment.repay_date)
+            ELSE  0 END
+            ) asc
+        </if>
+        limit #{startItem},#{pageSize}
+    </select>
+    <select id="selectRepaymentPlanItem" parameterType="java.util.Map" resultType="java.lang.Long">
+        SELECT
+            count(1)
+        FROM ym_repayment_plan repayment
+        INNER JOIN ym_borrow_list borrow ON borrow.id = repayment.contract_id
+        WHERE borrow.borr_status IN ('BS004', 'BS005')
+        <if test="repayDate_start != null">
+            and to_days(repayment.repay_date) &gt;= to_days(#{repayDate_start})
+        </if>
+        <if test="repayDate_end != null">
+            and to_days(repayment.repay_date) &lt; to_days(#{repayDate_end})
+        </if>
+        <if test="customerId != null and customerId != ''">
+            and borrow.per_id in (${customerId})
+        </if>
+        <if test="borrNum != null">
+            and borrow.borr_num = ${borrNum}
+        </if>
+        <if test="productName != null">
+            and borrow.prod_id = ${productName}
+        </if>
+        <if test="state != null">
+            AND borrow.borr_status = #{state}
+        </if>
+        <if test="days != null">
+            AND (
+            CASE WHEN borrow.borr_status = 'BS004' THEN 0
+            WHEN borrow.borr_status = 'BS005' THEN to_days(curdate()) - to_days(repayment.repay_date)
+            ELSE  0 END
+            ) = #{days}
+        </if>
+    </select>
+
+    <select id="selectDebitInfo" parameterType="java.util.Map" resultMap="DebitInfoMap">
+        SELECT
+            bl.borr_num as borr_num,
+            yo.bank_id as bank_id,
+            yo.type as debit_type,
+            yo.status as debit_state,
+            yo.amount as amount,
+            yo.creation_date as create_time,
+            yo.per_id as per_id,
+            yo.rl_remark as remark,
+            yo.reason as reason
+        FROM (
+                 SELECT *,sum(act_amount) as amount from ym_order GROUP BY conctact_id
+             ) yo,
+            ym_borrow_list bl
+        WHERE
+            yo.conctact_id = bl.id
+    </select>
+
+    <select id="selectLoanManagementInfoItems" parameterType="java.util.Map" useCache="false" resultType="java.lang.Long">
+        SELECT
+        count(1)
+        from ym_borrow_list borrow
+        <if test="levelType == 2">
+            INNER JOIN ym_zloan_company_borrow company on company.borr_id = borrow.id and company.company_id=#{companyId}
+        </if>
+        INNER JOIN ym_repayment_plan plan ON plan.contract_id = borrow.id
+        LEFT JOIN ds_collectors_list collectors ON collectors.contract_sysno = borrow.id
+        WHERE 1=1
+        <if test="stateString == null or stateString == ''">
+            and borrow.borr_status IN ('BS010','BS006','BS004','BS005')
+        </if>
+        <if test="bedueDays != null">
+            and
+            (
+            CASE WHEN borrow.borr_status='BS010' THEN to_days(CASE WHEN borrow.act_repay_date is null THEN now() ELSE borrow.act_repay_date END)- to_days(plan.repay_date)
+            WHEN borrow.borr_status='BS006' THEN 0
+            WHEN borrow.borr_status='BS004' THEN 0
+            WHEN borrow.borr_status='BS005' THEN  to_days(curdate()) - to_days(plan.repay_date) ELSE 0 END
+            )
+            = #{bedueDays}
+        </if>
+        <if test="stateString != null">
+            and borrow.borr_status = #{stateString}
+        </if>
+        <if test="auditer != null">
+            and collectors.bedue_name = #{auditer}
+        </if>
+        <if test="productName != null">
+            and borrow.prod_id = #{productName}
+        </if>
+        <if test="customerId != null  and customerId != ''">
+            and borrow.per_id IN (${customerId})
+        </if>
+        <if test="contractID != null">
+            and borrow.borr_num = #{contractID}
+        </if>
+        <if test="endDateString_start != null">
+            and to_days(plan.repay_date_time) &gt;= to_days(#{endDateString_start})
+        </if>
+        <if test="endDateString_end != null">
+            and to_days(plan.repay_date_time) &lt; to_days(#{endDateString_end})
+        </if>
+        <if test="settleDateString_start != null">
+            and to_days(borrow.act_repay_date) &gt;= to_days(#{settleDateString_start})
+        </if>
+        <if test="settleDateString_end != null">
+            and to_days(borrow.act_repay_date) &lt; to_days(#{settleDateString_end})
+        </if>
+        <if test="lastCallDateString_start != null">
+            and to_days((SELECT
+            MAX(remark.create_date)
+            FROM
+            ds_collectors_remark remark
+            WHERE remark.contract_sysno = borrow.id)) &gt;= to_days(#{lastCallDateString_start})
+        </if>
+        <if test="lastCallDateString_end != null">
+            and to_days((SELECT
+            MAX(remark.create_date)
+            FROM
+            ds_collectors_remark remark
+            WHERE remark.contract_sysno = borrow.id)) &lt; to_days(#{lastCallDateString_end})
+        </if>
+        <if test="orderString_start != null">
+            and to_days((SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14)  and o.conctact_id=borrow.id)) &gt;= to_days(#{orderString_start})
+        </if>
+        <if test="orderString_end != null">
+            and to_days((SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14) and o.conctact_id=borrow.id)) &lt; to_days(#{orderString_end})
+        </if>
+        <if test="blackList != null and blackList=='Yes'">
+            and (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) = 'Y'
+        </if>
+        <if test="blackList != null and blackList=='No'">
+            and (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) = 'N'
+        </if>
+    </select>
+
+    <select id="selectLoanManagementInfo" parameterType="java.util.Map" resultMap="LoanManagementMap">
+        SELECT
+          borrow.per_id,
+          borrow.prod_id,
+          borrow.borr_status,
+          borrow.act_repay_date,
+          borrow.borr_num,
+          borrow.borr_amount,
+          collectors.bedue_name as auditer,
+          (SELECT max(remark.create_date) FROM ds_collectors_remark remark WHERE remark.contract_sysno = borrow.id) as last_call_date_string,
+          CASE WHEN borrow.borr_status='BS010' THEN to_days(CASE WHEN borrow.act_repay_date is null THEN now() ELSE borrow.act_repay_date END)- to_days(plan.repay_date)
+          WHEN borrow.borr_status='BS006' THEN 0
+          WHEN borrow.borr_status='BS004' THEN 0
+          WHEN borrow.borr_status='BS005' THEN  to_days(curdate()) - to_days(plan.repay_date) ELSE 0 END AS bedue_days,
+          (SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14) and o.conctact_id=borrow.id) as order_string,
+          (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) as black_list,
+          borrow.per_id as customer_id,
+          borrow.prod_id as product_id,
+          plan.month_interest as total_interest,
+          plan.penalty as penalty,
+          plan.penalty_interest as penalty_interest,
+          plan.month_money + plan.month_interest + plan.penalty + plan.penalty_interest as sum_amount,
+          plan.surplus_money +plan.surplus_interest +plan.surplus_penalty +plan.surplus_penalty_Interes as surplus_total_amount,
+          plan.repay_date as end_date_string,
+          borrow.act_repay_date as settle_date_string,
+          borrow.borr_status as state_string,
+          borrow.borr_num as contract_i_d,
+          borrow.borr_amount as loan_amount,
+          borrow.id as contract_key
+        from ym_borrow_list borrow
+          INNER JOIN ym_repayment_plan plan ON plan.contract_id = borrow.id
+          LEFT JOIN ds_collectors_list collectors ON collectors.contract_sysno = borrow.id
+        WHERE 1=1
+        <if test="stateString == null or stateString == ''">
+            and borrow.borr_status IN ('BS010','BS006','BS004','BS005')
+        </if>
+        <if test="bedueDays != null">
+            and
+            (
+                CASE WHEN borrow.borr_status='BS010' THEN to_days(CASE WHEN borrow.act_repay_date is null THEN now() ELSE borrow.act_repay_date END)- to_days(plan.repay_date)
+                WHEN borrow.borr_status='BS006' THEN 0
+                WHEN borrow.borr_status='BS004' THEN 0
+                WHEN borrow.borr_status='BS005' THEN  to_days(curdate()) - to_days(plan.repay_date) ELSE 0 END
+            )
+            = #{bedueDays}
+        </if>
+        <if test="stateString != null">
+            and borrow.borr_status = #{stateString}
+        </if>
+        <if test="auditer != null">
+            and collectors.bedue_name = #{auditer}
+        </if>
+        <if test="productName != null">
+            and borrow.prod_id = #{productName}
+        </if>
+        <if test="customerId != null  and customerId != ''">
+            and borrow.per_id IN (${customerId})
+        </if>
+        <if test="contractID != null">
+            and borrow.borr_num = #{contractID}
+        </if>
+        <if test="endDateString_start != null">
+            and to_days(plan.repay_date) &gt;= to_days(#{endDateString_start})
+        </if>
+        <if test="endDateString_end != null">
+            and to_days(plan.repay_date) &lt; to_days(#{endDateString_end})
+        </if>
+        <if test="settleDateString_start != null">
+            and to_days(borrow.act_repay_date) &gt;= to_days(#{settleDateString_start})
+        </if>
+        <if test="settleDateString_end != null">
+            and to_days(borrow.act_repay_date) &lt; to_days(#{settleDateString_end})
+        </if>
+        <if test="lastCallDateString_start != null">
+            and to_days((SELECT
+            MAX(remark.create_date)
+            FROM
+            ds_collectors_remark remark
+            WHERE remark.contract_sysno = borrow.id)) &gt;= to_days(#{lastCallDateString_start})
+        </if>
+        <if test="lastCallDateString_end != null">
+            and to_days((SELECT
+            MAX(remark.create_date)
+            FROM
+            ds_collectors_remark remark
+            WHERE remark.contract_sysno = borrow.id)) &lt; to_days(#{lastCallDateString_end})
+        </if>
+        <if test="orderString_start != null">
+            and to_days((SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14)  and o.conctact_id=borrow.id)) &gt;= to_days(#{orderString_start})
+        </if>
+        <if test="orderString_end != null">
+            and to_days((SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14) and o.conctact_id=borrow.id)) &lt; to_days(#{orderString_end})
+        </if>
+        <if test="blackList != null and blackList=='Yes'">
+            and (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) = 'Y'
+        </if>
+        <if test="blackList != null and blackList=='No'">
+            and (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) != 'Y'
+        </if>
+        <trim prefix="order by" >
+            <if test="selector != null and selector == 'endDateString'">
+                plan.repay_date ${desc},plan.id
+            </if>
+            <if test="selector != null and selector == 'bedueDays'">
+                (
+                  CASE WHEN borrow.borr_status='BS010' THEN to_days(CASE WHEN borrow.act_repay_date is null THEN now() ELSE borrow.act_repay_date END)- to_days(plan.repay_date)
+                  WHEN borrow.borr_status='BS006' THEN 0
+                  WHEN borrow.borr_status='BS004' THEN 0
+                  WHEN borrow.borr_status='BS005' THEN  to_days(curdate()) - to_days(plan.repay_date) ELSE 0 END
+                )
+                ${desc},plan.repay_date desc,plan.id
+            </if>
+            <if test="selector != null and selector == 'lastCallDateString'">
+                (SELECT max(remark.create_date) FROM ds_collectors_remark remark WHERE remark.contract_sysno = borrow.id) ${desc}
+                ,plan.repay_date desc,plan.id
+            </if>
+            <if test="selector != null and selector == 'settleDateString'">
+                borrow.act_repay_date ${desc},plan.repay_date desc,plan.id
+            </if>
+            <if test="selector != null and selector == 'orderString'">
+                (SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14) and o.conctact_id=borrow.id) ${desc}
+                ,plan.repay_date desc,plan.id
+            </if>
+            <if test="selector == null or selector == ''">
+                plan.id
+            </if>
+        </trim>
+    </select>
+
+    <select id="selectLoanManagementInfoBySize" parameterType="java.util.Map" resultMap="LoanManagementMap">
+        SELECT
+            borrow.per_id,
+            borrow.prod_id,
+            borrow.borr_status,
+            borrow.act_repay_date,
+            borrow.borr_num,
+            borrow.borr_amount,
+            collectors.bedue_name as auditer,
+            (SELECT max(remark.create_date) FROM ds_collectors_remark remark WHERE remark.contract_sysno = borrow.id) as last_call_date_string,
+            CASE WHEN borrow.borr_status='BS010' THEN to_days(CASE WHEN borrow.act_repay_date is null THEN now() ELSE borrow.act_repay_date END)- to_days(plan.repay_date)
+            WHEN borrow.borr_status='BS006' THEN 0
+            WHEN borrow.borr_status='BS004' THEN 0
+            WHEN borrow.borr_status='BS005' THEN  to_days(curdate()) - to_days(plan.repay_date) ELSE 0 END AS bedue_days,
+            (SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14) and o.conctact_id=borrow.id) as order_string,
+            (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) as black_list,
+            borrow.per_id as customer_id,
+            borrow.prod_id as product_id,
+            plan.month_interest as total_interest,
+            plan.penalty as penalty,
+            plan.penalty_interest as penalty_interest,
+            plan.month_money + plan.month_interest + plan.penalty + plan.penalty_interest as sum_amount,
+            plan.surplus_money +plan.surplus_interest +plan.surplus_penalty +plan.surplus_penalty_Interes as surplus_total_amount,
+            plan.repay_date as end_date_string,
+            borrow.act_repay_date as settle_date_string,
+            borrow.borr_status as state_string,
+            borrow.borr_num as contract_i_d,
+            borrow.borr_amount as loan_amount,
+            borrow.id as contract_key
+        from ym_borrow_list borrow
+        <if test="levelType  == 2">
+            INNER JOIN ym_zloan_company_borrow company on company.borr_id = borrow.id and company.company_id=#{companyId}
+        </if>
+        INNER JOIN ym_repayment_plan plan
+        <if test="endDateString_start != null or endDateString_end != null">
+            FORCE INDEX(rp_repay_date_time)
+        </if>
+        ON plan.contract_id = borrow.id
+        LEFT JOIN ds_collectors_list collectors ON collectors.contract_sysno = borrow.id AND collectors.status in ('A','B')
+        WHERE 1=1
+        <if test="stateString == null or stateString == ''">
+            and borrow.borr_status IN ('BS010','BS006','BS004','BS005')
+        </if>
+        <if test="bedueDays != null">
+            and
+            (
+            CASE WHEN borrow.borr_status='BS010' THEN to_days(CASE WHEN borrow.act_repay_date is null THEN now() ELSE borrow.act_repay_date END)- to_days(plan.repay_date)
+            WHEN borrow.borr_status='BS006' THEN 0
+            WHEN borrow.borr_status='BS004' THEN 0
+            WHEN borrow.borr_status='BS005' THEN  to_days(curdate()) - to_days(plan.repay_date) ELSE 0 END
+            )
+            = #{bedueDays}
+        </if>
+        <if test="stateString != null">
+            and borrow.borr_status = #{stateString}
+        </if>
+        <if test="auditer != null">
+            and collectors.bedue_name = #{auditer}
+        </if>
+        <if test="productName != null">
+            and borrow.prod_id = #{productName}
+        </if>
+        <if test="customerId != null  and customerId != ''">
+            and borrow.per_id IN (${customerId})
+        </if>
+        <if test="contractID != null">
+            and borrow.borr_num = #{contractID}
+        </if>
+        <if test="endDateString_start != null">
+            and to_days(plan.repay_date_time) &gt;= to_days(#{endDateString_start})
+        </if>
+        <if test="endDateString_end != null">
+            and to_days(plan.repay_date_time) &lt; to_days(#{endDateString_end})
+        </if>
+        <if test="settleDateString_start != null">
+            and to_days(borrow.act_repay_date) &gt;= to_days(#{settleDateString_start})
+        </if>
+        <if test="settleDateString_end != null">
+            and to_days(borrow.act_repay_date) &lt; to_days(#{settleDateString_end})
+        </if>
+        <if test="lastCallDateString_start != null">
+            and to_days((SELECT
+            MAX(remark.create_date)
+            FROM
+            ds_collectors_remark remark
+            WHERE remark.contract_sysno = borrow.id)) &gt;= to_days(#{lastCallDateString_start})
+        </if>
+        <if test="lastCallDateString_end != null">
+            and to_days((SELECT
+            MAX(remark.create_date)
+            FROM
+            ds_collectors_remark remark
+            WHERE remark.contract_sysno = borrow.id)) &lt; to_days(#{lastCallDateString_end})
+        </if>
+        <if test="orderString_start != null">
+            and to_days((SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14)  and o.conctact_id=borrow.id)) &gt;= to_days(#{orderString_start})
+        </if>
+        <if test="orderString_end != null">
+            and to_days((SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14) and o.conctact_id=borrow.id)) &lt; to_days(#{orderString_end})
+        </if>
+        <if test="blackList != null and blackList=='Yes'">
+            and (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) = 'Y'
+        </if>
+        <if test="blackList != null and blackList=='No'">
+            and (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) != 'Y'
+        </if>
+        <trim prefix="order by" >
+            <if test="selector != null and selector == 'endDateString'">
+                plan.repay_date ${desc},plan.id
+            </if>
+            <if test="selector != null and selector == 'surplusTotalAmount'">
+                surplus_total_amount ${desc},plan.id
+            </if>
+            <if test="selector != null and selector == 'bedueDays'">
+                (
+                CASE WHEN borrow.borr_status='BS010' THEN to_days(CASE WHEN borrow.act_repay_date is null THEN now() ELSE borrow.act_repay_date END)- to_days(plan.repay_date)
+                WHEN borrow.borr_status='BS006' THEN 0
+                WHEN borrow.borr_status='BS004' THEN 0
+                WHEN borrow.borr_status='BS005' THEN  to_days(curdate()) - to_days(plan.repay_date) ELSE 0 END
+                )
+                ${desc},plan.id
+            </if>
+            <if test="selector != null and selector == 'lastCallDateString'">
+                (SELECT max(remark.create_date) FROM ds_collectors_remark remark WHERE remark.contract_sysno = borrow.id) ${desc}
+                ,plan.id
+            </if>
+            <if test="selector != null and selector == 'settleDateString'">
+                borrow.act_repay_date ${desc},plan.id
+            </if>
+            <if test="selector != null and selector == 'orderString'">
+                (SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14) and o.conctact_id=borrow.id) ${desc}
+                ,plan.id
+            </if>
+            <if test="selector == null or selector == ''">
+                 <if test="endDateString_start != null or endDateString_end != null">
+                      plan.repay_date_time ,
+                 </if>
+                 plan.id
+            </if>
+        </trim>
+    </select>
+
+    <select id="selectBatchReduceInfoItems" parameterType="java.util.Map" useCache="false" resultType="java.lang.Long">
+        SELECT
+        count(1)
+        from ym_borrow_list borrow
+        <if test="levelType == 2">
+            INNER JOIN ym_zloan_company_borrow company on company.borr_id = borrow.id and company.company_id=#{companyId}
+        </if>
+        INNER JOIN ym_repayment_plan plan ON plan.contract_id = borrow.id
+        LEFT JOIN ds_collectors_list collectors ON collectors.contract_sysno = borrow.id
+        INNER JOIN ym_borrow_deductions bd on bd.borr_id = borrow.id
+        WHERE 1=1
+        <if test="stateString == null or stateString == ''">
+            and borrow.borr_status IN ('BS004','BS005')
+        </if>
+        <if test="bedueDays != null">
+            and
+            (
+            CASE WHEN borrow.borr_status='BS004' THEN 0
+            WHEN borrow.borr_status='BS005' THEN  to_days(curdate()) - to_days(plan.repay_date) ELSE 0 END
+            )
+            = #{bedueDays}
+        </if>
+        <if test="stateString != null">
+            and borrow.borr_status = #{stateString}
+        </if>
+        <if test="auditer != null">
+            and collectors.bedue_name = #{auditer}
+        </if>
+        <if test="productName != null">
+            and borrow.prod_id = #{productName}
+        </if>
+        <if test="customerId != null  and customerId != ''">
+            and borrow.per_id IN (${customerId})
+        </if>
+        <if test="contractID != null">
+            and borrow.borr_num = #{contractID}
+        </if>
+        <if test="endDateString_start != null">
+            and to_days(plan.repay_date_time) &gt;= to_days(#{endDateString_start})
+        </if>
+        <if test="endDateString_end != null">
+            and to_days(plan.repay_date_time) &lt; to_days(#{endDateString_end})
+        </if>
+        <if test="settleDateString_start != null">
+            and to_days(borrow.act_repay_date) &gt;= to_days(#{settleDateString_start})
+        </if>
+        <if test="settleDateString_end != null">
+            and to_days(borrow.act_repay_date) &lt; to_days(#{settleDateString_end})
+        </if>
+        <if test="bdStatus != null ">
+            and bd.status =  #{bdStatus}
+        </if>
+        <if test="lastCallDateString_start != null">
+            and to_days((SELECT
+            MAX(remark.create_date)
+            FROM
+            ds_collectors_remark remark
+            WHERE remark.contract_sysno = borrow.id)) &gt;= to_days(#{lastCallDateString_start})
+        </if>
+        <if test="lastCallDateString_end != null">
+            and to_days((SELECT
+            MAX(remark.create_date)
+            FROM
+            ds_collectors_remark remark
+            WHERE remark.contract_sysno = borrow.id)) &lt; to_days(#{lastCallDateString_end})
+        </if>
+        <if test="orderString_start != null">
+            and to_days((SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14)  and o.conctact_id=borrow.id)) &gt;= to_days(#{orderString_start})
+        </if>
+        <if test="orderString_end != null">
+            and to_days((SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14) and o.conctact_id=borrow.id)) &lt; to_days(#{orderString_end})
+        </if>
+        <if test="blackList != null and blackList=='Yes'">
+            and (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) = 'Y'
+        </if>
+        <if test="blackList != null and blackList=='No'">
+            and (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) = 'N'
+        </if>
+    </select>
+
+    <select id="selectBatchReduceInfoBySize" parameterType="java.util.Map" resultMap="LoanManagementMap">
+        SELECT
+        borrow.per_id,
+        borrow.prod_id,
+        borrow.borr_status,
+        borrow.act_repay_date,
+        borrow.borr_num,
+        borrow.borr_amount,
+        collectors.bedue_name as auditer,
+        CASE WHEN borrow.borr_status='BS004' THEN 0
+        WHEN borrow.borr_status='BS005' THEN  to_days(curdate()) - to_days(plan.repay_date) ELSE 0 END AS bedue_days,
+        borrow.per_id as customer_id,
+        borrow.prod_id as product_id,
+        plan.month_interest as total_interest,
+        plan.penalty as penalty,
+        plan.penalty_interest as penalty_interest,
+        plan.month_money + plan.month_interest + plan.penalty + plan.penalty_interest as sum_amount,
+        plan.surplus_money +plan.surplus_interest +plan.surplus_penalty +plan.surplus_penalty_Interes as surplus_total_amount,
+        plan.repay_date as end_date_string,
+        borrow.act_repay_date as settle_date_string,
+        borrow.borr_status as state_string,
+        borrow.borr_num as contract_i_d,
+        borrow.borr_amount as loan_amount,
+        borrow.id as contract_key,
+        bd.reason,
+        bd.status bd_status
+        from ym_borrow_list borrow
+        <if test="levelType  == 2">
+            INNER JOIN ym_zloan_company_borrow company on company.borr_id = borrow.id and company.company_id=#{companyId}
+        </if>
+        INNER JOIN ym_repayment_plan plan
+        <if test="endDateString_start != null or endDateString_end != null">
+            FORCE INDEX(rp_repay_date_time)
+        </if>
+        ON plan.contract_id = borrow.id
+        LEFT JOIN ds_collectors_list collectors ON collectors.contract_sysno = borrow.id AND collectors.status in ('A','B')
+        INNER JOIN ym_borrow_deductions bd on bd.borr_id = borrow.id
+        WHERE 1=1
+        <if test="stateString == null or stateString == ''">
+            and borrow.borr_status IN ('BS004','BS005')
+        </if>
+        <if test="bedueDays != null">
+            and
+            (
+            CASE WHEN borrow.borr_status='BS004' THEN 0
+            WHEN borrow.borr_status='BS005' THEN  to_days(curdate()) - to_days(plan.repay_date) ELSE 0 END
+            )
+            = #{bedueDays}
+        </if>
+        <if test="stateString != null">
+            and borrow.borr_status = #{stateString}
+        </if>
+        <if test="auditer != null">
+            and collectors.bedue_name = #{auditer}
+        </if>
+        <if test="productName != null">
+            and borrow.prod_id = #{productName}
+        </if>
+        <if test="customerId != null  and customerId != ''">
+            and borrow.per_id IN (${customerId})
+        </if>
+        <if test="contractID != null">
+            and borrow.borr_num = #{contractID}
+        </if>
+        <if test="bdStatus != null ">
+           and bd.status =  #{bdStatus}
+        </if>
+        <if test="endDateString_start != null">
+            and to_days(plan.repay_date_time) &gt;= to_days(#{endDateString_start})
+        </if>
+        <if test="endDateString_end != null">
+            and to_days(plan.repay_date_time) &lt; to_days(#{endDateString_end})
+        </if>
+        <if test="settleDateString_start != null">
+            and to_days(borrow.act_repay_date) &gt;= to_days(#{settleDateString_start})
+        </if>
+        <if test="settleDateString_end != null">
+            and to_days(borrow.act_repay_date) &lt; to_days(#{settleDateString_end})
+        </if>
+        <if test="lastCallDateString_start != null">
+            and to_days((SELECT
+            MAX(remark.create_date)
+            FROM
+            ds_collectors_remark remark
+            WHERE remark.contract_sysno = borrow.id)) &gt;= to_days(#{lastCallDateString_start})
+        </if>
+        <if test="lastCallDateString_end != null">
+            and to_days((SELECT
+            MAX(remark.create_date)
+            FROM
+            ds_collectors_remark remark
+            WHERE remark.contract_sysno = borrow.id)) &lt; to_days(#{lastCallDateString_end})
+        </if>
+        <if test="orderString_start != null">
+            and to_days((SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14)  and o.conctact_id=borrow.id)) &gt;= to_days(#{orderString_start})
+        </if>
+        <if test="orderString_end != null">
+            and to_days((SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14) and o.conctact_id=borrow.id)) &lt; to_days(#{orderString_end})
+        </if>
+        <if test="blackList != null and blackList=='Yes'">
+            and (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) = 'Y'
+        </if>
+        <if test="blackList != null and blackList=='No'">
+            and (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) != 'Y'
+        </if>
+
+        <trim prefix="order by" >
+            <if test="selector != null and selector == 'endDateString'">
+                plan.repay_date ${desc},plan.id
+            </if>
+            <if test="selector != null and selector == 'surplusTotalAmount'">
+                surplus_total_amount ${desc},plan.id
+            </if>
+            <if test="selector != null and selector == 'bedueDays'">
+                (
+                CASE WHEN borrow.borr_status='BS004' THEN 0
+                WHEN borrow.borr_status='BS005' THEN  to_days(curdate()) - to_days(plan.repay_date) ELSE 0 END
+                )
+                ${desc},plan.id
+            </if>
+            <if test="selector != null and selector == 'lastCallDateString'">
+                (SELECT max(remark.create_date) FROM ds_collectors_remark remark WHERE remark.contract_sysno = borrow.id) ${desc}
+                ,plan.id
+            </if>
+            <if test="selector != null and selector == 'settleDateString'">
+                borrow.act_repay_date ${desc},plan.id
+            </if>
+            <if test="selector != null and selector == 'orderString'">
+                (SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14) and o.conctact_id=borrow.id) ${desc}
+                ,plan.id
+            </if>
+            <if test="selector == null or selector == ''">
+                <if test="endDateString_start != null or endDateString_end != null">
+                    plan.repay_date_time ,
+                </if>
+                plan.id
+            </if>
+        </trim>
+    </select>
+
+    <select id="selectReplanAndBorrowList" parameterType="java.lang.String" resultType="java.util.Map">
+        SELECT
+        bl.borr_num borrNum,
+        bl.prod_id prodId,
+        bl.term_id termId,
+        bl.borr_status borrStatus,
+        bl.planrepay_date planrepayDate,
+        rp.month_money monthMoney,
+        bl.borr_amount borrAmount,
+        (rp.month_money + rp.month_interest) rpMoney,
+        CASE WHEN bl.borr_status='BS010' THEN to_days(CASE WHEN bl.act_repay_date is null THEN now() ELSE bl.act_repay_date END)- to_days(rp.repay_date)
+            WHEN bl.borr_status='BS006' THEN 0
+            WHEN bl.borr_status='BS004' THEN 0
+            WHEN bl.borr_status='BS005' THEN  to_days(curdate()) - to_days(rp.repay_date) ELSE 0 END  bedueDays,
+        rp.month_interest monthInterest,
+        rp.penalty penalty,
+        rp.penalty_interest penaltyInterest,
+        rp.surplus_penalty surplusPenalty,
+        rp.surplus_penalty_Interes surplusPenaltyInteres,
+        rp.surplus_money surplusMoney,
+        rp.surplus_interest surplusInterest,
+        (rp.surplus_money +rp.surplus_interest +rp.surplus_penalty +rp.surplus_penalty_Interes)  surplusTotalAmount,
+         IFNULL((SELECT SUM(o.act_amount) FROM ym_order o WHERE o.conctact_id =  #{borrId} AND o.type NOT IN (1,3) AND o.rl_state = 's'),0) hasBeenPayment,
+        bl.act_repay_amount actRepayAmount,
+        rp.month_quota monthQuota,
+        bl.per_coupon_id perCouponId,
+        bl.plan_repay planRepay,
+        bm.is_manual isManual,
+        rw.reason description
+        FROM
+        ym_repayment_plan rp, ym_borrow_list bl
+        LEFT JOIN  ym_borrow_manual bm ON bm.borr_id = bl.id
+        LEFT JOIN ym_review rw ON (rw.borr_id = bl.id AND rw.review_type = 1)
+        WHERE
+        rp.contract_id = bl.id AND bl.id = #{borrId}
+    </select>
+
+    <select id="selectReceiptUsers" parameterType="java.util.Map" resultMap="ReceiptUsersMap">
+        SELECT
+            level.id as id,
+            level.user_sysno as userSysno,
+            level.user_name as userName,
+            level.product_sysno as productSysno,
+            level.bedue_level as bedueLevel,
+            level.status as status,
+            level_type as level_type,
+            is_manage as is_manage
+        FROM ds_collectors_level level WHERE level.status='A'
+        <if test="userName != null">
+            and level.user_name = #{userName}
+        </if>
+        <if test="companyIds != null">
+            and level.user_group_id in (${companyIds})
+        </if>
+    </select>
+
+    <select id="selectReceiptUsersNew" parameterType="java.util.Map" resultMap="ReceiptUsersMap">
+        SELECT
+        level.id as id,
+        level.user_sysno as userSysno,
+        level.user_name as userName,
+        level.product_sysno as productSysno,
+        level.bedue_level as bedueLevel,
+        level.status as status,
+        level_type as level_type,
+        is_manage as is_manage
+        FROM ds_collectors_level level WHERE level.status='A'
+        <if test="companyIds != null">
+            and level.user_group_id in (${companyIds})
+        </if>
+        <if test="userName != null">
+            and level.user_name = #{userName}
+        </if>
+    </select>
+
+    <select id="selectCollectorsListInfo" parameterType="java.util.Map" resultMap="CollectorsListVoMap">
+        SELECT
+            TO_DAYS(CURDATE()) - TO_DAYS(plan.repay_date) AS bedue_days,
+            borrow.per_id as customer_id,
+            borrow.prod_id as product_id,
+            plan.month_interest as total_interest,
+            plan.penalty as penalty,
+            plan.penalty_interest as penalty_interest,
+            plan.month_money + plan.month_interest + plan.penalty + plan.penalty_interest as sum_amount,
+            plan.surplus_money + plan.surplus_interest + plan.surplus_penalty + plan.surplus_penalty_Interes as surplus_total_amount,
+            IFNULL((SELECT SUM(o.act_amount) FROM ym_order o WHERE o.conctact_id =  borrow.id AND o.rl_state = 's' AND o.type NOT IN (1,3)),0) as repay_amount,
+            (SELECT max(o.creation_date) from ym_order o where o.conctact_id=borrow.id and o.type in (2,4,5,6,7,8,12,13,14)) as state_string,
+            plan.repay_date as end_date,
+            borrow.act_repay_date as settle_date,
+            borrow.borr_num as contract_id,
+            borrow.borr_amount as loan_amount,
+            borrow.id as contract_key,
+            (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) as black_list,
+            (SELECT MAX(remark.create_date) FROM ds_collectors_remark remark WHERE remark.contract_sysno = borrow.id) AS last_call_date,
+            collectors.bedue_name as auditer
+        FROM ds_collectors_list collectors
+          LEFT JOIN  ym_borrow_list borrow ON collectors.contract_id = borrow.borr_num
+          LEFT JOIN ym_repayment_plan plan ON plan.contract_id = borrow.id
+        WHERE  collectors.bedue_user_sysno=#{userId} AND (borrow.borr_status = 'BS005' OR borrow.borr_status = 'BS004') AND collectors.status in ('A','B')
+        <if test="bedueDays != null">
+            AND to_days(curdate())-to_days(plan.repay_date)=#{bedueDays}
+        </if>
+        <if test="customerId != null  and customerId != ''">
+            AND borrow.per_id in (${customerId})
+        </if>
+        <if test="endDate_start != null">
+            AND to_days(plan.repay_date) &gt;= to_days(#{endDate_start})
+        </if>
+        <if test="endDate_end != null">
+            AND to_days(plan.repay_date) &lt; to_days(#{endDate_end})
+        </if>
+        <if test="productName != null">
+            and borrow.prod_id = #{productName}
+        </if>
+        <if test="contractId != null">
+            and borrow.borr_num = #{contractId}
+        </if>
+        <if test="lastCallDate_start != null">
+            AND to_days((SELECT MAX(remark.create_date) FROM ds_collectors_remark remark WHERE remark.contract_sysno = borrow.id)) &gt;= to_days(#{lastCallDate_start})
+        </if>
+        <if test="lastCallDate_end != null">
+            AND to_days((SELECT MAX(remark.create_date) FROM ds_collectors_remark remark WHERE remark.contract_sysno = borrow.id)) &lt; to_days(#{lastCallDate_end})
+        </if>
+        <if test="stateString_start != null">
+            AND to_days((SELECT max(o.creation_date) from ym_order o where o.conctact_id=borrow.id and o.type in (2,4,5,6,7,8,12,13,14))) &gt;= to_days(#{stateString_start})
+        </if>
+        <if test="stateString_end != null">
+            AND to_days((SELECT max(o.creation_date) from ym_order o where o.conctact_id=borrow.id and o.type in (2,4,5,6,7,8,12,13,14))) &lt; to_days(#{stateString_end})
+        </if>
+        <if test="blackList != null and blackList=='Yes'">
+            and (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) = 'Y'
+        </if>
+        <if test="blackList != null and blackList=='No'">
+            and (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) = 'N'
+        </if>
+        <if test="selector == 'endDate' and desc != ''">
+            order by plan.repay_date ${desc},plan.id
+        </if>
+        <if test="selector == 'surplusTotalAmount' and desc != ''">
+            order by surplus_total_amount ${desc},plan.id
+        </if>
+        <if test="selector == 'lastCallDate' and desc != ''">
+            order by (SELECT MAX(remark.create_date) FROM ds_collectors_remark remark WHERE remark.contract_sysno = borrow.id) ${desc},plan.id
+        </if>
+        <if test="selector == 'stateString' and desc != ''">
+            order by (SELECT max(o.creation_date) from ym_order o where o.conctact_id=borrow.id and o.type in (2,4,5,6,7,8,12,13,14)) ${desc},plan.id
+        </if>
+        <if test="selector == 'bedueDays' and desc != ''">
+            order by to_days(curdate())-to_days(plan.repay_date) ${desc},plan.id
+        </if>
+        <if test="selector == null and desc == null">
+            ORDER BY plan.id
+        </if>
+    </select>
+
+    <select id="selectCollectorsInfo" parameterType="java.util.Map" resultMap="CollectorsListVoMap">
+        SELECT
+            CASE WHEN borrow.borr_status='BS010' THEN TO_DAYS(borrow.act_repay_date)- TO_DAYS(plan.repay_date)
+            WHEN borrow.borr_status='BS005' THEN  TO_DAYS(CURDATE()) - TO_DAYS(plan.repay_date) ELSE 0 END AS bedue_days,
+            borrow.per_id as customer_id,
+            borrow.prod_id as product_id,
+            plan.month_interest as total_interest,
+            plan.penalty as penalty,
+            plan.penalty_interest as penalty_interest,
+            plan.month_money + plan.month_interest + plan.penalty + plan.penalty_interest as sum_amount,
+            plan.surplus_money + plan.surplus_interest + plan.surplus_penalty + plan.surplus_penalty_Interes as surplus_total_amount,
+            IFNULL((SELECT SUM(o.act_amount) FROM ym_order o WHERE o.conctact_id =  borrow.id AND o.rl_state = 's' AND o.type NOT IN (1,3)),0) as repay_amount,
+            plan.repay_date AS end_date,
+            borrow.act_repay_date as settle_date,
+            borrow.borr_num as contract_id,
+            borrow.borr_amount as loan_amount,
+            borrow.id as contract_key,
+            collectors.bedue_user_sysno as auditer_no,
+            collectors.bedue_name as auditer,
+            (SELECT max(remark.create_date) FROM ds_collectors_remark remark WHERE remark.contract_sysno = borrow.id) as last_call_date,
+            borrow.borr_status as state_string
+        FROM ds_collectors_list collectors
+          LEFT JOIN ym_borrow_list borrow ON collectors.contract_sysno = borrow.id
+          LEFT JOIN ym_repayment_plan plan ON plan.contract_id = borrow.id
+        WHERE borrow.borr_status = 'BS005'
+        <if test="customerId != null  and customerId != ''">
+            AND borrow.per_id in (${customerId})
+        </if>
+        <if test="bedueDays != null">
+            AND (
+            CASE WHEN borrow.borr_status='BS010' THEN TO_DAYS(borrow.act_repay_date)- TO_DAYS(plan.repay_date)
+            WHEN borrow.borr_status='BS005' THEN  TO_DAYS(CURDATE()) - TO_DAYS(plan.repay_date) ELSE 0 END
+            )=#{bedueDays}
+        </if>
+        <if test="stateString != null">
+            AND borrow.borr_status=#{stateString}
+        </if>
+        <if test="endDate_start != null">
+            AND to_days(plan.repay_date) &gt;= to_days(#{endDate_start})
+        </if>
+        <if test="endDate_end != null">
+            AND to_days(plan.repay_date) &lt; to_days(#{endDate_end})
+        </if>
+        <if test="lastCallDate_start != null">
+            AND (SELECT max(remark.create_date) FROM ds_collectors_remark remark WHERE remark.contract_id = borrow.borr_num) &gt;= to_days(#{lastCallDate_start})
+        </if>
+        <if test="lastCallDate_end != null">
+            AND (SELECT max(remark.create_date) FROM ds_collectors_remark remark WHERE remark.contract_id = borrow.borr_num) &lt; to_days(#{lastCallDate_end})
+        </if>
+        <if test="settleDate_start != null">
+            AND to_days(borrow.act_repay_date) &gt;= to_days(#{settleDate_start})
+        </if>
+        <if test="settleDate_end != null">
+            AND to_days(borrow.act_repay_date) &lt; to_days(#{settleDate_end})
+        </if>
+        <if test="productName != null">
+            and borrow.prod_id = #{productName}
+        </if>
+        <if test="contractId != null">
+            and borrow.borr_num = #{contractId}
+        </if>
+        <if test="auditer != null">
+            AND collectors.bedue_name = #{auditer}
+        </if>
+        <trim prefix="order by">
+            <if test="selector != null and selector == 'endDate'">
+                plan.repay_date ${desc},borrow.id
+            </if>
+            <if test="selector != null and selector == 'bedueDays'">
+                (
+                CASE WHEN borrow.borr_status='BS010' THEN TO_DAYS(borrow.act_repay_date)- TO_DAYS(plan.repay_date)
+                WHEN borrow.borr_status='BS005' THEN  TO_DAYS(CURDATE()) - TO_DAYS(plan.repay_date) ELSE 0 END
+                ) ${desc},borrow.id
+            </if>
+            <if test="selector != null and selector == 'lastCallDate'">
+                (SELECT max(remark.create_date) FROM ds_collectors_remark remark WHERE remark.contract_id = borrow.borr_num) ${desc},borrow.id
+            </if>
+            <if test="selector != null and selector == 'settleDate'">
+                borrow.act_repay_date ${desc},borrow.id
+            </if>
+            <if test="selector == null">
+                borrow.id
+            </if>
+        </trim>
+        limit #{startItem},#{pageSize}
+    </select>
+
+    <select id="selectCollectorsInfoItem" parameterType="java.util.Map" resultType="java.lang.Long">
+        SELECT
+            count(*)
+        FROM ds_collectors_list collectors
+          LEFT JOIN ym_borrow_list borrow ON collectors.contract_sysno = borrow.id
+          LEFT JOIN ym_repayment_plan plan ON plan.contract_id = borrow.id
+        WHERE borrow.borr_status = 'BS005'
+        <if test="customerId != null  and customerId != ''">
+            AND borrow.per_id in (${customerId})
+        </if>
+        <if test="bedueDays != null">
+            AND (
+            CASE WHEN borrow.borr_status='BS010' THEN TO_DAYS(borrow.act_repay_date)- TO_DAYS(plan.repay_date)
+            WHEN borrow.borr_status='BS005' THEN  TO_DAYS(CURDATE()) - TO_DAYS(plan.repay_date) ELSE 0 END
+            )=#{bedueDays}
+        </if>
+        <if test="stateString != null">
+            AND borrow.borr_status=#{stateString}
+        </if>
+        <if test="endDate_start != null">
+            AND to_days(plan.repay_date) &gt;= to_days(#{endDate_start})
+        </if>
+        <if test="endDate_end != null">
+            AND to_days(plan.repay_date) &lt; to_days(#{endDate_end})
+        </if>
+        <if test="lastCallDate_start != null">
+            AND (SELECT max(remark.create_date) FROM ds_collectors_remark remark WHERE remark.contract_id = borrow.borr_num) &gt;= to_days(#{lastCallDate_start})
+        </if>
+        <if test="lastCallDate_end != null">
+            AND (SELECT max(remark.create_date) FROM ds_collectors_remark remark WHERE remark.contract_id = borrow.borr_num) &lt; to_days(#{lastCallDate_end})
+        </if>
+        <if test="settleDate_start != null">
+            AND to_days(borrow.act_repay_date) &gt;= to_days(#{settleDate_start})
+        </if>
+        <if test="settleDate_end != null">
+            AND to_days(borrow.act_repay_date) &lt; to_days(#{settleDate_end})
+        </if>
+        <if test="productName != null">
+            and borrow.prod_id = #{productName}
+        </if>
+        <if test="contractId != null">
+            and borrow.borr_num = #{contractId}
+        </if>
+        <if test="auditer != null">
+            AND collectors.bedue_name = #{auditer}
+        </if>
+    </select>
+
+    <select id="queryExportCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT
+            count(borrow.id)
+        from ym_borrow_list borrow
+        INNER JOIN ym_repayment_plan plan ON plan.contract_id = borrow.id
+        LEFT JOIN ds_collectors_list collectors ON collectors.contract_sysno = borrow.id AND collectors.status in ('A','B')
+        WHERE borrow.borr_status IN ('BS010','BS006','BS004','BS005')
+        <if test="bedueDays != null">
+            and
+            (
+            CASE WHEN borrow.borr_status='BS010' THEN to_days(CASE WHEN borrow.act_repay_date is null THEN now() ELSE borrow.act_repay_date END)- to_days(plan.repay_date)
+            WHEN borrow.borr_status='BS006' THEN 0
+            WHEN borrow.borr_status='BS004' THEN 0
+            WHEN borrow.borr_status='BS005' THEN  to_days(curdate()) - to_days(plan.repay_date) ELSE 0 END
+            )
+            = #{bedueDays}
+        </if>
+        <if test="stateString != null">
+            and borrow.borr_status = #{stateString}
+        </if>
+        <if test="auditer != null">
+            and collectors.bedue_name = #{auditer}
+        </if>
+        <if test="productName != null">
+            and borrow.prod_id = #{productName}
+        </if>
+        <if test="customerId != null  and customerId != ''">
+            and borrow.per_id IN (${customerId})
+        </if>
+        <if test="contractID != null">
+            and borrow.borr_num = #{contractID}
+        </if>
+        <if test="endDateString_start != null">
+            and to_days(plan.repay_date) &gt;= to_days(#{endDateString_start})
+        </if>
+        <if test="endDateString_end != null">
+            and to_days(plan.repay_date) &lt; to_days(#{endDateString_end})
+        </if>
+        <if test="settleDateString_start != null">
+            and to_days(borrow.act_repay_date) &gt;= to_days(#{settleDateString_start})
+        </if>
+        <if test="settleDateString_end != null">
+            and to_days(borrow.act_repay_date) &lt; to_days(#{settleDateString_end})
+        </if>
+        <if test="orderString_start != null">
+            and to_days((SELECT max(o.creation_date) from ym_order o where o.conctact_id=borrow.id)) &gt;= to_days(#{orderString_start})
+        </if>
+        <if test="orderString_end != null">
+            and to_days((SELECT max(o.creation_date) from ym_order o where o.conctact_id=borrow.id)) &lt; to_days(#{orderString_end})
+        </if>
+        <if test="blackList != null and blackList=='Yes'">
+            and (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) = 'Y'
+        </if>
+        <if test="blackList != null and blackList=='No'">
+            and (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) = 'N'
+        </if>
+    </select>
+
+    <select id="selectLoansRemarkVoCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT
+            count(*)
+        from ym_borrow_list borrow
+            INNER JOIN ym_repayment_plan plan ON plan.contract_id = borrow.id
+        <if test="levelType  == 2">
+            INNER JOIN ym_zloan_company_borrow company on company.borr_id = borrow.id
+            AND company.company_id = #{companyId}
+        </if>
+            LEFT JOIN ds_collectors_list collectors ON collectors.contract_sysno = borrow.id AND collectors.status in ('A','B')
+            LEFT JOIN ds_collectors_remark r ON r.contract_sysno = borrow.id
+        WHERE borrow.borr_status IN ('BS010','BS006','BS004','BS005')
+        <if test="bedueDays != null">
+            and
+            (
+            CASE WHEN borrow.borr_status='BS010' THEN to_days(CASE WHEN borrow.act_repay_date is null THEN now() ELSE borrow.act_repay_date END)- to_days(plan.repay_date)
+            WHEN borrow.borr_status='BS006' THEN 0
+            WHEN borrow.borr_status='BS004' THEN 0
+            WHEN borrow.borr_status='BS005' THEN  to_days(curdate()) - to_days(plan.repay_date) ELSE 0 END
+            )
+            = #{bedueDays}
+        </if>
+        <if test="stateString != null">
+            and borrow.borr_status = #{stateString}
+        </if>
+        <if test="auditer != null">
+            and collectors.bedue_name = #{auditer}
+        </if>
+        <if test="productName != null">
+            and borrow.prod_id = #{productName}
+        </if>
+        <if test="customerId != null  and customerId != ''">
+            and borrow.per_id IN (${customerId})
+        </if>
+        <if test="contractID != null">
+            and borrow.borr_num = #{contractID}
+        </if>
+        <if test="endDateString_start != null">
+            and to_days(plan.repay_date) &gt;= to_days(#{endDateString_start})
+        </if>
+        <if test="endDateString_end != null">
+            and to_days(plan.repay_date) &lt; to_days(#{endDateString_end})
+        </if>
+        <if test="settleDateString_start != null">
+            and to_days(borrow.act_repay_date) &gt;= to_days(#{settleDateString_start})
+        </if>
+        <if test="settleDateString_end != null">
+            and to_days(borrow.act_repay_date) &lt; to_days(#{settleDateString_end})
+        </if>
+        <if test="lastCallDateString_start != null">
+            and to_days((SELECT
+            MAX(remark.create_date)
+            FROM
+            ds_collectors_remark remark
+            WHERE remark.contract_sysno = borrow.id)) &gt;= to_days(#{lastCallDateString_start})
+        </if>
+        <if test="lastCallDateString_end != null">
+            and to_days((SELECT
+            MAX(remark.create_date)
+            FROM
+            ds_collectors_remark remark
+            WHERE remark.contract_sysno = borrow.id)) &lt; to_days(#{lastCallDateString_end})
+        </if>
+        <if test="orderString_start != null">
+            and to_days((SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14)  and o.conctact_id=borrow.id)) &gt;= to_days(#{orderString_start})
+        </if>
+        <if test="orderString_end != null">
+            and to_days((SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14) and o.conctact_id=borrow.id)) &lt; to_days(#{orderString_end})
+        </if>
+        <if test="blackList != null and blackList=='Yes'">
+            and (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) = 'Y'
+        </if>
+        <if test="blackList != null and blackList=='No'">
+            and (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) != 'Y'
+        </if>
+    </select>
+
+    <select id="selectLoansRemarkVo" parameterType="java.util.Map" resultMap="LoansRemarkVMap">
+        SELECT
+            borrow.per_id,
+            borrow.prod_id,
+            borrow.borr_status,
+            borrow.act_repay_date,
+            borrow.borr_num,
+            borrow.borr_amount,
+            collectors.bedue_name as auditer,
+            (SELECT max(remark.create_date) FROM ds_collectors_remark remark WHERE remark.contract_sysno = borrow.id) as last_call_date_string,
+            CASE WHEN borrow.borr_status='BS010' THEN to_days(CASE WHEN borrow.act_repay_date is null THEN now() ELSE borrow.act_repay_date END)- to_days(plan.repay_date)
+            WHEN borrow.borr_status='BS006' THEN 0
+            WHEN borrow.borr_status='BS004' THEN 0
+            WHEN borrow.borr_status='BS005' THEN  to_days(curdate()) - to_days(plan.repay_date) ELSE 0 END AS bedue_days,
+            (SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14) and o.conctact_id=borrow.id) as order_string,
+            (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) as black_list,
+            borrow.per_id as customer_id,
+            borrow.prod_id as product_id,
+            plan.month_interest as total_interest,
+            plan.penalty as penalty,
+            plan.penalty_interest as penalty_interest,
+            plan.month_money + plan.month_interest + plan.penalty + plan.penalty_interest as sum_amount,
+            plan.surplus_money +plan.surplus_interest +plan.surplus_penalty +plan.surplus_penalty_Interes as surplus_total_amount,
+            plan.repay_date as end_date_string,
+            borrow.act_repay_date as settle_date_string,
+            borrow.borr_status as state_string,
+            borrow.borr_num as contract_i_d,
+            borrow.borr_amount as loan_amount,
+            borrow.id as contract_key,
+            r.create_user as call_name,
+            r.create_date as last_call,
+            r.remark as remark
+        from ym_borrow_list borrow
+            INNER JOIN ym_repayment_plan plan ON plan.contract_id = borrow.id
+            LEFT JOIN ds_collectors_list collectors ON collectors.contract_sysno = borrow.id AND collectors.status in ('A','B')
+            LEFT JOIN ds_collectors_remark r ON r.contract_sysno = borrow.id
+        WHERE borrow.borr_status IN ('BS010','BS006','BS004','BS005')
+        <if test="bedueDays != null">
+            and
+            (
+            CASE WHEN borrow.borr_status='BS010' THEN to_days(CASE WHEN borrow.act_repay_date is null THEN now() ELSE borrow.act_repay_date END)- to_days(plan.repay_date)
+            WHEN borrow.borr_status='BS006' THEN 0
+            WHEN borrow.borr_status='BS004' THEN 0
+            WHEN borrow.borr_status='BS005' THEN  to_days(curdate()) - to_days(plan.repay_date) ELSE 0 END
+            )
+            = #{bedueDays}
+        </if>
+        <if test="stateString != null">
+            and borrow.borr_status = #{stateString}
+        </if>
+        <if test="auditer != null">
+            and collectors.bedue_name = #{auditer}
+        </if>
+        <if test="productName != null">
+            and borrow.prod_id = #{productName}
+        </if>
+        <if test="customerId != null  and customerId != ''">
+            and borrow.per_id IN (${customerId})
+        </if>
+        <if test="contractID != null">
+            and borrow.borr_num = #{contractID}
+        </if>
+        <if test="endDateString_start != null">
+            and to_days(plan.repay_date) &gt;= to_days(#{endDateString_start})
+        </if>
+        <if test="endDateString_end != null">
+            and to_days(plan.repay_date) &lt; to_days(#{endDateString_end})
+        </if>
+        <if test="settleDateString_start != null">
+            and to_days(borrow.act_repay_date) &gt;= to_days(#{settleDateString_start})
+        </if>
+        <if test="settleDateString_end != null">
+            and to_days(borrow.act_repay_date) &lt; to_days(#{settleDateString_end})
+        </if>
+        <if test="lastCallDateString_start != null">
+            and to_days((SELECT
+            MAX(remark.create_date)
+            FROM
+            ds_collectors_remark remark
+            WHERE remark.contract_sysno = borrow.id)) &gt;= to_days(#{lastCallDateString_start})
+        </if>
+        <if test="lastCallDateString_end != null">
+            and to_days((SELECT
+            MAX(remark.create_date)
+            FROM
+            ds_collectors_remark remark
+            WHERE remark.contract_sysno = borrow.id)) &lt; to_days(#{lastCallDateString_end})
+        </if>
+        <if test="orderString_start != null">
+            and to_days((SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14)  and o.conctact_id=borrow.id)) &gt;= to_days(#{orderString_start})
+        </if>
+        <if test="orderString_end != null">
+            and to_days((SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14) and o.conctact_id=borrow.id)) &lt; to_days(#{orderString_end})
+        </if>
+        <if test="blackList != null and blackList=='Yes'">
+            and (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) = 'Y'
+        </if>
+        <if test="blackList != null and blackList=='No'">
+            and (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) != 'Y'
+        </if>
+    </select>
+
+    <select id="selectExportLoansRemarkVo" parameterType="java.util.Map" resultMap="LoansRemarkVMap">
+        SELECT
+        borrow.per_id,
+        borrow.prod_id,
+        borrow.borr_status,
+        borrow.act_repay_date,
+        borrow.borr_num,
+        borrow.borr_amount,
+        collectors.bedue_name as auditer,
+        (SELECT max(remark.create_date) FROM ds_collectors_remark remark WHERE remark.contract_sysno = borrow.id) as last_call_date_string,
+        CASE WHEN borrow.borr_status='BS010' THEN to_days(CASE WHEN borrow.act_repay_date is null THEN now() ELSE borrow.act_repay_date END)- to_days(plan.repay_date)
+        WHEN borrow.borr_status='BS006' THEN 0
+        WHEN borrow.borr_status='BS004' THEN 0
+        WHEN borrow.borr_status='BS005' THEN  to_days(curdate()) - to_days(plan.repay_date) ELSE 0 END AS bedue_days,
+        (SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14) and o.conctact_id=borrow.id) as order_string,
+        (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) as black_list,
+        pr.phone AS customerMobile,
+        c.card_num AS customerIdValue,
+        c.name AS customerName,
+        p.product_name AS productName,
+        pt.maximum_amount  AS amount,
+        plan.month_interest as total_interest,
+        plan.penalty as penalty,
+        plan.penalty_interest as penalty_interest,
+        plan.month_money + plan.month_interest + plan.penalty + plan.penalty_interest as sum_amount,
+        plan.surplus_money +plan.surplus_interest +plan.surplus_penalty +plan.surplus_penalty_Interes as surplus_total_amount,
+        plan.repay_date as end_date_string,
+        borrow.act_repay_date as settle_date_string,
+        borrow.borr_status as state_string,
+        borrow.borr_num as contract_i_d,
+        borrow.borr_amount as loan_amount,
+        borrow.id as contract_key,
+        dsb.user_name as call_name,
+        r.create_date as last_call,
+        r.remark as remark
+        from ym_borrow_list borrow
+        INNER JOIN ym_repayment_plan plan
+        <if test="endDateString_start != null or endDateString_end != null">
+            FORCE INDEX(rp_repay_date_time)
+        </if>
+        ON plan.contract_id = borrow.id
+        <if test="levelType  == 2">
+            INNER JOIN ym_zloan_company_borrow company on company.borr_id = borrow.id
+            AND company.company_id = #{companyId}
+        </if>
+        LEFT JOIN ds_collectors_list collectors ON collectors.contract_sysno = borrow.id AND collectors.status in ('A','B')
+        LEFT JOIN ds_collectors_remark r ON r.contract_sysno = borrow.id
+        LEFT JOIN ym_product p ON borrow.prod_id = p.id
+        LEFT JOIN ym_product_term pt ON p.id = pt.product_id
+        LEFT JOIN ym_person pr ON pr.id = borrow.per_id
+        LEFT JOIN ym_card c ON c.per_id = pr.id
+        LEFT JOIN ds_collectors_level_back dsb ON dsb.user_sysno = r.create_user
+        WHERE borrow.borr_status IN ('BS004','BS006','BS010','BS005') AND collectors.bedue_name IS NOT NULL
+        <if test="bedueDays != null">
+            and
+            (
+            CASE WHEN borrow.borr_status='BS010' THEN to_days(CASE WHEN borrow.act_repay_date is null THEN now() ELSE borrow.act_repay_date END)- to_days(plan.repay_date)
+            WHEN borrow.borr_status='BS006' THEN 0
+            WHEN borrow.borr_status='BS004' THEN 0
+            WHEN borrow.borr_status='BS005' THEN  to_days(curdate()) - to_days(plan.repay_date) ELSE 0 END
+            )
+            = #{bedueDays}
+        </if>
+        <if test="stateString != null">
+            and borrow.borr_status = #{stateString}
+        </if>
+        <if test="auditer != null">
+            and collectors.bedue_name = #{auditer}
+        </if>
+        <if test="productName != null">
+            and borrow.prod_id = #{productName}
+        </if>
+        <if test="customerId != null  and customerId != ''">
+            and borrow.per_id IN (${customerId})
+        </if>
+        <if test="contractID != null">
+            and borrow.borr_num = #{contractID}
+        </if>
+        <if test="endDateString_start != null">
+            and plan.repay_date_time >= #{endDateString_start}
+        </if>
+        <if test="endDateString_end != null">
+            <![CDATA[and plan.repay_date_time < #{endDateString_end} ]]>
+        </if>
+        <if test="settleDateString_start != null">
+            and borrow.act_repay_date &gt;= #{settleDateString_start}
+        </if>
+        <if test="settleDateString_end != null">
+            and borrow.act_repay_date &lt; #{settleDateString_end}
+        </if>
+        <if test="lastCallDateString_start != null">
+            and to_days((SELECT
+            MAX(remark.create_date)
+            FROM
+            ds_collectors_remark remark
+            WHERE remark.contract_sysno = borrow.id)) &gt;= to_days(#{lastCallDateString_start})
+        </if>
+        <if test="lastCallDateString_end != null">
+            and to_days((SELECT
+            MAX(remark.create_date)
+            FROM
+            ds_collectors_remark remark
+            WHERE remark.contract_sysno = borrow.id)) &lt; to_days(#{lastCallDateString_end})
+        </if>
+        <if test="orderString_start != null">
+            and to_days((SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14)  and o.conctact_id=borrow.id)) &gt;= to_days(#{orderString_start})
+        </if>
+        <if test="orderString_end != null">
+            and to_days((SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14) and o.conctact_id=borrow.id)) &lt; to_days(#{orderString_end})
+        </if>
+        <if test="blackList != null and blackList=='Yes'">
+            and (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) = 'Y'
+        </if>
+        <if test="blackList != null and blackList=='No'">
+            and (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) != 'Y'
+        </if>
+    </select>
+
+    <select id="selectExportData" fetchSize="-2147483648" parameterType="java.util.Map" resultMap="LoanManagementMap">
+            SELECT
+            borrow.per_id,
+            borrow.prod_id,
+            borrow.borr_status,
+            borrow.act_repay_date,
+            borrow.borr_num,
+            borrow.borr_amount,
+            collectors.bedue_name as auditer,
+            (SELECT max(remark.create_date) FROM ds_collectors_remark remark WHERE remark.contract_sysno = borrow.id) as last_call_date_string,
+            CASE WHEN borrow.borr_status='BS010' THEN to_days(CASE WHEN borrow.act_repay_date is null THEN now() ELSE borrow.act_repay_date END)- to_days(plan.repay_date)
+            WHEN borrow.borr_status='BS006' THEN 0
+            WHEN borrow.borr_status='BS004' THEN 0
+            WHEN borrow.borr_status='BS005' THEN  to_days(curdate()) - to_days(plan.repay_date) ELSE 0 END AS bedue_days,
+            (SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14) and o.conctact_id=borrow.id) as order_string,
+            (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) as black_list,
+            pr.phone AS customerMobile,
+            c.card_num AS customerIdValue,
+            c.name AS customerName,
+            p.product_name AS productName,
+            pt.maximum_amount  AS amount,
+            plan.month_interest as total_interest,
+            plan.penalty as penalty,
+            plan.penalty_interest as penalty_interest,
+            plan.month_money + plan.month_interest + plan.penalty + plan.penalty_interest as sum_amount,
+            plan.surplus_money +plan.surplus_interest +plan.surplus_penalty +plan.surplus_penalty_Interes as surplus_total_amount,
+            plan.repay_date as end_date_string,
+            borrow.act_repay_date as settle_date_string,
+            borrow.borr_status as state_string,
+            borrow.borr_num as contract_i_d,
+            borrow.borr_amount as loan_amount,
+            borrow.id as contract_key
+            FROM ym_borrow_list borrow
+            <if test="levelType  == 2">
+                INNER JOIN ym_zloan_company_borrow company on company.borr_id = borrow.id
+                AND company.company_id = #{companyId}
+            </if>
+            INNER JOIN ym_repayment_plan plan
+            <if test="endDateString_start != null or endDateString_end != null">
+                FORCE INDEX(rp_repay_date_time)
+            </if>
+            ON plan.contract_id = borrow.id
+            LEFT JOIN ds_collectors_list collectors ON collectors.contract_sysno = borrow.id AND collectors.status in ('A','B')
+            LEFT JOIN ym_product p ON borrow.prod_id = p.id
+            LEFT JOIN ym_product_term pt ON p.id = pt.product_id
+            LEFT JOIN ym_person pr ON pr.id = borrow.per_id
+            LEFT JOIN ym_card c ON c.per_id = pr.id
+            WHERE 1=1
+            <if test="stateString == null or stateString == ''">
+                and borrow.borr_status IN ('BS010','BS006','BS004','BS005')
+            </if>
+            <if test="bedueDays != null">
+                and
+                (
+                CASE WHEN borrow.borr_status='BS010' THEN to_days(CASE WHEN borrow.act_repay_date is null THEN now() ELSE borrow.act_repay_date END)- to_days(plan.repay_date)
+                WHEN borrow.borr_status='BS006' THEN 0
+                WHEN borrow.borr_status='BS004' THEN 0
+                WHEN borrow.borr_status='BS005' THEN  to_days(curdate()) - to_days(plan.repay_date) ELSE 0 END
+                )
+                = #{bedueDays}
+            </if>
+            <if test="stateString != null">
+                and borrow.borr_status = #{stateString}
+            </if>
+            <if test="auditer != null">
+                and collectors.bedue_name = #{auditer}
+            </if>
+            <if test="productName != null">
+                and borrow.prod_id = #{productName}
+            </if>
+            <if test="customerId != null  and customerId != ''">
+                and borrow.per_id IN (${customerId})
+            </if>
+            <if test="contractID != null">
+                and borrow.borr_num = #{contractID}
+            </if>
+            <if test="endDateString_start != null">
+                and plan.repay_date_time >= #{endDateString_start}
+            </if>
+            <if test="endDateString_end != null">
+                <![CDATA[and plan.repay_date_time < #{endDateString_end} ]]>
+            </if>
+            <if test="settleDateString_start != null">
+                and to_days(borrow.act_repay_date) &gt;= to_days(#{settleDateString_start})
+            </if>
+            <if test="settleDateString_end != null">
+                and to_days(borrow.act_repay_date) &lt; to_days(#{settleDateString_end})
+            </if>
+            <if test="lastCallDateString_start != null">
+                and to_days((SELECT
+                MAX(remark.create_date)
+                FROM
+                ds_collectors_remark remark
+                WHERE remark.contract_sysno = borrow.id)) &gt;= to_days(#{lastCallDateString_start})
+            </if>
+            <if test="lastCallDateString_end != null">
+                and to_days((SELECT
+                MAX(remark.create_date)
+                FROM
+                ds_collectors_remark remark
+                WHERE remark.contract_sysno = borrow.id)) &lt; to_days(#{lastCallDateString_end})
+            </if>
+            <if test="orderString_start != null">
+                and to_days((SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14)  and o.conctact_id=borrow.id)) &gt;= to_days(#{orderString_start})
+            </if>
+            <if test="orderString_end != null">
+                and to_days((SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14) and o.conctact_id=borrow.id)) &lt; to_days(#{orderString_end})
+            </if>
+            <if test="blackList != null and blackList=='Yes'">
+                and (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) = 'Y'
+            </if>
+            <if test="blackList != null and blackList=='No'">
+                and (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) != 'Y'
+            </if>
+            <!--
+            <trim prefix="order by" >
+                <if test="selector != null and selector == 'endDateString'">
+                    plan.repay_date ${desc},plan.id
+                </if>
+                <if test="selector != null and selector == 'surplusTotalAmount'">
+                    surplus_total_amount ${desc},plan.id
+                </if>
+                <if test="selector != null and selector == 'bedueDays'">
+                    (
+                    CASE WHEN borrow.borr_status='BS010' THEN to_days(CASE WHEN borrow.act_repay_date is null THEN now() ELSE borrow.act_repay_date END)- to_days(plan.repay_date)
+                    WHEN borrow.borr_status='BS006' THEN 0
+                    WHEN borrow.borr_status='BS004' THEN 0
+                    WHEN borrow.borr_status='BS005' THEN  to_days(curdate()) - to_days(plan.repay_date) ELSE 0 END
+                    )
+                    ${desc},plan.id
+                </if>
+                <if test="selector != null and selector == 'lastCallDateString'">
+                    (SELECT max(remark.create_date) FROM ds_collectors_remark remark WHERE remark.contract_sysno = borrow.id) ${desc}
+                    ,plan.id
+                </if>
+                <if test="selector != null and selector == 'settleDateString'">
+                    borrow.act_repay_date ${desc},plan.id
+                </if>
+                <if test="selector != null and selector == 'orderString'">
+                    (SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14) and o.conctact_id=borrow.id) ${desc}
+                    ,plan.id
+                </if>
+                <if test="selector == null or selector == ''">
+                    <if test="endDateString_start != null or endDateString_end != null">
+                        plan.repay_date_time ,
+                    </if>
+                    plan.id
+                </if>
+            </trim>
+            -->
+    </select>
+
+    <select id="selectExportDataForOutWorkers" parameterType="java.util.Map" resultType="com.loan_manage.entity.LoansRemarkOutVo">
+        SELECT
+        borrow.borr_status AS stateString,
+        pr.phone AS customerMobile,
+        c.card_num AS customerIdValue,
+        c.name AS customerName,
+        r.remark as remark,
+        r.create_date as createTime
+        FROM ym_borrow_list borrow
+        INNER JOIN ym_repayment_plan plan
+        <if test="endDateString_start != null or endDateString_end != null">
+            FORCE INDEX(rp_repay_date_time)
+        </if>
+        ON plan.contract_id = borrow.id
+        <if test="levelType  == 2">
+            INNER JOIN ym_zloan_company_borrow company on company.borr_id = borrow.id
+            AND company.company_id = #{companyId}
+        </if>
+        LEFT JOIN ds_collectors_list collectors ON collectors.contract_sysno = borrow.id AND collectors.status in ('A','B')
+        LEFT JOIN ds_collectors_remark r ON r.contract_sysno = borrow.id
+        LEFT JOIN ym_product p ON borrow.prod_id = p.id
+        LEFT JOIN ym_product_term pt ON p.id = pt.product_id
+        LEFT JOIN ym_person pr ON pr.id = borrow.per_id
+        LEFT JOIN ym_card c ON c.per_id = pr.id
+        LEFT JOIN ds_collectors_level_back dsb ON dsb.user_sysno = r.create_user
+        WHERE borrow.borr_status IN ('BS010','BS006','BS005')
+        <if test="bedueDays != null">
+            and
+            (
+            CASE WHEN borrow.borr_status='BS010' THEN to_days(CASE WHEN borrow.act_repay_date is null THEN now() ELSE borrow.act_repay_date END)- to_days(plan.repay_date)
+            WHEN borrow.borr_status='BS006' THEN 0
+            WHEN borrow.borr_status='BS004' THEN 0
+            WHEN borrow.borr_status='BS005' THEN  to_days(curdate()) - to_days(plan.repay_date) ELSE 0 END
+            )
+            = #{bedueDays}
+        </if>
+        <if test="stateString != null">
+            and borrow.borr_status = #{stateString}
+        </if>
+        <if test="auditer != null">
+            and collectors.bedue_name = #{auditer}
+        </if>
+        <if test="productName != null">
+            and borrow.prod_id = #{productName}
+        </if>
+        <if test="customerId != null  and customerId != ''">
+            and borrow.per_id IN (${customerId})
+        </if>
+        <if test="contractID != null">
+            and borrow.borr_num = #{contractID}
+        </if>
+        <if test="endDateString_start != null">
+            and plan.repay_date_time >= #{endDateString_start}
+        </if>
+        <if test="endDateString_end != null">
+            <![CDATA[and plan.repay_date_time < #{endDateString_end} ]]>
+        </if>
+        <if test="settleDateString_start != null">
+            and borrow.act_repay_date &gt;= #{settleDateString_start}
+        </if>
+        <if test="settleDateString_end != null">
+            and borrow.act_repay_date &lt; #{settleDateString_start}
+        </if>
+        <if test="lastCallDateString_start != null">
+            and to_days((SELECT
+            MAX(remark.create_date)
+            FROM
+            ds_collectors_remark remark
+            WHERE remark.contract_sysno = borrow.id)) &gt;= to_days(#{lastCallDateString_start})
+        </if>
+        <if test="lastCallDateString_end != null">
+            and to_days((SELECT
+            MAX(remark.create_date)
+            FROM
+            ds_collectors_remark remark
+            WHERE remark.contract_sysno = borrow.id)) &lt; to_days(#{lastCallDateString_end})
+        </if>
+        <if test="orderString_start != null">
+            and to_days((SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14)  and o.conctact_id=borrow.id)) &gt;= to_days(#{orderString_start})
+        </if>
+        <if test="orderString_end != null">
+            and to_days((SELECT max(o.creation_date) from ym_order o where o.type in (2,4,5,6,7,8,12,13,14) and o.conctact_id=borrow.id)) &lt; to_days(#{orderString_end})
+        </if>
+        <if test="blackList != null and blackList=='Yes'">
+            and (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) = 'Y'
+        </if>
+        <if test="blackList != null and blackList=='No'">
+            and (SELECT person.blacklist FROM ym_person person WHERE person.id=borrow.per_id) != 'Y'
+        </if>
+    </select>
+</mapper>
+

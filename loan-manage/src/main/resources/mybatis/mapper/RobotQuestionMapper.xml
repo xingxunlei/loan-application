@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_manage.mapper.RobotQuestionMapper">
+
+    <insert id="insertRobotQuestion" parameterType="com.loan_manage.entity.RobotQuestion">
+
+          INSERT INTO ym_robot_question (robot_order_id, question_id,answer_results, question, create_date,user_input,right_answers,interactive_way,duration)
+          SELECT #{robotOrderId}, #{questionId},#{answerResults},#{question},#{createDate},#{userInput},#{rightAnswers},#{interactiveWay},#{duration}
+          FROM DUAL WHERE NOT EXISTS(SELECT id FROM ym_robot_question WHERE robot_order_id =#{robotOrderId} AND question_id=#{questionId});
+    </insert>
+
+</mapper>
+

@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.app_mapper.CardMapper" >
+  <resultMap id="BaseResultMap" type="com.loan_entity.app.Card" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="per_id" property="perId" jdbcType="INTEGER" />
+    <result column="card_num" property="cardNum" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="nation" property="nation" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="DATE" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="office" property="office" jdbcType="VARCHAR" />
+    <result column="start_date" property="startDate" jdbcType="DATE" />
+    <result column="end_date" property="endDate" jdbcType="DATE" />
+    <result column="card_photoz" property="cardPhotoz" jdbcType="INTEGER" />
+    <result column="card_photof" property="cardPhotof" jdbcType="INTEGER" />
+    <result column="card_photod" property="cardPhotod" jdbcType="INTEGER" />
+    <result column="card_photov" property="cardPhotov" jdbcType="INTEGER" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="sync" property="sync" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, per_id, card_num, name, sex, nation, birthday, address, office, start_date, end_date, 
+    card_photoz, card_photof, card_photod, card_photov, update_date, sync
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ym_card
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ym_card
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.loan_entity.app.Card" >
+    insert into ym_card (id, per_id, card_num, 
+      name, sex, nation, 
+      birthday, address, office, 
+      start_date, end_date, card_photoz, 
+      card_photof, card_photod, card_photov, 
+      update_date, sync)
+    values (#{id,jdbcType=INTEGER}, #{perId,jdbcType=INTEGER}, #{cardNum,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{nation,jdbcType=VARCHAR}, 
+      #{birthday,jdbcType=DATE}, #{address,jdbcType=VARCHAR}, #{office,jdbcType=VARCHAR}, 
+      #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{cardPhotoz,jdbcType=INTEGER}, 
+      #{cardPhotof,jdbcType=INTEGER}, #{cardPhotod,jdbcType=INTEGER}, #{cardPhotov,jdbcType=INTEGER}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{sync,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.loan_entity.app.Card" >
+    insert into ym_card
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="perId != null" >
+        per_id,
+      </if>
+      <if test="cardNum != null" >
+        card_num,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="nation != null" >
+        nation,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="office != null" >
+        office,
+      </if>
+      <if test="startDate != null" >
+        start_date,
+      </if>
+      <if test="endDate != null" >
+        end_date,
+      </if>
+      <if test="cardPhotoz != null" >
+        card_photoz,
+      </if>
+      <if test="cardPhotof != null" >
+        card_photof,
+      </if>
+      <if test="cardPhotod != null" >
+        card_photod,
+      </if>
+      <if test="cardPhotov != null" >
+        card_photov,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="sync != null" >
+        sync,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="perId != null" >
+        #{perId,jdbcType=INTEGER},
+      </if>
+      <if test="cardNum != null" >
+        #{cardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null" >
+        #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="office != null" >
+        #{office,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null" >
+        #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="cardPhotoz != null" >
+        #{cardPhotoz,jdbcType=INTEGER},
+      </if>
+      <if test="cardPhotof != null" >
+        #{cardPhotof,jdbcType=INTEGER},
+      </if>
+      <if test="cardPhotod != null" >
+        #{cardPhotod,jdbcType=INTEGER},
+      </if>
+      <if test="cardPhotov != null" >
+        #{cardPhotov,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sync != null" >
+        #{sync,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.loan_entity.app.Card" >
+    update ym_card
+    <set >
+      <if test="perId != null" >
+        per_id = #{perId,jdbcType=INTEGER},
+      </if>
+      <if test="cardNum != null" >
+        card_num = #{cardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null" >
+        nation = #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="office != null" >
+        office = #{office,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null" >
+        start_date = #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="cardPhotoz != null" >
+        card_photoz = #{cardPhotoz,jdbcType=INTEGER},
+      </if>
+      <if test="cardPhotof != null" >
+        card_photof = #{cardPhotof,jdbcType=INTEGER},
+      </if>
+      <if test="cardPhotod != null" >
+        card_photod = #{cardPhotod,jdbcType=INTEGER},
+      </if>
+      <if test="cardPhotov != null" >
+        card_photov = #{cardPhotov,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sync != null" >
+        sync = #{sync,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.loan_entity.app.Card" >
+    update ym_card
+    set per_id = #{perId,jdbcType=INTEGER},
+      card_num = #{cardNum,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      nation = #{nation,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=DATE},
+      address = #{address,jdbcType=VARCHAR},
+      office = #{office,jdbcType=VARCHAR},
+      start_date = #{startDate,jdbcType=DATE},
+      end_date = #{endDate,jdbcType=DATE},
+      card_photoz = #{cardPhotoz,jdbcType=INTEGER},
+      card_photof = #{cardPhotof,jdbcType=INTEGER},
+      card_photod = #{cardPhotod,jdbcType=INTEGER},
+      card_photov = #{cardPhotov,jdbcType=INTEGER},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      sync = #{sync,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+   <!-- 根据per_id查询身份证 -->
+  <select id="selectByPerId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    SELECT * FROM 
+    ym_card 
+    WHERE id=
+    (SELECT MAX(id)
+    FROM ym_card 
+    WHERE per_id = #{per_id,jdbcType=INTEGER})
+        
+  </select>
+  
+  <!-- 根据身份证查询Card -->
+  <select id="selectByCardNo" resultMap="BaseResultMap" parameterType="String" >
+    SELECT * FROM 
+    ym_card 
+    WHERE id=
+    (SELECT MAX(id)
+    FROM ym_card 
+    WHERE card_num = #{0})      
+  </select>
+</mapper>

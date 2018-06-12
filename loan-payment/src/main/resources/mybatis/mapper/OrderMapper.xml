@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan.payment.mapper.OrderMapper">
+    <resultMap id="BaseResultMap" type="com.loan_entity.manager.Order">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="guid" property="guid" jdbcType="VARCHAR"/>
+        <result column="borr_num" property="borrNum" jdbcType="VARCHAR"/>
+        <result column="p_id" property="pId" jdbcType="INTEGER"/>
+        <result column="serial_no" property="serialNo" jdbcType="VARCHAR"/>
+        <result column="company_id" property="companyId" jdbcType="INTEGER"/>
+        <result column="per_id" property="perId" jdbcType="INTEGER"/>
+        <result column="bank_id" property="bankId" jdbcType="INTEGER"/>
+        <result column="conctact_id" property="conctactId" jdbcType="INTEGER"/>
+        <result column="opt_amount" property="optAmount" jdbcType="DECIMAL"/>
+        <result column="act_amount" property="actAmount" jdbcType="DECIMAL"/>
+        <result column="rl_date" property="rlDate" jdbcType="TIMESTAMP"/>
+        <result column="rl_remark" property="rlRemark" jdbcType="VARCHAR"/>
+        <result column="rl_state" property="rlState" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="VARCHAR"/>
+        <result column="reason" property="reason" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="CHAR"/>
+        <result column="creation_date" property="creationDate" jdbcType="TIMESTAMP"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+        <result column="sync" property="sync" jdbcType="CHAR"/>
+        <result column="real_opt_amount" property="realOptAmount" jdbcType="VARCHAR"/>
+        <result column="user_phone" property="userPhone" jdbcType="VARCHAR"/>
+        <result column="card_num" property="cardNnum" jdbcType="VARCHAR"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="bank_num" property="bankNum" jdbcType="VARCHAR"/>
+        <result column="borr_num" property="borrNum" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <!-- 根据订单号查询订单 -->
+    <select id="selectBySerial" resultMap="BaseResultMap"
+            parameterType="String">
+		select
+		*
+		from ym_order
+		where serial_no = #{0}
+		and rl_state != 's'
+		and rl_state != 'f'
+	</select>
+
+    <!-- 根据pid查询订单 -->
+    <select id="selectByPid" resultMap="BaseResultMap"
+            parameterType="java.lang.Integer">
+		select
+		*
+		from ym_order
+		where p_id = #{0}
+	</select>
+
+    <!-- 查询订单状态为state,订单类型为type(代收)的数据，订单创建时间<任务运行的时间-30分钟 -->
+    <select id="selectOrders" resultMap="BaseResultMap">
+		SELECT *
+		FROM ym_order
+		WHERE rl_state = #{0}
+		AND type = #{1}
+		and status='y'
+		AND creation_date &lt;CURRENT_TIMESTAMP - INTERVAL #{2} MINUTE
+	</select>
+
+    <select id="selectByGuid" resultMap="BaseResultMap"
+            parameterType="java.lang.String">
+		select
+		*
+		from ym_order
+		where guid = #{0}
+	</select>
+
+    <select id="selectBorrNumById" resultType="java.lang.String"
+            parameterType="java.lang.Integer">
+		SELECT borr_num FROM `ym_borrow_list` WHERE id = #{conctactId}
+	</select>
+    <update id="updateOrder">
+        UPDATE ym_order
+        SET
+            rl_state = 'f', rl_remark = #{1}
+        WHERE
+            id = #{0}
+    </update>
+    <select id="selectByConStatusTime" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM ym_order 
+		WHERE conctact_id = #{0} 
+		AND rl_state = #{1} 
+		AND type = #{2} 
+		AND DATE_ADD(update_date,INTERVAL 2 HOUR)&gt;NOW()
+	</select>
+
+    <select id="selectPayOrders" resultMap="BaseResultMap"
+            parameterType="java.util.Map">
+		select
+		*
+		from ym_order
+		where conctact_id = #{borrNum}
+		and rl_state = #{rlState}
+		and type in ('2','4','5')
+	</select>
+
+    <insert id="batchInsertGatherOrders" parameterType="java.util.List">
+        INSERT INTO order
+        ( guid, p_id, serial_no, company_id, per_id, bank_id, conctact_id, opt_amount, act_amount, rl_remark, rl_state,
+        type, create_user, collection_user ,deductions_type )
+        VALUES
+        <foreach collection="list" item="i" index="index" separator=",">
+            (
+            #{i.guid},
+            #{i.pId},
+            #{i.serialNo},
+            #{i.companyId},
+            #{i.perId},
+            #{i.bankId},
+            #{i.conctactId},
+            #{i.optAmount},
+            #{i.actAmount},
+            #{i.rlRemark},
+            #{i.rlState},
+            #{i.type},
+            #{i.createUser},
+            #{i.collectionUser},
+            #{i.deductionsType}
+            )
+        </foreach>
+    </insert>
+
+    <select id="selectBatchGatherOrders" resultMap="BaseResultMap">
+		select
+		order1.*,
+        (order1.opt_amount + order2.opt_amount) as real_opt_amount
+        from ym_order order1
+		  LEFT JOIN ym_order order2 on order2.p_id = order1.id and order2.type=3 and order2.rl_state='p'
+        where order1.type=10 and order1.rl_state='p' ORDER BY order1.creation_date
+	</select>
+</mapper>

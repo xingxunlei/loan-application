@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	
+	<!--  <dubbo:reference interface="com.loan_api.app.UserApi"
+		id="userApi1" check="false" version="1.0.0"/> -->
+	 <dubbo:reference interface="com.loan_api.app.UserApi"
+		id="userApi2" check="false" />   
+	<!-- <dubbo:reference interface="com.loan_api.app.UserApi"
+		id="userApi" check="false"/> -->
+	<dubbo:reference interface="com.loan_api.app.LoanService"
+		id="loanService" check="false" />
+	<dubbo:reference interface="com.loan_api.app.UserService"
+		id="userService" check="false" />
+	<dubbo:reference interface="com.loan_api.app.NotifyService"
+					 id="notifyService" check="false" />
+	<dubbo:reference interface="com.loan_api.manager.ManageInfoService"
+		id="manageInfoService" check="false"  />
+	<dubbo:reference interface="com.loan_api.manager.ManageLoanService"
+		id="manageLoanService" check="false" timeout="100000000"  />
+	<dubbo:reference interface="com.loan_api.loan.BankService"
+		id="bankService" check="false"  />
+	<dubbo:reference interface="com.loan_api.loan.YsbCollectionService"
+		id="ysbCollectionService" check="false"  timeout="1200000"/>
+	<dubbo:reference interface="com.loan_api.loan.YsbpayService"
+		id="ysbpayService" check="false"  timeout="1200000" />
+	<dubbo:reference interface="com.loan_api.app.TimerService"
+		id="timerService" check="false"  />
+	<dubbo:reference interface="com.loan_api.app.JuxinliService"
+					 id="jxlService" check="false"  />
+	<dubbo:reference interface="com.loan_api.loan.DelayQueueService"
+					 id="delayQueueService" check="false" timeout="12000000" />
+	<dubbo:reference interface="com.loan_api.contract.ElectronicContractService"
+					 id="electronicContractService" check="false"  />
+	<dubbo:reference interface="com.loan_api.app.DrainageService"
+					 id="drainageService" check="false"  />
+</beans>

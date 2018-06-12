@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>公司列表</title>
+</head>
+<script>
+    companyTablesInit();
+</script>
+<body>
+<div class="page-bar" style="margin-bottom: 10px;">
+    <ul class="page-breadcrumb">
+        <li><i class="fa fa-home"></i> <a href="#/dashboard.html">首页</a>
+            <i class="fa fa-angle-right"></i></li>
+        <li><a href="#/companyTables.html">公司列表</a></li>
+    </ul>
+    <p style="float:right;line-height:36px;margin:0;padding-right:100px;" class="text-danger"></p>
+</div>
+<div class="row" style="min-height:200px;">
+    <div class="col-md-12 wblMd">
+        <div class="wblBackground"></div>
+        <div class="wblFillDiv"></div>
+        <div id="companyTables"></div>
+    </div>
+</div>
+<!-- 以下是弹出模态框 -->
+<div class="modal fade" id="editCompanyInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="padding: 10px;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: 5px;padding-right: 15px;"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="editCompanyInfoTitle"></h4>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <form class="form-horizontal" id="editcompany-form">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">公司名称<span style="color: red">*</span></label>
+                        <div class="col-sm-8">
+                            <input type="hidden" name="id" class="form-control" id="companyId">
+                            <input type="text" name="name" class="form-control" id="companyName" placeholder="公司名称">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">公司状态<span style="color: red">*</span></label>
+                        <div class="col-sm-8">
+                            <select name="status" id="status" class="form-control">
+                                <option value="1">启用</option>
+                                <option value="0">禁用</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="btnEditCompanyInfo">提交操作</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

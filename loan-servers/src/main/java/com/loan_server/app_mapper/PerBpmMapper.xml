@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.app_mapper.PerBpmMapper" >
+  <resultMap id="BaseResultMap" type="com.loan_entity.app.PerBpm" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="per_id" property="perId" jdbcType="INTEGER" />
+    <result column="bpm_id" property="bpmId" jdbcType="INTEGER" />
+    <result column="bpm_status" property="bpmStatus" jdbcType="VARCHAR" />
+    <result column="end_date" property="endDate" jdbcType="TIMESTAMP" />
+    <result column="start_date" property="startDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, per_id, bpm_id, bpm_status, end_date, start_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ym_per_bpm
+    where id = #{id,jdbcType=INTEGER}
+  </select> 
+  
+  <!-- 根据per_id查询流程 -->
+  <select id="selectByPerId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from ym_per_bpm
+    where id=(
+    select MAX(id)
+    from ym_per_bpm
+    where per_id = #{per_id,jdbcType=INTEGER})
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from ym_per_bpm
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.loan_entity.app.PerBpm" >
+    insert into ym_per_bpm (id, per_id, bpm_id, 
+      bpm_status, end_date, start_date
+      )
+    values (#{id,jdbcType=INTEGER}, #{perId,jdbcType=INTEGER}, #{bpmId,jdbcType=INTEGER}, 
+      #{bpmStatus,jdbcType=VARCHAR}, #{endDate,jdbcType=TIMESTAMP}, #{startDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.loan_entity.app.PerBpm" >
+    insert into ym_per_bpm
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="perId != null" >
+        per_id,
+      </if>
+      <if test="bpmId != null" >
+        bpm_id,
+      </if>
+      <if test="bpmStatus != null" >
+        bpm_status,
+      </if>
+      <if test="endDate != null" >
+        end_date,
+      </if>
+      <if test="startDate != null" >
+        start_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="perId != null" >
+        #{perId,jdbcType=INTEGER},
+      </if>
+      <if test="bpmId != null" >
+        #{bpmId,jdbcType=INTEGER},
+      </if>
+      <if test="bpmStatus != null" >
+        #{bpmStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startDate != null" >
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+    	<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id"> 
+		SELECT LAST_INSERT_ID() 
+		</selectKey>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.loan_entity.app.PerBpm" >
+    update ym_per_bpm
+    <set >
+      <if test="perId != null" >
+        per_id = #{perId,jdbcType=INTEGER},
+      </if>
+      <if test="bpmId != null" >
+        bpm_id = #{bpmId,jdbcType=INTEGER},
+      </if>
+      <if test="bpmStatus != null" >
+        bpm_status = #{bpmStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="endDate != null" >
+        end_date = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startDate != null" >
+        start_date = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.loan_entity.app.PerBpm" >
+    update ym_per_bpm
+    set per_id = #{perId,jdbcType=INTEGER},
+      bpm_id = #{bpmId,jdbcType=INTEGER},
+      bpm_status = #{bpmStatus,jdbcType=VARCHAR},
+      end_date = #{endDate,jdbcType=TIMESTAMP},
+      start_date = #{startDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

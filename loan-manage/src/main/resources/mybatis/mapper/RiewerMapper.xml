@@ -1,0 +1,1036 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_manage.mapper.RiewerMapper">
+
+    <cache flushInterval="5000" size="1000000" readOnly="true"/>
+
+    <resultMap id="BaseResultMap" type="com.loan_manage.entity.Riewer">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="employ_num" property="employNum" jdbcType="VARCHAR"/>
+        <result column="emplloyee_name" property="emplloyeeName" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="CHAR"/>
+        <result column="creation_date" property="creationDate" jdbcType="TIMESTAMP"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, employ_num, emplloyee_name, status, creation_date, update_date
+    </sql>
+
+    <select id="getusers" parameterType="map" resultType="map">
+        SELECT
+        yp.id,
+        yc.name ,
+        yp.phone ,
+        yc.card_num ,
+        yp.blacklist ,
+        yp.source as source_name,
+        yp.create_date ,
+        b.borr_status brrow_status,
+        yb.node_name,
+        d.node_status,
+        d.description
+        FROM ym_person yp
+        LEFT JOIN ym_card yc ON yp.id = yc.per_id
+        LEFT JOIN (SELECT ybl.* FROM ym_borrow_list ybl, (SELECT MAX(id) id FROM ym_borrow_list GROUP BY per_id) bb
+        WHERE ybl.id=bb.id ) b
+        ON b.per_id = yp.id
+        LEFT JOIN (SELECT ypbbb.* FROM ym_per_bpm ypbbb ,(SELECT MAX(id) idd FROM ym_per_bpm GROUP BY per_id) as ypbb
+        WHERE ypbb.idd=ypbbb.id ) c
+        on c.per_id = yp.id
+        LEFT JOIN (SELECT ybnn.* FROM ym_bpm_node ybnn, (SELECT MAX(id) pid FROM ym_bpm_node GROUP BY bpm_id) as ybnnn
+        where ybnn.id =ybnnn.pid ) d
+        ON d.bpm_id = c.id
+        LEFT JOIN ym_bpm yb ON d.node_id = yb.id
+        <where>
+            <if test="phone != null">
+                and yp.phone = #{phone}
+            </if>
+            <if test="name != null">
+                and yc.name = #{name}
+            </if>
+            <if test="card_num != null">
+                and yc.card_num = #{card_num}
+            </if>
+            <if test="blacklist != null">
+                and yp.blacklist = #{blacklist}
+            </if>
+
+            <if test="source_name != null">
+                and yp.source = #{source_name}
+            </if>
+            <if test="create_date_start != null">
+                <![CDATA[ and yp.create_date >= DATE_FORMAT(#{create_date_start},'%Y-%m-%d') ]]>
+
+            </if>
+            <if test="create_date_end != null">
+                <![CDATA[	and yp.create_date < DATE_FORMAT(#{create_date_end},'%Y-%m-%d') ]]>
+            </if>
+            <if test="node_name != null">
+                and yb.node_name = #{node_name}
+            </if>
+            <if test="node_status != null">
+                and d.node_status = #{node_status}
+            </if>
+            <if test="brrow_status != null">
+                and b.borr_status = #{brrow_status}
+            </if>
+
+        </where>
+        <if test="selector != null">
+            <choose>
+                <when test="selector eq 'phone'">order by yp.phone</when>
+                <when test="selector eq 'name'">order by yc.name</when>
+                <when test="selector eq 'card_num'">order by yc.card_num</when>
+                <when test="selector eq 'blacklist'">order by yp.blacklist</when>
+                <when test="selector eq 'borr_status'">order by b.borr_status</when>
+                <when test="selector eq 'create_date'">order by yp.create_date</when>
+                <when test="selector eq 'node_name'">order by yb.node_name</when>
+                <when test="selector eq 'node_status'">order by d.node_status</when>
+            </choose>
+        </if>
+        <choose>
+            <when test="desc == true">desc</when>
+            <when test="desc == false">asc</when>
+        </choose>
+    </select>
+    <select id="getLoanUsersNew" parameterType="map" resultType="map">
+        SELECT
+            yp.id,
+            yc.name ,
+            yp.phone ,
+            yc.card_num ,
+            yp.blacklist ,
+            yp.source AS source_name,
+            yp.create_date ,
+            (SELECT borrow.borr_status FROM ym_borrow_list borrow WHERE borrow.id=(SELECT MAX(id) id FROM ym_borrow_list borrowlist WHERE borrowlist.per_id = yp.id)) as brrow_status,
+            (SELECT ybnn.node_status FROM ym_bpm_node ybnn WHERE ybnn.id=(SELECT MAX(id) pid FROM ym_bpm_node node WHERE node.per_id=yp.id)) as node_status,
+            (SELECT GROUP_CONCAT(description) FROM ym_bpm_node WHERE per_id = yp.id AND description != '' ) description,
+            (SELECT ymbpm.node_name FROM ym_bpm ymbpm where ymbpm.id = (SELECT ybnn.node_id FROM ym_bpm_node ybnn where ybnn.id = (SELECT MAX(id) id FROM ym_bpm_node  bpm_node WHERE bpm_node.per_id = yp.id)))as node_name
+        FROM ym_person yp
+        LEFT JOIN ym_card yc ON yp.id = yc.per_id
+        <where>
+            <if test="phone != null">
+                and yp.phone = #{phone}
+            </if>
+            <if test="name != null">
+                and yc.name = #{name}
+            </if>
+            <if test="card_num != null">
+                and yc.card_num = #{card_num}
+            </if>
+            <if test="blacklist != null">
+                and yp.blacklist = #{blacklist}
+            </if>
+
+            <if test="source_name != null">
+                and yp.source = #{source_name}
+            </if>
+            <if test="create_date_start != null">
+                <![CDATA[ and yp.create_date >= DATE_FORMAT(#{create_date_start},'%Y-%m-%d') ]]>
+            </if>
+            <if test="create_date_end != null">
+                <![CDATA[ and yp.create_date < DATE_FORMAT(#{create_date_end},'%Y-%m-%d') ]]>
+            </if>
+            <if test="node_name != null">
+                and (SELECT ymbpm.node_name FROM ym_bpm ymbpm where ymbpm.id = (SELECT ybnn.node_id FROM ym_bpm_node ybnn where ybnn.id = (SELECT MAX(id) id FROM ym_bpm_node  bpm_node WHERE bpm_node.per_id = yp.id))) = #{node_name}
+            </if>
+            <if test="node_status != null">
+                and (SELECT ybnn.node_status FROM ym_bpm_node ybnn WHERE ybnn.id=(SELECT MAX(id) pid FROM ym_bpm_node node WHERE node.per_id=yp.id)) = #{node_status}
+            </if>
+            <if test="brrow_status != null">
+                and (SELECT borrow.borr_status FROM ym_borrow_list borrow WHERE borrow.id=(SELECT MAX(id) id FROM ym_borrow_list borrowlist WHERE borrowlist.per_id = yp.id)) = #{brrow_status}
+            </if>
+        </where>
+        <if test="selector != null">
+            <choose>
+                <when test="selector eq 'create_date'">order by yp.create_date</when>
+            </choose>
+        </if>
+        <choose>
+            <when test="desc == true">desc</when>
+            <when test="desc == false">asc</when>
+        </choose>
+    </select>
+    <select id="getusersNew" parameterType="map" resultType="map">
+        SELECT
+        yp.id,
+        yc.name ,
+        yp.phone ,
+        yc.card_num ,
+        yp.blacklist ,
+        yp.source AS source_name,
+        yp.create_date ,
+        b.borr_status brrow_status,
+        yb.node_name,
+        d.node_status,
+        (SELECT GROUP_CONCAT(description) FROM ym_bpm_node WHERE per_id = yp.id AND description != '' ) description
+        FROM ym_person yp
+        LEFT JOIN ym_card yc ON yp.id = yc.per_id
+        LEFT JOIN (SELECT ybl.* FROM ym_borrow_list ybl, (SELECT MAX(id) id FROM ym_borrow_list GROUP BY per_id) bb
+        WHERE ybl.id=bb.id ) b
+        ON b.per_id = yp.id
+        LEFT JOIN (SELECT ybnn.* FROM ym_bpm_node ybnn, (SELECT MAX(id) pid FROM ym_bpm_node GROUP BY per_id) AS ybnnn
+        WHERE ybnn.id =ybnnn.pid ) d
+        ON d.per_id = yp.id
+        LEFT JOIN ym_bpm yb ON d.node_id = yb.id
+        <where>
+            yp.bpm_id IS NULL
+            <if test="phone != null">
+                and yp.phone = #{phone}
+            </if>
+            <if test="name != null">
+                and yc.name = #{name}
+            </if>
+            <if test="card_num != null">
+                and yc.card_num = #{card_num}
+            </if>
+            <if test="blacklist != null">
+                and yp.blacklist = #{blacklist}
+            </if>
+
+            <if test="source_name != null">
+                and yp.source = #{source_name}
+            </if>
+            <if test="create_date_start != null">
+                <![CDATA[ and yp.create_date >= DATE_FORMAT(#{create_date_start},'%Y-%m-%d') ]]>
+
+            </if>
+            <if test="create_date_end != null">
+                <![CDATA[	and yp.create_date < DATE_FORMAT(#{create_date_end},'%Y-%m-%d') ]]>
+            </if>
+            <if test="node_name != null">
+                and yb.node_name = #{node_name}
+            </if>
+            <if test="node_status != null">
+                and d.node_status = #{node_status}
+            </if>
+            <if test="brrow_status != null">
+                and b.borr_status = #{brrow_status}
+            </if>
+
+        </where>
+        <if test="selector != null">
+            <choose>
+                <when test="selector eq 'phone'">order by yp.phone</when>
+                <when test="selector eq 'name'">order by yc.name</when>
+                <when test="selector eq 'card_num'">order by yc.card_num</when>
+                <when test="selector eq 'blacklist'">order by yp.blacklist</when>
+                <when test="selector eq 'borr_status'">order by b.borr_status</when>
+                <when test="selector eq 'create_date'">order by yp.create_date</when>
+                <when test="selector eq 'node_name'">order by yb.node_name</when>
+                <when test="selector eq 'node_status'">order by d.node_status</when>
+            </choose>
+        </if>
+        <choose>
+            <when test="desc == true">desc</when>
+            <when test="desc == false">asc</when>
+        </choose>
+    </select>
+
+    <select id="getusersOld" parameterType="map" resultType="map">
+        SELECT
+        yp.id,
+        yc.name ,
+        yp.phone ,
+        yc.card_num ,
+        yp.blacklist ,
+        yp.source AS source_name,
+        yp.create_date ,
+        b.borr_status brrow_status,
+        yb.node_name,
+        d.node_status,
+        d.description
+        FROM ym_person yp
+        LEFT JOIN ym_card yc ON yp.id = yc.per_id
+        LEFT JOIN (SELECT ybl.* FROM ym_borrow_list ybl, (SELECT MAX(id) id FROM ym_borrow_list GROUP BY per_id) bb
+        WHERE ybl.id=bb.id ) b
+        ON b.per_id = yp.id
+        LEFT JOIN (SELECT ybnn.* FROM ym_bpm_node ybnn, (SELECT MAX(id) pid FROM ym_bpm_node GROUP BY bpm_id) AS ybnnn
+        WHERE ybnn.id =ybnnn.pid ) d
+        ON d.bpm_id = yp.bpm_id
+        LEFT JOIN ym_bpm yb ON d.node_id = yb.id
+        <where>
+            yp.bpm_id IS NOT NULL
+            <if test="phone != null">
+                and yp.phone = #{phone}
+            </if>
+            <if test="name != null">
+                and yc.name = #{name}
+            </if>
+            <if test="card_num != null">
+                and yc.card_num = #{card_num}
+            </if>
+            <if test="blacklist != null">
+                and yp.blacklist = #{blacklist}
+            </if>
+
+            <if test="source_name != null">
+                and yp.source = #{source_name}
+            </if>
+            <if test="create_date_start != null">
+                <![CDATA[ and yp.create_date >= DATE_FORMAT(#{create_date_start},'%Y-%m-%d') ]]>
+
+            </if>
+            <if test="create_date_end != null">
+                <![CDATA[	and yp.create_date < DATE_FORMAT(#{create_date_end},'%Y-%m-%d') ]]>
+            </if>
+            <if test="node_name != null">
+                and yb.node_name = #{node_name}
+            </if>
+            <if test="node_status != null">
+                and d.node_status = #{node_status}
+            </if>
+            <if test="brrow_status != null">
+                and b.borr_status = #{brrow_status}
+            </if>
+
+        </where>
+        <if test="selector != null">
+            <choose>
+                <when test="selector eq 'phone'">order by yp.phone</when>
+                <when test="selector eq 'name'">order by yc.name</when>
+                <when test="selector eq 'card_num'">order by yc.card_num</when>
+                <when test="selector eq 'blacklist'">order by yp.blacklist</when>
+                <when test="selector eq 'borr_status'">order by b.borr_status</when>
+                <when test="selector eq 'create_date'">order by yp.create_date</when>
+                <when test="selector eq 'node_name'">order by yb.node_name</when>
+                <when test="selector eq 'node_status'">order by d.node_status</when>
+            </choose>
+        </if>
+        <choose>
+            <when test="desc == true">desc</when>
+            <when test="desc == false">asc</when>
+        </choose>
+    </select>
+
+    <sql id="auditsql">
+        SELECT
+            b.borr_num       AS borr_num,
+            b.id             AS id,
+            c.name           AS name,
+            c.card_num       AS card_num,
+            p.phone          AS phone,
+            o.product_name   AS product_name,
+            d.maximum_amount AS maximum_amount,
+            k.bank_name      AS bank_name,
+            n.bank_num       AS bank_num,
+            b.borr_status    AS borr_status,
+            r.reason         AS reason,
+            r.employ_num     AS employ_num,
+            i.emplloyee_name AS emplloyee_name,
+            r.borr_id        AS borr_id,
+            b.per_id         AS per_id,
+            b.makeborr_date  AS makeborr_date,
+            e.meaning        AS meaning,
+            ef.borr_status   AS up_status,
+            bm.description   AS description,
+            bm.contact_num   AS contactNum,
+            bm.is_manual     AS isManual,
+            b.baikelu_status        AS state,
+            r.update_date    AS auditTime,
+            p.create_date    AS createDate
+        FROM
+            ((
+                    (
+                            (
+                                    (
+                                            (
+                                                    (
+                                                            (
+                                                                    (
+                                                                            (
+                                                                                    ym_borrow_list b LEFT JOIN
+                                                                                    ym_person p ON
+                                                                                                    (
+                                                                                                        (
+                                                                                                            b.per_id =
+                                                                                                            p.id
+                                                                                                        )
+                                                                                                        )
+                                                                                ) LEFT JOIN ym_card c ON
+                                                                                                          (
+                                                                                                              (
+                                                                                                                  c.per_id
+                                                                                                                  = p.id
+                                                                                                              )
+                                                                                                              )
+                                                                        ) LEFT JOIN ym_review r ON
+                                                                                                    (
+                                                                                                        (
+                                                                                                            (
+                                                                                                                b.id =
+                                                                                                                r.borr_id
+                                                                                                            )
+                                                                                                            AND (
+                                                                                                                r.review_type
+                                                                                                                = '1'
+                                                                                                            )
+                                                                                                        )
+                                                                                                        )
+                                                                ) LEFT JOIN ym_riewer i ON
+                                                                                            (
+                                                                                                (
+                                                                                                    i.employ_num =
+                                                                                                    r.employ_num
+                                                                                                )
+                                                                                                )
+                                                        ) LEFT JOIN ym_product o ON
+                                                                                     (
+                                                                                         (
+                                                                                             b.prod_id = o.id
+                                                                                         )
+                                                                                         )
+                                                ) LEFT JOIN ym_product_term d ON
+                                                                                  (
+                                                                                      (
+                                                                                          o.id = d.product_id
+                                                                                      )
+                                                                                      )
+                                        ) LEFT JOIN ym_bank n ON
+                                                                  (
+                                                                      (
+                                                                          (
+                                                                              n.per_id = p.id
+                                                                          )
+                                                                          AND (
+                                                                              n.status = '1'
+                                                                          )
+                                                                      )
+                                                                      )
+                                ) LEFT JOIN ym_bank_list k ON
+                                                               (
+                                                                   (
+                                                                       k.id = n.bank_id
+                                                                   )
+                                                                   )
+                        ) LEFT JOIN ym_code_value e ON
+                                                        (
+                                                            (
+                                                                e.code_code = b.borr_status
+                                                            )
+                                                            )
+                ) LEFT JOIN
+                ym_borrow_list ef
+                    ON ef.id = (
+
+                    SELECT g.id
+                    FROM
+                        ym_borrow_list g
+                    WHERE
+                        (
+                            b.per_id = g.per_id
+                        )
+                    ORDER BY
+                        g.id DESC
+                    LIMIT 1, 1
+
+                )
+            )
+    </sql>
+
+    <select id="selectAudits" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+          borrow.borr_num       AS borr_num,
+          borrow.id             AS id,
+          card.name           AS name,
+          card.card_num       AS card_num,
+          person.phone          AS phone,
+          product.product_name   AS product_name,
+          term.maximum_amount AS maximum_amount,
+          bankList.bank_name      AS bank_name,
+          bank.bank_num       AS bank_num,
+          borrow.borr_status    AS borr_status,
+          review.reason         AS reason,
+          review.employ_num     AS employ_num,
+          riewer.emplloyee_name AS emplloyee_name,
+          review.borr_id        AS borr_id,
+          borrow.per_id         AS per_id,
+          borrow.makeborr_date  AS makeborr_date,
+          codeVlue.meaning        AS meaning,
+          (SELECT g.borr_status FROM ym_borrow_list g WHERE (borrow.per_id = g.per_id) ORDER BY g.id DESC LIMIT 1, 1) AS up_status,
+          bm.description    AS description,
+          bm.is_manual      AS isManual,
+          borrow.baikelu_status as state
+        FROM ym_borrow_list borrow
+          LEFT JOIN ym_person person ON borrow.per_id = person.id
+          LEFT JOIN ym_card card ON card.per_id = person.id
+          LEFT JOIN ym_review review ON borrow.id = review.borr_id AND review.review_type = '1'
+          LEFT JOIN ym_riewer riewer ON riewer.employ_num = review.employ_num
+          LEFT JOIN ym_product product ON borrow.prod_id = product.id
+          LEFT JOIN ym_product_term term ON product.id = term.product_id
+          LEFT JOIN ym_bank bank ON bank.per_id = person.id AND bank.status = '1'
+          LEFT JOIN ym_bank_list bankList ON bankList.id = bank.bank_id
+          LEFT JOIN ym_code_value codeVlue ON codeVlue.code_code = borrow.borr_status
+          LEFT JOIN ym_borrow_manual bm ON bm.borr_id = borrow.id
+        <where>
+            <if test="borr_num != null">
+                and borrow.borr_num = #{borr_num}
+            </if>
+            <if test="name != null">
+                and card.name = #{name}
+            </if>
+            <if test="card_num != null">
+                and card.card_num = #{card_num}
+            </if>
+            <if test="phone != null">
+                and person.phone = #{phone}
+            </if>
+            <if test="product_name != null">
+                and product.product_name = #{product_name}
+            </if>
+            <if test="maximum_amount != null">
+                and term.maximum_amount = #{maximum_amount}
+            </if>
+            <if test="bank_name != null">
+                and bankList.bank_name = #{bank_name}
+            </if>
+            <if test="bank_num != null">
+                and bank.bank_num = #{bank_num}
+            </if>
+            <if test="reason != null">
+                and review.reason = #{reason}
+            </if>
+            <if test="employ_num != null">
+                and review.employ_num = #{employ_num}
+            </if>
+            <if test="emplloyee_name != null">
+                and riewer.emplloyee_name = #{emplloyee_name}
+            </if>
+            <if test="per_id != null">
+                and borrow.per_id = #{per_id}
+            </if>
+            <if test="makeborr_date_start != null">
+                <![CDATA[ and borrow.makeborr_date >= DATE_FORMAT(#{makeborr_date_start},'%Y-%m-%d') ]]>
+            </if>
+            <if test="makeborr_date_end != null">
+                <![CDATA[ and borrow.makeborr_date < DATE_FORMAT(#{makeborr_date_end},'%Y-%m-%d') ]]>
+            </if>
+            <if test="up_status != null">
+                and (SELECT g.borr_status FROM ym_borrow_list g WHERE (borrow.per_id = g.per_id) ORDER BY g.id DESC LIMIT 1, 1) = #{up_status}
+            </if>
+            <if test="meaning != null">
+                and borrow.borr_status = #{meaning}
+            </if>
+            <if test="meaning == null">
+                and   (borrow.borr_status = 'BS003'
+                or  borrow.borr_status = 'BS004'
+                or  borrow.borr_status = 'BS009'
+                or  borrow.borr_status = 'BS011'
+                or  borrow.borr_status = 'BS012')
+            </if>
+            <if test="isManual == 1">
+                and bm.id IS NOT NULL
+            </if>
+            <if test="isManual == 2">
+                and bm.id IS NULL
+            </if>
+            <if test="state == 8888">
+                and borrow.baikelu_status IS NULL
+            </if>
+            <if test="state != null and state != '' and state != 8888">
+                and borrow.baikelu_status = #{state}
+            </if>
+            and person.id is not null
+        </where>
+        <if test="selector != null">
+            <choose>
+                <when test="selector eq 'borr_num'">order by borrow.borr_num</when>
+                <when test="selector eq 'name'">order by card.name</when>
+                <when test="selector eq 'card_num'">order by card.card_num</when>
+                <when test="selector eq 'phone'">order by person.phone</when>
+                <when test="selector eq 'product_name'">order by product.product_name</when>
+                <when test="selector eq 'maximum_amount'">order by term.maximum_amount</when>
+                <when test="selector eq 'bank_name'">order by bankList.bank_name</when>
+                <when test="selector eq 'reason'">order by review.reason</when>
+                <when test="selector eq 'bank_num'">order by bank.bank_num</when>
+                <when test="selector eq 'employ_num'">order by r.employ_num</when>
+                <when test="selector eq 'emplloyee_name'">order by riewer.emplloyee_name</when>
+                <when test="selector eq 'meaning'">order by borrow.borr_status</when>
+                <when test="selector eq 'makeborr_date'">order by borrow.makeborr_date</when>
+            </choose>
+        </if>
+        <if test="selector == null">
+            order by borrow.makeborr_date asc
+        </if>
+        <choose>
+            <when test="desc == true">desc</when>
+            <when test="desc == false">asc</when>
+        </choose>
+    </select>
+
+    <select id="selectAuditsCount" parameterType="map" resultType="java.lang.Long">
+      SELECT
+          count(1)
+        FROM ym_borrow_list borrow
+          LEFT JOIN ym_person person ON borrow.per_id = person.id
+          LEFT JOIN ym_card card ON card.per_id = person.id
+          LEFT JOIN ym_review review ON borrow.id = review.borr_id AND review.review_type = '1'
+          LEFT JOIN ym_riewer riewer ON riewer.employ_num = review.employ_num
+          LEFT JOIN ym_product product ON borrow.prod_id = product.id
+          LEFT JOIN ym_product_term term ON product.id = term.product_id
+          LEFT JOIN ym_bank bank ON bank.per_id = person.id AND bank.status = '1'
+          LEFT JOIN ym_bank_list bankList ON bankList.id = bank.bank_id
+          LEFT JOIN ym_code_value codeVlue ON codeVlue.code_code = borrow.borr_status
+        <where>
+            <if test="borr_num != null">
+                and borrow.borr_num = #{borr_num}
+            </if>
+            <if test="name != null">
+                and card.name = #{name}
+            </if>
+            <if test="card_num != null">
+                and card.card_num = #{card_num}
+            </if>
+            <if test="phone != null">
+                and person.phone = #{phone}
+            </if>
+            <if test="product_name != null">
+                and product.product_name = #{product_name}
+            </if>
+            <if test="maximum_amount != null">
+                and term.maximum_amount = #{maximum_amount}
+            </if>
+            <if test="bank_name != null">
+                and bankList.bank_name = #{bank_name}
+            </if>
+            <if test="bank_num != null">
+                and bank.bank_num = #{bank_num}
+            </if>
+            <if test="reason != null">
+                and review.reason = #{reason}
+            </if>
+            <if test="employ_num != null">
+                and review.employ_num = #{employ_num}
+            </if>
+
+            <if test="emplloyee_name != null">
+                and riewer.emplloyee_name = #{emplloyee_name}
+            </if>
+            <if test="per_id != null">
+                and borrow.per_id = #{per_id}
+            </if>
+            <if test="makeborr_date_start != null">
+                <![CDATA[ and borrow.makeborr_date >= DATE_FORMAT(#{makeborr_date_start},'%Y-%m-%d') ]]>
+            </if>
+            <if test="makeborr_date_end != null">
+                <![CDATA[ and borrow.makeborr_date < DATE_FORMAT(#{makeborr_date_end},'%Y-%m-%d') ]]>
+            </if>
+            <if test="up_status != null">
+                and (SELECT g.borr_status FROM ym_borrow_list g WHERE (borrow.per_id = g.per_id) ORDER BY g.id DESC LIMIT 1, 1) = #{up_status}
+            </if>
+
+            <if test="meaning != null">
+                and borrow.borr_status = #{meaning}
+            </if>
+            <if test="meaning == null">
+                and (borrow.borr_status = 'BS003'
+                or  borrow.borr_status = 'BS004'
+                or  borrow.borr_status = 'BS009'
+                or  borrow.borr_status = 'BS011'
+                or  borrow.borr_status = 'BS012')
+            </if>
+            <if test="isManual != null">
+                and person.is_manual = #{isManual}
+            </if>
+            and person.id is not null
+        </where>
+    </select>
+
+    <select id="getaudits" parameterType="map" resultType="map">
+        <include refid="auditsql"></include>
+        <where>
+            <if test="borr_num != null">
+                and b.borr_num = #{borr_num}
+            </if>
+            <if test="name != null">
+                and c.name = #{name}
+            </if>
+            <if test="card_num != null">
+                and c.card_num = #{card_num}
+            </if>
+            <if test="phone != null">
+                and p.phone = #{phone}
+            </if>
+            <if test="product_name != null">
+                and o.product_name = #{product_name}
+            </if>
+            <if test="maximum_amount != null">
+                and d.maximum_amount = #{maximum_amount}
+            </if>
+            <if test="bank_name != null">
+                and k.bank_name = #{bank_name}
+            </if>
+            <if test="bank_num != null">
+                and n.bank_num = #{bank_num}
+            </if>
+            <if test="reason != null">
+                and r.reason = #{reason}
+            </if>
+            <if test="employ_num != null">
+                and r.employ_num = #{employ_num}
+            </if>
+
+            <if test="emplloyee_name != null">
+                and i.emplloyee_name = #{emplloyee_name}
+            </if>
+            <if test="per_id != null">
+                and b.per_id = #{per_id}
+            </if>
+            <if test="makeborr_date_start != null">
+                <![CDATA[ and b.makeborr_date >= DATE_FORMAT(#{makeborr_date_start},'%Y-%m-%d') ]]>
+            </if>
+            <if test="makeborr_date_end != null">
+                <![CDATA[	and b.makeborr_date < DATE_FORMAT(#{makeborr_date_end},'%Y-%m-%d') ]]>
+            </if>
+            <if test="up_status != null">
+                and ef.borr_status = #{up_status}
+            </if>
+
+            <if test="meaning != null">
+                and b.borr_status = #{meaning}
+            </if>
+            <if test="meaning == null">
+                and ((
+                b.borr_status = 'BS003'
+                )
+                or(
+                b.borr_status = 'BS004'
+                )
+                or(
+                b.borr_status = 'BS009'
+                )
+                or(
+                b.borr_status = 'BS011'
+                )
+                or(
+                b.borr_status = 'BS012'
+                ))
+            </if>
+            <if test="isManual != null">
+                and p.is_manual = #{isManual}
+            </if>
+            and p.id is not null
+        </where>
+        <if test="selector != null">
+            <choose>
+                <when test="selector eq 'borr_num'">order by b.borr_num</when>
+                <when test="selector eq 'name'">order by c.name</when>
+                <when test="selector eq 'card_num'">order by c.card_num</when>
+                <when test="selector eq 'phone'">order by p.phone</when>
+                <when test="selector eq 'product_name'">order by o.product_name</when>
+                <when test="selector eq 'maximum_amount'">order by d.maximum_amount</when>
+                <when test="selector eq 'bank_name'">order by k.bank_name</when>
+                <when test="selector eq 'reason'">order by r.reason</when>
+                <when test="selector eq 'bank_num'">order by n.bank_num</when>
+                <when test="selector eq 'employ_num'">order by r.employ_num</when>
+                <when test="selector eq 'emplloyee_name'">order by i.emplloyee_name</when>
+                <when test="selector eq 'meaning'">order by b.borr_status</when>
+                <when test="selector eq 'makeborr_date'">order by b.makeborr_date</when>
+            </choose>
+        </if>
+        <if test="selector == null">
+            order by b.makeborr_date asc
+        </if>
+        <choose>
+            <when test="desc == true">desc</when>
+            <when test="desc == false">asc</when>
+        </choose>
+    </select>
+
+    <select id="getauditsforUser" parameterType="map" resultType="map">
+        <include refid="auditsql"></include>
+        LEFT JOIN ym_borrow_manual bm  ON bm.borr_id = b.id
+        <where>
+            <if test="borr_num != null">
+                and b.borr_num = #{borr_num}
+            </if>
+            <if test="name != null">
+                and c.name = #{name}
+            </if>
+            <if test="card_num != null">
+                and c.card_num = #{card_num}
+            </if>
+            <if test="phone != null">
+                and p.phone = #{phone}
+            </if>
+            <if test="product_name != null">
+                and o.product_name = #{product_name}
+            </if>
+            <if test="maximum_amount != null">
+                and d.maximum_amount = #{maximum_amount}
+            </if>
+            <if test="bank_name != null">
+                and k.bank_name = #{bank_name}
+            </if>
+            <if test="bank_num != null">
+                and n.bank_num = #{bank_num}
+            </if>
+            <if test="reason != null">
+                and r.reason = #{reason}
+            </if>
+            <if test="employ_num != null">
+                and r.employ_num = #{employ_num}
+            </if>
+
+            <if test="emplloyee_name != null">
+                and i.emplloyee_name = #{emplloyee_name}
+            </if>
+            <if test="per_id != null">
+                and b.per_id = #{per_id}
+            </if>
+            <if test="makeborr_date_start != null">
+                <![CDATA[ and b.makeborr_date >= DATE_FORMAT(#{makeborr_date_start},'%Y-%m-%d') ]]>
+            </if>
+            <if test="makeborr_date_end != null">
+                <![CDATA[	and b.makeborr_date < DATE_FORMAT(#{makeborr_date_end},'%Y-%m-%d') ]]>
+            </if>
+            <if test="up_status != null">
+                and ef.borr_status = #{up_status}
+            </if>
+            <if test="meaning != null">
+                and b.borr_status = #{meaning}
+            </if>
+            <if test="meaning == null">
+                and ((
+                b.borr_status = 'BS003'
+                )
+                or(
+                b.borr_status = 'BS012'
+                ))
+            </if>
+            <if test="isManual == 1">
+                and bm.id IS NOT NULL
+            </if>
+            <if test="isManual == 2">
+                and bm.id IS NULL
+            </if>
+            <if test="state == 8888 ">
+                and b.baikelu_status IS NULL
+            </if>
+            <if test="state != null and state != '' and state != 8888">
+                and b.baikelu_status = #{state}
+            </if>
+        </where>
+        <if test="selector != null">
+            <choose>
+                <when test="selector eq 'borr_num'">order by b.borr_num</when>
+                <when test="selector eq 'name'">order by c.name</when>
+                <when test="selector eq 'card_num'">order by c.card_num</when>
+                <when test="selector eq 'phone'">order by p.phone</when>
+                <when test="selector eq 'product_name'">order by o.product_name</when>
+                <when test="selector eq 'maximum_amount'">order by d.maximum_amount</when>
+                <when test="selector eq 'bank_name'">order by k.bank_name</when>
+                <when test="selector eq 'reason'">order by r.reason</when>
+                <when test="selector eq 'bank_num'">order by n.bank_num</when>
+                <when test="selector eq 'employ_num'">order by r.employ_num</when>
+                <when test="selector eq 'emplloyee_name'">order by i.emplloyee_name</when>
+                <when test="selector eq 'meaning'">order by b.borr_status</when>
+                <when test="selector eq 'makeborr_date'">order by b.makeborr_date</when>
+            </choose>
+        </if>
+        <if test="selector == null">
+            order by b.makeborr_date asc
+        </if>
+        <choose>
+            <when test="desc == true">desc</when>
+            <when test="desc == false">asc</when>
+        </choose>
+    </select>
+
+    <select id="getManuallyReview" parameterType="map" resultType="map">
+        <include refid="auditsql"></include>
+        RIGHT JOIN ym_borrow_manual bm ON bm.borr_id = b.id
+        <where>
+            <if test="borr_num != null">
+                and b.borr_num = #{borr_num}
+            </if>
+            <if test="name != null">
+                and c.name = #{name}
+            </if>
+            <if test="card_num != null">
+                and c.card_num = #{card_num}
+            </if>
+            <if test="phone != null">
+                and p.phone = #{phone}
+            </if>
+            <if test="product_name != null">
+                and o.product_name = #{product_name}
+            </if>
+            <if test="maximum_amount != null">
+                and d.maximum_amount = #{maximum_amount}
+            </if>
+            <if test="bank_name != null">
+                and k.bank_name = #{bank_name}
+            </if>
+            <if test="bank_num != null">
+                and n.bank_num = #{bank_num}
+            </if>
+            <if test="reason != null">
+                and r.reason = #{reason}
+            </if>
+            <if test="employ_num != null">
+                and r.employ_num = #{employ_num}
+            </if>
+
+            <if test="emplloyee_name != null">
+                and i.emplloyee_name = #{emplloyee_name}
+            </if>
+            <if test="per_id != null">
+                and b.per_id = #{per_id}
+            </if>
+            <if test="makeborr_date_start != null">
+                <![CDATA[ and b.makeborr_date >= DATE_FORMAT(#{makeborr_date_start},'%Y-%m-%d') ]]>
+            </if>
+            <if test="makeborr_date_end != null">
+                <![CDATA[	and b.makeborr_date < DATE_FORMAT(#{makeborr_date_end},'%Y-%m-%d') ]]>
+            </if>
+            <if test="auditTime_start != null">
+                <![CDATA[ and r.update_date >= DATE_FORMAT(#{auditTime_start},'%Y-%m-%d') ]]>
+            </if>
+            <if test="auditTime_end != null">
+                <![CDATA[	and r.update_date < DATE_FORMAT(#{auditTime_end},'%Y-%m-%d') ]]>
+            </if>
+            <if test="createDate_start != null">
+                <![CDATA[ and p.create_date >= DATE_FORMAT(#{createDate_start},'%Y-%m-%d') ]]>
+            </if>
+            <if test="createDate_end != null">
+                <![CDATA[	and p.create_date < DATE_FORMAT(#{createDate_end},'%Y-%m-%d') ]]>
+            </if>
+            <if test="up_status != null">
+                and ef.borr_status = #{up_status}
+            </if>
+            <if test="meaning != null">
+                and b.borr_status = #{meaning}
+            </if>
+            <if test="meaning == null">
+                and b.borr_status != 'BS001'
+            </if>
+        </where>
+        <if test="selector != null">
+            <choose>
+                <when test="selector eq 'borr_num'">order by b.borr_num</when>
+                <when test="selector eq 'name'">order by c.name</when>
+                <when test="selector eq 'card_num'">order by c.card_num</when>
+                <when test="selector eq 'phone'">order by p.phone</when>
+                <when test="selector eq 'product_name'">order by o.product_name</when>
+                <when test="selector eq 'maximum_amount'">order by d.maximum_amount</when>
+                <when test="selector eq 'bank_name'">order by k.bank_name</when>
+                <when test="selector eq 'reason'">order by r.reason</when>
+                <when test="selector eq 'bank_num'">order by n.bank_num</when>
+                <when test="selector eq 'employ_num'">order by r.employ_num</when>
+                <when test="selector eq 'emplloyee_name'">order by i.emplloyee_name</when>
+                <when test="selector eq 'meaning'">order by b.borr_status</when>
+                <when test="selector eq 'makeborr_date'">order by b.makeborr_date</when>
+                <when test="selector eq 'auditTime'">order by r.update_date</when>
+                <when test="selector eq 'createDate'">order by p.create_date</when>
+            </choose>
+        </if>
+        <choose>
+            <when test="desc == true">desc</when>
+            <when test="desc == false">asc</when>
+        </choose>
+        <if test="contactNum == desc">
+            order by bm.contact_num DESC
+        </if>
+    </select>
+
+
+    <select id="getRegisterSource" parameterType="map" resultType="map">
+        SELECT code_code CODE , meaning VALUE  FROM ym_code_value WHERE code_type = #{code}
+    </select>
+
+    <update id="updateByBorrId" parameterType="map">
+        UPDATE ym_review
+        <set>
+            <if test="status != null and status != '' ">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="reason != null and reason != '' ">
+                reason = #{reason,jdbcType=VARCHAR},
+            </if>
+            <if test="employNum != null and employNum != '' ">
+                employ_num = #{employNum,jdbcType=VARCHAR}
+            </if>
+        </set>
+        WHERE borr_id=#{borrId,jdbcType=INTEGER}
+    </update>
+    <insert id="insertReview" parameterType="map" >
+        insert into ym_review
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="borrId != null" >
+                borr_id,
+            </if>
+            <if test="reviewType != null" >
+                review_type,
+            </if>
+            <if test="reason != null" >
+                reason,
+            </if>
+            <if test="employNum != null" >
+                employ_num,
+            </if>
+            <if test="status != null" >
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="borrId != null" >
+                #{borrId,jdbcType=VARCHAR},
+            </if>
+            <if test="reviewType != null" >
+                #{reviewType,jdbcType=VARCHAR},
+            </if>
+            <if test="reason != null" >
+                #{reason,jdbcType=CHAR},
+            </if>
+            <if test="employNum != null" >
+                #{employNum,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null" >
+                #{status,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="manualAuditReport" resultType="map" parameterType="map">
+        SELECT cancelNum, rejectNum, passNum, (cancelNum + rejectNum + passNum) sumNum,
+        IFNULL(FORMAT((passNum / (passNum + rejectNum)) * 100,2),0) passRate, employName FROM (
+        SELECT COUNT(bl.borr_status = 'BS007' OR NULL) AS cancelNum,
+        COUNT(bl.borr_status = 'BS008' OR NULL) AS rejectNum,
+        (COUNT(bl.borr_status = 'BS002' OR NULL) + COUNT(bl.borr_status = 'BS003' OR NULL) +
+        COUNT(bl.borr_status = 'BS004' OR NULL) + COUNT(bl.borr_status = 'BS005' OR NULL) +
+        COUNT(bl.borr_status = 'BS006' OR NULL) + COUNT(bl.borr_status = 'BS010' OR NULL) +
+        COUNT(bl.borr_status = 'BS011' OR NULL) + COUNT(bl.borr_status = 'BS012' OR NULL)
+        ) AS passNum,
+        rw.emplloyee_name employName
+        FROM ym_borrow_list bl,ym_review yr,ym_riewer rw
+        WHERE yr.borr_id = bl.id AND yr.review_type = 1 AND rw.employ_num = yr.employ_num
+        <if test="beginDate != null and beginDate != '' and endDate != null and endDate != ''">
+            AND yr.update_date BETWEEN #{beginDate} and #{endDate}
+        </if>
+        <if test="employName != null and employName != '' " >
+            AND yr.employ_num = #{employName,jdbcType=VARCHAR}
+        </if>
+
+        GROUP BY yr.employ_num) t1
+        <if test="selector != null">
+            <choose>
+                <when test="selector eq 'cancelNum'">order by cancelNum</when>
+                <when test="selector eq 'rejectNum'">order by rejectNum</when>
+                <when test="selector eq 'passNum'">order by passNum</when>
+                <when test="selector eq 'sumNum'">order by sumNum</when>
+                <when test="selector eq 'passRate'">order by passRate</when>
+            </choose>
+        </if>
+        <choose>
+            <when test="desc eq 'desc'">desc</when>
+            <when test="desc eq 'asc'">asc</when>
+        </choose>
+    </select>
+</mapper>

@@ -1,0 +1,740 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_server.app_mapper.BorrowListMapper">
+	<resultMap id="BaseResultMap" type="com.loan_entity.app.BorrowList">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="per_id" property="perId" jdbcType="INTEGER" />
+		<result column="prod_id" property="prodId" jdbcType="INTEGER" />
+		<result column="borr_type" property="borrType" jdbcType="VARCHAR" />
+		<result column="askborr_date" property="askborrDate" jdbcType="TIMESTAMP" />
+		<result column="borr_num" property="borrNum" jdbcType="VARCHAR" />
+		<result column="makeborr_date" property="makeborrDate"
+			jdbcType="TIMESTAMP" />
+		<result column="pay_date" property="payDate" jdbcType="TIMESTAMP" />
+		<result column="planrepay_date" property="planrepayDate"
+			jdbcType="TIMESTAMP" />
+		<result column="act_repay_date" property="actRepayDate"
+			jdbcType="TIMESTAMP" />
+		<result column="borr_status" property="borrStatus" jdbcType="VARCHAR" />
+		<result column="plan_repay" property="planRepay" jdbcType="DECIMAL" />
+		<result column="act_repay_amount" property="actRepayAmount"
+			jdbcType="DECIMAL" />
+		<result column="ispay" property="ispay" jdbcType="INTEGER" />
+		<result column="term_id" property="termId" jdbcType="INTEGER" />
+		<result column="borr_amount" property="borrAmount" jdbcType="DECIMAL" />
+		<result column="per_coupon_id" property="perCouponId" jdbcType="INTEGER" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="update_user" property="updateUser" jdbcType="INTEGER" />
+		<result column="creation_date" property="creationDate"
+			jdbcType="TIMESTAMP" />
+		<result column="creation_user" property="creationUser"
+			jdbcType="INTEGER" />
+		<result column="sync" property="sync" jdbcType="CHAR" />
+		<result column="version" property="version" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, per_id, prod_id, borr_type, askborr_date, borr_num,
+		makeborr_date,
+		pay_date,
+		planrepay_date, act_repay_date, borr_status,
+		plan_repay, act_repay_amount, ispay,
+		term_id, borr_amount,
+		per_coupon_id, update_date, update_user,
+		creation_date, creation_user,
+		sync,version
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from ym_borrow_list
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		ym_borrow_list
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.loan_entity.app.BorrowList">
+		insert into ym_borrow_list
+		(id, per_id, prod_id,
+		borr_type, askborr_date, borr_num,
+		makeborr_date,
+		pay_date, planrepay_date,
+		act_repay_date, borr_status, plan_repay,
+		act_repay_amount, ispay, term_id,
+		borr_amount, per_coupon_id,
+		update_date,
+		update_user, creation_date, creation_user,
+		sync)
+		values
+		(#{id,jdbcType=INTEGER}, #{perId,jdbcType=INTEGER},
+		#{prodId,jdbcType=INTEGER},
+		#{borrType,jdbcType=VARCHAR},
+		#{askborrDate,jdbcType=TIMESTAMP}, #{borrNum,jdbcType=VARCHAR},
+		#{makeborrDate,jdbcType=TIMESTAMP}, #{payDate,jdbcType=TIMESTAMP},
+		#{planrepayDate,jdbcType=TIMESTAMP},
+		#{actRepayDate,jdbcType=TIMESTAMP}, #{borrStatus,jdbcType=VARCHAR},
+		#{planRepay,jdbcType=DECIMAL},
+		#{actRepayAmount,jdbcType=DECIMAL},
+		#{ispay,jdbcType=INTEGER}, #{termId,jdbcType=INTEGER},
+		#{borrAmount,jdbcType=DECIMAL}, #{perCouponId,jdbcType=INTEGER},
+		#{updateDate,jdbcType=TIMESTAMP},
+		#{updateUser,jdbcType=INTEGER},
+		#{creationDate,jdbcType=TIMESTAMP}, #{creationUser,jdbcType=INTEGER},
+		#{sync,jdbcType=CHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.loan_entity.app.BorrowList">
+		insert into ym_borrow_list
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="perId != null">
+				per_id,
+			</if>
+			<if test="prodId != null">
+				prod_id,
+			</if>
+			<if test="borrType != null">
+				borr_type,
+			</if>
+			<if test="askborrDate != null">
+				askborr_date,
+			</if>
+			<if test="borrNum != null">
+				borr_num,
+			</if>
+			<if test="makeborrDate != null">
+				makeborr_date,
+			</if>
+			<if test="payDate != null">
+				pay_date,
+			</if>
+			<if test="planrepayDate != null">
+				planrepay_date,
+			</if>
+			<if test="actRepayDate != null">
+				act_repay_date,
+			</if>
+			<if test="borrStatus != null">
+				borr_status,
+			</if>
+			<if test="planRepay != null">
+				plan_repay,
+			</if>
+			<if test="actRepayAmount != null">
+				act_repay_amount,
+			</if>
+			<if test="ispay != null">
+				ispay,
+			</if>
+			<if test="termId != null">
+				term_id,
+			</if>
+			<if test="borrAmount != null">
+				borr_amount,
+			</if>
+			<if test="perCouponId != null">
+				per_coupon_id,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="updateUser != null">
+				update_user,
+			</if>
+			<if test="creationDate != null">
+				creation_date,
+			</if>
+			<if test="creationUser != null">
+				creation_user,
+			</if>
+			<if test="sync != null">
+				sync,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="perId != null">
+				#{perId,jdbcType=INTEGER},
+			</if>
+			<if test="prodId != null">
+				#{prodId,jdbcType=INTEGER},
+			</if>
+			<if test="borrType != null">
+				#{borrType,jdbcType=VARCHAR},
+			</if>
+			<if test="askborrDate != null">
+				#{askborrDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="borrNum != null">
+				#{borrNum,jdbcType=VARCHAR},
+			</if>
+			<if test="makeborrDate != null">
+				#{makeborrDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="payDate != null">
+				#{payDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="planrepayDate != null">
+				#{planrepayDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="actRepayDate != null">
+				#{actRepayDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="borrStatus != null">
+				#{borrStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="planRepay != null">
+				#{planRepay,jdbcType=DECIMAL},
+			</if>
+			<if test="actRepayAmount != null">
+				#{actRepayAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="ispay != null">
+				#{ispay,jdbcType=INTEGER},
+			</if>
+			<if test="termId != null">
+				#{termId,jdbcType=INTEGER},
+			</if>
+			<if test="borrAmount != null">
+				#{borrAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="perCouponId != null">
+				#{perCouponId,jdbcType=INTEGER},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+				#{updateUser,jdbcType=INTEGER},
+			</if>
+			<if test="creationDate != null">
+				#{creationDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creationUser != null">
+				#{creationUser,jdbcType=INTEGER},
+			</if>
+			<if test="sync != null">
+				#{sync,jdbcType=CHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.loan_entity.app.BorrowList">
+		update ym_borrow_list
+		<set>
+			<if test="perId != null">
+				per_id = #{perId,jdbcType=INTEGER},
+			</if>
+			<if test="prodId != null">
+				prod_id = #{prodId,jdbcType=INTEGER},
+			</if>
+			<if test="borrType != null">
+				borr_type = #{borrType,jdbcType=VARCHAR},
+			</if>
+			<if test="askborrDate != null">
+				askborr_date = #{askborrDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="borrNum != null">
+				borr_num = #{borrNum,jdbcType=VARCHAR},
+			</if>
+			<if test="makeborrDate != null">
+				makeborr_date = #{makeborrDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="payDate != null">
+				pay_date = #{payDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="planrepayDate != null">
+				planrepay_date = #{planrepayDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="actRepayDate != null">
+				act_repay_date = #{actRepayDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="borrStatus != null">
+				borr_status = #{borrStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="planRepay != null">
+				plan_repay = #{planRepay,jdbcType=DECIMAL},
+			</if>
+			<if test="actRepayAmount != null">
+				act_repay_amount = #{actRepayAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="ispay != null">
+				ispay = #{ispay,jdbcType=INTEGER},
+			</if>
+			<if test="termId != null">
+				term_id = #{termId,jdbcType=INTEGER},
+			</if>
+			<if test="borrAmount != null">
+				borr_amount = #{borrAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="perCouponId != null">
+				per_coupon_id = #{perCouponId,jdbcType=INTEGER},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+				update_user = #{updateUser,jdbcType=INTEGER},
+			</if>
+			<if test="creationDate != null">
+				creation_date = #{creationDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creationUser != null">
+				creation_user = #{creationUser,jdbcType=INTEGER},
+			</if>
+			<if test="sync != null">
+				sync = #{sync,jdbcType=CHAR},
+			</if>
+			version = version + 1
+		</set>
+		where id = #{id,jdbcType=INTEGER} AND version = #{version}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.loan_entity.app.BorrowList">
+		update
+		ym_borrow_list
+		set per_id = #{perId,jdbcType=INTEGER},
+		prod_id =
+		#{prodId,jdbcType=INTEGER},
+		borr_type = #{borrType,jdbcType=VARCHAR},
+		askborr_date = #{askborrDate,jdbcType=TIMESTAMP},
+		borr_num =
+		#{borrNum,jdbcType=VARCHAR},
+		makeborr_date =
+		#{makeborrDate,jdbcType=TIMESTAMP},
+		pay_date =
+		#{payDate,jdbcType=TIMESTAMP},
+		planrepay_date =
+		#{planrepayDate,jdbcType=TIMESTAMP},
+		act_repay_date =
+		#{actRepayDate,jdbcType=TIMESTAMP},
+		borr_status =
+		#{borrStatus,jdbcType=VARCHAR},
+		plan_repay =
+		#{planRepay,jdbcType=DECIMAL},
+		act_repay_amount =
+		#{actRepayAmount,jdbcType=DECIMAL},
+		ispay = #{ispay,jdbcType=INTEGER},
+		term_id = #{termId,jdbcType=INTEGER},
+		borr_amount =
+		#{borrAmount,jdbcType=DECIMAL},
+		per_coupon_id =
+		#{perCouponId,jdbcType=INTEGER},
+		update_date =
+		#{updateDate,jdbcType=TIMESTAMP},
+		update_user =
+		#{updateUser,jdbcType=INTEGER},
+		creation_date =
+		#{creationDate,jdbcType=TIMESTAMP},
+		creation_user =
+		#{creationUser,jdbcType=INTEGER},
+		sync = #{sync,jdbcType=CHAR}
+		where id
+		= #{id,jdbcType=INTEGER}
+	</update>
+	<!-- 根据per_id查询当前borrow_list -->
+	<select id="selectNow" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from ym_borrow_list
+		where id=(select MAX(id)
+		from ym_borrow_list
+		where
+		per_id = #{per_id,jdbcType=INTEGER})
+	</select>
+	<!-- 根据per_id查询用户所有borrow_list -->
+	<select id="selectByPerId" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from ym_borrow_list
+		where per_id = #{per_id,jdbcType=INTEGER}
+	</select>
+
+	<!-- 根据per_id,借款状态查询borrow_list -->
+	<select id="selectBorrowingByPerId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from ym_borrow_list
+		where per_id = #{per_id,jdbcType=INTEGER}
+		and
+		borr_status = #{borr_status,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 根据per_id,借款状态查询borrow_list -->
+	<select id="selectByBorrNum" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from ym_borrow_list
+		where borr_num = #{0}		
+	</select>
+	
+	<!-- 根据per_id,看用户是否有除了已取消，已还清，逾期结清以外的订单 -->
+	<select id="selectDoing" resultType="java.lang.Integer">
+		select
+		count(*)
+		from ym_borrow_list
+		where per_id = #{per_id,jdbcType=INTEGER}
+		and
+		borr_status not in ('BS006','BS007','BS009','BS010')
+	</select>
+	<select id="getMyBorrowList" resultType="com.loan_entity.app.BorrowList">
+		SELECT bl.id,bl.prod_id AS prodId,bl.borr_num
+		AS borrNum,bl.borr_amount+(SELECT
+		amount FROM ym_product_charge_model
+		WHERE charge_name = 'letter' AND
+		product_id = bl.`prod_id` LIMIT 0,1)+
+		(SELECT amount
+		FROM ym_product_charge_model WHERE charge_name =
+		'managecost' AND
+		product_id = bl.`prod_id` LIMIT
+		0,1)+(pt.`maximum_amount` * pt.`monthly_rate`)-
+		CASE WHEN ypc.amount IS
+		NULL THEN 0 ELSE ypc.amount END
+		AS borrAmount,pt.term_value AS
+		termValue,
+		maximum_amount AS maximumAmount,bl.plan_repay AS
+		planRepay,bl.borr_status AS
+		borrStatus,getCodeValue('borr_status',bl.borr_status) AS
+		borrStatusName,
+		bl.askborr_date AS askborrDate
+		FROM `ym_borrow_list` bl
+		LEFT JOIN ym_product_term pt ON pt.product_id =
+		bl.prod_id
+		LEFT JOIN
+		`ym_per_coupon` ypc ON ypc.id = bl.per_coupon_id
+		WHERE
+		bl.per_id = #{0}
+		ORDER BY bl.creation_date DESC LIMIT #{1},#{2}
+	</select>
+
+	<select id="getProdModeByBorrId" resultType="com.loan_entity.app.ProdMode"
+		parameterType="java.lang.String">
+		SELECT bl.id AS borrId,bl.prod_id AS prodId,ypc.amount AS
+		couponAmount,getCodeValue('borr_type',bl.borr_type) AS borrType,
+		bl.askborr_date AS askborrDate, bl.borr_num AS
+		borrNum,bl.borr_amount+(SELECT
+		amount FROM ym_product_charge_model
+		WHERE charge_name = 'letter' AND
+		product_id = bl.`prod_id` LIMIT 0,1)+
+		(SELECT amount
+		FROM ym_product_charge_model WHERE charge_name =
+		'managecost' AND
+		product_id = bl.`prod_id` LIMIT
+		0,1)+(pt.`maximum_amount` * pt.`monthly_rate`)-
+		CASE WHEN ypc.amount IS
+		NULL THEN 0 ELSE ypc.amount END AS borrAmount,
+		pt.term_value AS
+		termValue,bl.pay_date AS payDate,bl.planrepay_date AS
+		planrepayDate,bl.`prod_id`,bl.act_repay_date AS
+		actRepayDate,rp.penalty,rp.`penalty_interest` AS penaltyInterest,
+		bl.plan_repay AS planRepay,bl.borr_status AS borrStatus,
+		getCodeValue('borr_status',bl.borr_status) AS borrStatusName,
+		(SELECT
+		amount FROM ym_product_charge_model WHERE charge_name = 'letter' AND
+		product_id = bl.`prod_id` LIMIT 0,1) AS litterAmout,
+		(SELECT amount
+		FROM ym_product_charge_model WHERE charge_name = 'managecost' AND
+		product_id = bl.`prod_id` LIMIT 0,1) AS managecostAmout,
+		(pt.`maximum_amount` * pt.`monthly_rate`) AS
+		mationAmout,pt.maximum_amount AS maximumAmount
+		FROM
+		`ym_borrow_list` bl
+		LEFT JOIN ym_product_term pt ON
+		pt.product_id =
+		bl.prod_id LEFT JOIN
+		`ym_repayment_plan` rp
+		ON rp.contract_id = bl.`id`
+		LEFT JOIN
+		`ym_per_coupon` ypc ON ypc.id = bl.per_coupon_id
+		WHERE bl.id =
+		#{borrId}
+	</select>
+
+	<select id="getRepaymentDetails" resultType="com.loan_entity.utils.RepaymentDetails"
+		parameterType="java.lang.String">
+		SELECT bl.`id` AS
+		borr_id,p.`bankNum`,p.`bankId`,p.`bankName`,p.`bankLocalId`,
+		p.`bankNum` AS
+		cardNo,bl.`plan_repay`,bl.`act_repay_amount`,
+		getCodeValue('payment_fee','4') AS minimum,p.`perId` AS per_id
+		,c.`amount` AS
+		couAmount,(rp.`surplus_quota`+rp.`surplus_penalty`+rp.`surplus_penalty_Interes`)
+		AS alsoAmount
+		FROM
+		`ym_borrow_list` bl
+		LEFT JOIN
+		`personInfoMode` p ON
+		bl.`per_id` =
+		p.`perId` LEFT JOIN `ym_per_coupon`
+		c ON c.`id` =
+		bl.`per_coupon_id` LEFT JOIN `ym_repayment_plan` rp ON
+		rp.`contract_id` = bl.`id`
+		WHERE bl.id = #{borrId} ORDER BY rp.id DESC
+		LIMIT 0,1
+	</select>
+	<select id="selectByBorrId" resultType="com.loan_entity.utils.BorrPerInfo"
+		parameterType="java.lang.Integer">
+		SELECT bl.`id` AS
+		borrId,pm.`name`,pt.`monthly_rate`,rp.surplus_quota,
+		rp.`surplus_penalty`,rp.`surplus_penalty_Interes`,
+		pt.`maximum_amount`,pt.`term_value`,pm.`phone` FROM
+		`ym_borrow_list` bl
+		LEFT JOIN
+		`ym_product` p ON bl.`prod_id` = p.`id`
+		LEFT JOIN
+		`ym_product_term` pt
+		ON pt.`product_id` = p.`id`
+		LEFT JOIN
+		`personInfoMode` pm ON pm.`perId`
+		= bl.`per_id` LEFT JOIN
+		`ym_repayment_plan` rp ON rp.`contract_id` = bl.`id`
+		WHERE bl.`id` =
+		#{borrId}
+	</select>
+
+	<select id="getMingtianhuankuanId" resultType="com.loan_entity.app.BorrowList">
+		SELECT b.id,b.per_id AS perId,b.`pay_date` AS payDate,p.`repay_date`
+		AS repayDate FROM
+		ym_borrow_list b LEFT JOIN
+		ym_repayment_plan p ON
+		p.`contract_id` =
+		b.`id`
+		WHERE b.borr_status='BS004' AND p.`is_settle`
+		=
+		0
+		AND
+		p.`repay_date` <![CDATA[   <  ]]>
+		#{0}
+		AND
+		p.`repay_date` <![CDATA[   >  ]]>
+		#{1}
+	</select>
+	<update id="updateByBrroNum" parameterType="com.loan_entity.app.BorrowList">
+		update ym_borrow_list
+		<set>
+			<if test="perId != null">
+				per_id = #{perId,jdbcType=INTEGER},
+			</if>
+			<if test="prodId != null">
+				prod_id = #{prodId,jdbcType=INTEGER},
+			</if>
+			<if test="borrType != null">
+				borr_type = #{borrType,jdbcType=VARCHAR},
+			</if>
+			<if test="askborrDate != null">
+				askborr_date = #{askborrDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="makeborrDate != null">
+				makeborr_date = #{makeborrDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="payDate != null">
+				pay_date = #{payDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="planrepayDate != null">
+				planrepay_date = #{planrepayDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="actRepayDate != null">
+				act_repay_date = #{actRepayDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="borrStatus != null">
+				borr_status = #{borrStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="planRepay != null">
+				plan_repay = #{planRepay,jdbcType=DECIMAL},
+			</if>
+			<if test="actRepayAmount != null">
+				act_repay_amount = #{actRepayAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="ispay != null">
+				ispay = #{ispay,jdbcType=INTEGER},
+			</if>
+			<if test="termId != null">
+				term_id = #{termId,jdbcType=INTEGER},
+			</if>
+			<if test="borrAmount != null">
+				borr_amount = #{borrAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="perCouponId != null">
+				per_coupon_id = #{perCouponId,jdbcType=INTEGER},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+				update_user = #{updateUser,jdbcType=INTEGER},
+			</if>
+			<if test="creationDate != null">
+				creation_date = #{creationDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creationUser != null">
+				creation_user = #{creationUser,jdbcType=INTEGER},
+			</if>
+			<if test="sync != null">
+				sync = #{sync,jdbcType=CHAR},
+			</if>
+		</set>
+		where borr_num = #{borrNum,jdbcType=VARCHAR}
+	</update>
+	<select id="selectByPrimaryKey2" resultType="com.loan_entity.app.BorrowList"
+		parameterType="java.lang.Integer">
+		SELECT id,per_id AS perId,prod_id AS prodId,borr_type AS
+		borrType,
+		askborr_date AS askborrDate,borr_num AS borrNum,makeborr_date
+		AS makeborrDate,
+		pay_date AS payDate,planrepay_date AS
+		planrepayDate,act_repay_date AS
+		actRepayDate,
+		borr_status AS
+		borrStatus,plan_repay AS planRepay,act_repay_amount AS
+		actRepayAmount,
+		ispay,term_id AS termId,borr_amount AS borrAmount,
+		update_date AS
+		updateDate,update_user AS updateUser,creation_date AS
+		creationDate,
+		creation_user AS creationUser,sync FROM `ym_borrow_list` WHERE id =
+		#{id}
+	</select>
+	
+	<update id="rejectManualReview">
+		UPDATE ym_borrow_list bl,ym_person p SET borr_status = 'BS007' 
+		WHERE bl.per_id = p.id 
+		AND bl.creation_date BETWEEN DATE_SUB(CURDATE(),INTERVAL 1 DAY) AND DATE_SUB(CURDATE(),INTERVAL 0 DAY) 
+		AND p.is_manual = 1 AND bl.borr_status ='BS003'
+	</update>
+
+	<select id="getBorrList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from ym_borrow_list
+		WHERE 1 = 1
+		<if test="borrIds != null">
+			AND id IN
+			<foreach item="item" index="index" collection="borrIds" open="(" close=")" separator=",">
+				 #{item,jdbcType=VARCHAR}
+			</foreach>
+		</if>
+
+		<if test="borrStatus != null">
+			AND borr_status != #{borrStatus,jdbcType=CHAR}
+		</if>
+	</select>
+
+	<select id="getRobotData" resultType="com.loan_entity.loan_vo.RobotData">
+		SELECT b.borr_num AS borrNum,
+		p.phone AS phone ,
+		DATE_FORMAT(b.pay_date,'%Y-%m-%d') AS payDate,
+		r.month_money as money,
+		DATE_FORMAT(b.planrepay_date,'%Y-%m-%d') AS planRepayDate,
+		0 AS interest,
+		(surplus_money+
+			surplus_interest+
+			surplus_penalty+
+			surplus_penalty_Interes) AS total
+		FROM ym_borrow_list b,ym_repayment_plan r,ym_person p  WHERE b.per_id = p.id AND r.contract_id = b.id and  b.borr_status = 'BS005' AND DATEDIFF(NOW(),b.planrepay_date)=2
+	</select>
+
+	<select id="syncWhiteList" resultType="java.lang.Integer" >
+	SELECT
+	 p.id
+	FROM
+	ym_borrow_list b,
+	ym_person p
+	WHERE
+	  b.per_id = p.id
+	AND b.per_id NOT IN (
+	  SELECT
+		per_id
+	  FROM
+		ym_borrow_list
+	  WHERE
+		borr_status IN (
+		  'BS005',
+		  'BS010',
+		  'BS008',
+		  'BS009'
+		)
+	)
+	AND b.borr_status = 'BS006'
+	AND (p.blacklist is null OR p.blacklist = 'N')
+	GROUP BY
+	  p.id
+	</select>
+
+	<select id="syncPhoneWhiteList" resultType="java.lang.String" >
+		SELECT
+		p.phone
+		FROM
+		ym_borrow_list b,
+		ym_person p
+		WHERE
+		b.per_id = p.id
+		AND b.per_id NOT IN (
+		SELECT
+		per_id
+		FROM
+		ym_borrow_list
+		WHERE
+		borr_status IN (
+		'BS005',
+		'BS010',
+		'BS008',
+		'BS009'
+		)
+		)
+		AND b.borr_status = 'BS006'
+		AND (p.blacklist is null OR p.blacklist = 'N')
+		GROUP BY
+		p.id
+	</select>
+
+	<select id="lastOrder" resultMap="BaseResultMap" >
+		/*BorrowListMapper.lastOrder*/
+		SELECT <include refid="Base_Column_List" />
+		FROM ym_borrow_list WHERE per_id = #{perId} ORDER BY id DESC LIMIT 1,1
+	</select>
+
+	<select id="selectBorrowPay" resultMap="BaseResultMap" >
+		/*BorrowListMapper.selectBorrowPay*/
+		SELECT <include refid="Base_Column_List" />
+		FROM ym_borrow_list WHERE per_id = #{perId}
+		AND borr_status IN ('BS004','BS005','BS006','BS010','BS011','BS012','BS013')
+	</select>
+
+	<select id="queryIdentityById" resultType="com.loan_entity.contract.IdEntity"  parameterType="java.lang.Integer" >
+       SELECT DATE_FORMAT(bl.planrepay_date, '%Y-%m-%d') planRepayDate,bl.makeborr_date borrDate, bl.borr_num borrNum, yc.name,yc.card_num cardNum,yp.phone,ybl.bank_name bankName,
+       yb.bank_num bankNum, yb.phone bankPhone,bl.pay_date payDate,bl.prod_Id prodId,bl.plan_repay planRepay,bl.per_Id perId,
+       bl.per_coupon_id perCouponId, pr.email
+		FROM ym_borrow_list bl , ym_card yc, ym_person yp,ym_bank yb,ym_bank_list ybl,ym_private pr
+        WHERE bl.per_id = yc.per_id AND bl.per_id = yp.id AND yb.per_id = bl.per_id AND yb.bank_id = ybl.id AND pr.per_id = yp.id
+        AND yb.status = 1 AND bl.id = #{borrId}
+	</select>
+
+	<select id="selectCount" resultType="java.lang.Integer">
+		select count(1)
+		from ym_borrow_list
+		where per_id = #{per_id,jdbcType=INTEGER}
+		and
+		borr_status in ('BS006','BS010')
+	</select>
+
+	<select id="selectPersonByBorrId" resultType="map" parameterType="integer">
+		SELECT
+		  l.borr_num borrNum,
+		  c.card_num cardNum,
+		  p.phone,
+		  p.id,
+		  c.name,
+		  DATE_FORMAT(NOW(), '%Y-%m-%d') AS regDate
+		FROM
+		  ym_person p,
+		  ym_card c,
+		  ym_borrow_list l
+		WHERE p.id = c.per_id
+		  AND p.id = l.per_id
+		  AND l.id = #{borrId}
+	</select>
+</mapper>

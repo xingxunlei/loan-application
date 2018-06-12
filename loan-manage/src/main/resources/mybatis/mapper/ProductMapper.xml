@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loan_manage.mapper.ProductMapper">
+	<resultMap id="BaseResultMap" type="com.loan_entity.app.Product">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="guid" property="guid" jdbcType="VARCHAR" />
+		<result column="productcode" property="productcode" jdbcType="VARCHAR" />
+		<result column="product_name" property="productName" jdbcType="VARCHAR" />
+		<result column="product_type_id" property="productTypeId" jdbcType="INTEGER" />
+		<result column="repayment_method" property="repaymentMethod" jdbcType="CHAR" />
+		<result column="repayment_sequence" property="repaymentSequence" jdbcType="CHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="user_groupid" property="userGroupid" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="CHAR" />
+		<result column="creation_date" property="creationDate" jdbcType="TIMESTAMP" />
+		<result column="creation_user" property="creationUser" jdbcType="INTEGER" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="update_user" property="updateUser" jdbcType="INTEGER" />
+
+	</resultMap>
+
+	<resultMap id="ProductVoMap" type="com.loan_entity.manager.ProductMVo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="productName" property="productName" jdbcType="VARCHAR" />
+		<result column="temName" property="temName" jdbcType="VARCHAR" />
+		<result column="amount" property="amount" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="getProductAndTeam" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select p.id,p.product_name productName,pt.tem_name temName,pt.maximum_amount amount
+		from ym_product p ,ym_product_term pt
+		where p.id = pt.product_id
+	</select>
+
+	<select id="selectProductInfo" resultMap="ProductVoMap" parameterType="java.lang.Integer">
+		select p.id,p.product_name productName,pt.tem_name temName,pt.maximum_amount amount
+		from ym_product p ,ym_product_term pt
+		where p.id = pt.product_id
+	</select>
+</mapper>
